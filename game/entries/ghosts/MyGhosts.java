@@ -1,6 +1,7 @@
 package game.entries.ghosts;
 
 import game.controllers.GhostController;
+import game.entries.ghosts.*;
 import game.core.Game;
 
 /*
@@ -10,6 +11,12 @@ import game.core.Game;
  */
 public class MyGhosts implements GhostController
 {
+	
+	 DecisionNode root;
+	 
+	 public MyGhosts(){
+		 root = new DecisionTree();
+	 }
 	//Place your game logic here to play the game as the ghosts
 	public int[] getActions(Game game,long timeDue)
 	{
