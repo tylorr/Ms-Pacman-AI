@@ -24,4 +24,23 @@ public DecisionNode makeDecision(){
   }
 }
 
+abstract class IsBlueDecision extends Decision{
+	
+}
+
+abstract class NearPowerPill extends Decision{
+	
+}
+
+abstract class LessThanDecision extends Decision {
+	  public float threshold;
+
+	  public DecisionNode getBranch() {
+	    if (this.testValue.getValue() < this.threshold) {
+	      return this.trueNode;
+	    } else {
+	      return this.falseNode;
+	    }
+	  }
+}
 

@@ -3,7 +3,7 @@
  */
 package game.entries.ghosts;
 
-
+import game.entries.ghosts.*;
 
 /**
  * @author user
@@ -15,5 +15,6 @@ package game.entries.ghosts;
 
 
 public abstract class DecisionTree extends DecisionNode{
-
+  Action run = new RunAwayAction();
+  Action chase = new ChaseAction();
 }
