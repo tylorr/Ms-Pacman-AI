@@ -7,6 +7,6 @@ public class DistanceToPacMan extends TestValue{
 	    //get ghost's location
 	    //subtract the two values and put the result into distance
 	    //if negative, distance = -distance
-	    return distance;
+	    return 0;
 	  }
 }

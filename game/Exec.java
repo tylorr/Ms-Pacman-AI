@@ -16,6 +16,7 @@ import game.core.GameView;
 import game.core._G_;
 import game.core.Replay;
 import game.core._RG_;
+import game.entries.pacman.MyPacMan;
 
 /*
  * This class may be used to execute the game in timed or un-timed modes, with or without
@@ -40,7 +41,7 @@ public class Exec
 		//run game with time limits (un-comment if required)
 //		exec.runGameTimed(new Human(),new AttractRepelGhosts(true),true);
 		//run game with time limits. Here NearestPillPacManVS is chosen to illustrate how to use graphics for debugging/information purposes 
-		exec.runGameTimed(new NearestPillPacManVS(),new AttractRepelGhosts(false),true);
+		exec.runGameTimed(new MyPacMan(),new AttractRepelGhosts(false),true);
 		
 		//this allows you to record a game and replay it later. This could be very useful when
 		//running many games in non-visual mode - one can then pick out those that appear irregular
