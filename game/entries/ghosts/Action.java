@@ -1,17 +1,12 @@
 package game.entries.ghosts;
+import game.core.*;
 import game.entries.ghosts.*;
 
-public class Action {
-  public Action makeDecision() {
-	return null;
-  }
+public abstract class Action{
+	Game pacManGame;
+	Action makeDecision(){
+		return this;
+	}
 }
 
-abstract class ChaseAction extends Action {
 
-}
-
-abstract class RunAwayAction extends Action{
-	
-	
-}

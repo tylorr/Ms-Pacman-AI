@@ -1,9 +1,12 @@
 package game.entries.ghosts;
 
-public class DistanceToPacMan {
+public class DistanceToPacMan extends TestValue{
 	  public float getValue() {
-	    float nearest;
-	    // compute the distance to the nearest ghost...
-	    return nearest;
+	    float distance;
+	    //get pac man's location
+	    //get ghost's location
+	    //subtract the two values and put the result into distance
+	    //if negative, distance = -distance
+	    return distance;
 	  }
 }

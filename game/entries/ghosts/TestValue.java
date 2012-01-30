@@ -1,10 +1,19 @@
 package game.entries.ghosts;
 
-public class TestValue {
+public abstract class TestValue {
 
-	double value;
+	float value;
 	
-	public double getValue(){
+	public float getValue(){
 		return value;
 	}
+	
+}
+
+class IsBlue extends TestValue{
+	
+}
+
+class PowerPillClose extends TestValue{
+	
 }
