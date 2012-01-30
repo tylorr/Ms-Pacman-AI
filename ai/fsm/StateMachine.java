@@ -6,6 +6,7 @@ public class StateMachine {
 	
 	public StateMachineState currentState;
 	
+	@SuppressWarnings("unused")
 	public Action update() {
 		Action actions = null;
 
@@ -54,14 +55,27 @@ public class StateMachine {
 
                 // Add each element to the list in turn
                 actions = currentState.getExitActions();
-                last = actions.getLast();
+                if (actions != null) {
+                	last = actions.getLast();
+                }
 
                 tempList = transition.getActions();
-                last.next = tempList;
-                last = tempList.getLast();
+                
+                if (actions == null) {
+                	actions = tempList;
+                	last = actions.getLast();
+                } else if (tempList != null) {
+                	last.next = tempList;
+                	last = tempList.getLast();
+                }
                 
                 tempList = nextState.getEntryActions();
-                last.next = tempList;
+                if (actions == null) {
+                	actions = tempList;
+                	last = actions.getLast();
+                } else if (tempList != null) {
+                	last.next = tempList;
+                }
 
                 // Update the change of state
                 currentState = nextState;
