@@ -1,14 +1,16 @@
 package ai.hsm;
 
+import java.util.LinkedList;
+
 public abstract class HSMBase {
 	final class UpdateResult {
-		public Action actions;
+		public LinkedList<Action> actions;
 		public Transition transition;
 		public int level;
 	}
 	
-	public Action getAction() {
-		return null;
+	public LinkedList<Action> getAction() {
+		return new LinkedList<Action>();
 	}
 	
 	public UpdateResult update() {
@@ -19,5 +21,5 @@ public abstract class HSMBase {
 		return result;
 	}
 	
-	public abstract State getStates();
+	public abstract LinkedList<State> getStates();
 }

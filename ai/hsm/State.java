@@ -1,22 +1,27 @@
 package ai.hsm;
 
+import java.util.LinkedList;
+
 public class State extends HSMBase {
-	Transition firstTransition;
+	LinkedList<Transition> transitions;
+	public SubMachineState parent;
 	
-	public Action getActions() {
-		return null;
+	public LinkedList<Action> getAction() {
+		return new LinkedList<Action>();
 	}
 	
-	public UpdateResult getEntryActions() {
-		return null;
+	public LinkedList<Action> getEntryAction() {
+		return new LinkedList<Action>();
 	}
 	
-	public Action getExitActions() {
-		return null;
+	public LinkedList<Action> getExitAction() {
+		return new LinkedList<Action>();
 	}
 
 	@Override
-	public State getStates() {
-		return this;
+	public LinkedList<State> getStates() {
+		LinkedList<State> result = new LinkedList<State>();
+		result.add(this);
+		return result;
 	}
 }
