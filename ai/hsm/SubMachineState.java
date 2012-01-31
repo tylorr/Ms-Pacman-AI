@@ -4,10 +4,10 @@ import java.util.LinkedList;
 
 public class SubMachineState extends State {
 	
-	public State states;
+	public LinkedList<State> states = new LinkedList<State>();
 	
 	public State initialState;
-	public State currentState = null;
+	public State currentState;
 	
 	// We get states by adding ourself to our active children
 	@Override
@@ -24,8 +24,14 @@ public class SubMachineState extends State {
 	
 	@Override
 	public UpdateResult update() {
-		
 		UpdateResult result;
+		
+		if (initialState == null) {
+			result = new UpdateResult();
+			result.actions.addAll(getAction());
+			return result;
+		}
+		
 		
 		// if we're in no state, use the initial state
 		if (currentState == null) {
@@ -46,6 +52,7 @@ public class SubMachineState extends State {
 		
 		// if we have found one
 		if (triggeredTransition != null) {
+			//System.out.println("Found transition");
 			result = new UpdateResult();
 			result.actions = new LinkedList<Action>();
 			result.transition = triggeredTransition;
@@ -53,15 +60,16 @@ public class SubMachineState extends State {
 		} 
 		// otherwise recurse down for a result
 		else {
-			result = currentState.update();
+			//System.out.println("going deeper");
+			return currentState.update();
 		}
 		
 		// check if the result contains a transition
 		if (result.transition != null) {
-			
 			// Act based on its level
 			if (result.level == 0) {
 				
+				//System.out.println("Same level");
 				//It's on our level: honor it
 				State targetState = result.transition.getTargetState();
 				result.actions.addAll(currentState.getExitAction());
@@ -72,9 +80,9 @@ public class SubMachineState extends State {
 				currentState = targetState;
 				
 				// add our normal action (we may be a state)
-				result.actions.addAll(getAction());
+				//result.actions.addAll(getAction());
 			} else if (result.level > 0) {
-				
+				//System.out.println("Different level");
 				// It's destined for a higher level
 				// Exit our current state
 				result.actions.addAll(currentState.getExitAction());
@@ -83,7 +91,7 @@ public class SubMachineState extends State {
 				// Decrease the number of levels to go
 				result.level--;
 			} else {
-				
+				//System.out.println("Different level");
 				// It needs to be passed down
 				State targetState = result.transition.getTargetState();
 				SubMachineState targetMachine = targetState.parent;
@@ -130,5 +138,10 @@ public class SubMachineState extends State {
 		currentState = state;
 		
 		return null;
+	}
+	
+	public void addState(SubMachineState state) {
+		states.add(state);
+		state.parent = this;
 	}
 }

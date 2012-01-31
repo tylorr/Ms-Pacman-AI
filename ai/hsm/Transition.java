@@ -7,6 +7,11 @@ public class Transition {
 	public State target;
 	public Condition condition;
 	public Action action;
+	
+	public Transition(Action action, Condition condition) {
+		this.action = action;
+		this.condition = condition;
+	}
 
 	public boolean isTriggered() {
 		return condition.test();

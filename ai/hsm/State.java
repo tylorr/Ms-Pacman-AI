@@ -3,7 +3,7 @@ package ai.hsm;
 import java.util.LinkedList;
 
 public class State extends HSMBase {
-	LinkedList<Transition> transitions;
+	LinkedList<Transition> transitions = new LinkedList<Transition>();
 	public SubMachineState parent;
 	
 	public LinkedList<Action> getAction() {
@@ -31,5 +31,9 @@ public class State extends HSMBase {
 		}
 		
 		return 1 + parent.getDepth();
+	}
+	
+	public void addTransition(Transition transition) {
+		transitions.add(transition);
 	}
 }
