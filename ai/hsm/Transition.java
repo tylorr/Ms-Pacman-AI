@@ -12,6 +12,8 @@ public class Transition {
 		this.action = action;
 		this.condition = condition;
 	}
+	
+	public Transition() {}
 
 	public boolean isTriggered() {
 		return condition.test();

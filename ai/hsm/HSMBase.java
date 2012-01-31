@@ -3,7 +3,7 @@ package ai.hsm;
 import java.util.LinkedList;
 
 public abstract class HSMBase {
-	public final class UpdateResult {
+	public static final class UpdateResult {
 		public LinkedList<Action> actions = new LinkedList<Action>();
 		public Transition transition;
 		public int level;
