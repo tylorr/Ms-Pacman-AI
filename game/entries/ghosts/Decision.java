@@ -10,6 +10,11 @@ package game.entries.ghosts;
 
 abstract class DecisionNode {
 	public DecisionNode makeDecision() {
+		/*
+		if (getBranch()){
+			if (trueBranch == null) return null;
+		}
+		*/
 		return null;
 	}
 }

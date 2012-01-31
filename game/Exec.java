@@ -35,8 +35,9 @@ public class Exec
 		//this can be used for numerical testing (non-visual, no delays)
 //		exec.runExperiment(new RandomPacMan(),new AttractRepelGhosts(true),100);
 		
-		//run game without time limits (un-comment if required)
-//		exec.runGame(new RandomPacMan(),new RandomGhosts(),true,G.DELAY);
+
+		//run game without time limits (un-comment if required) 
+//		exec.runGame(new NearestPillPacMan(),new AttractRepelGhosts(false),true,G.DELAY);
 		
 		//run game with time limits (un-comment if required)
 //		exec.runGameTimed(new Human(),new AttractRepelGhosts(true),true);
