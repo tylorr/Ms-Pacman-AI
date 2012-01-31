@@ -27,9 +27,7 @@ public class SubMachineState extends State {
 		UpdateResult result;
 		
 		if (initialState == null) {
-			result = new UpdateResult();
-			result.actions.addAll(getAction());
-			return result;
+			return super.update();
 		}
 		
 		
@@ -80,7 +78,7 @@ public class SubMachineState extends State {
 				currentState = targetState;
 				
 				// add our normal action (we may be a state)
-				//result.actions.addAll(getAction());
+				result.actions.addAll(getAction());
 			} else if (result.level > 0) {
 				//System.out.println("Different level");
 				// It's destined for a higher level

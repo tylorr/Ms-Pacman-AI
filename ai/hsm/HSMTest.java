@@ -50,7 +50,7 @@ public class HSMTest {
 	public static void main(String[] args) {
 		SubMachineState root = new SubMachineState();
 		
-		TestState state1 = new TestState("State 1");
+		SubMachineState state1 = new SubMachineState();
 		TestState state2 = new TestState("State 2");
 		
 		Transition transition1 = new Transition(new TestAction("Transition 1"), new Condition() {
