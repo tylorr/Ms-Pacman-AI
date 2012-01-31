@@ -3,23 +3,27 @@ package ai.hsm;
 import java.util.LinkedList;
 
 public class Transition {
-
-	public Transition next;
+	public State source;
+	public State target;
+	public Condition condition;
+	public Action action;
 
 	public boolean isTriggered() {
-		return false;
+		return condition.test();
 	}
 
 	public int getLevel() {
-		return 0;
+		return source.getDepth() - target.getDepth();
 	}
 
 	public State getTargetState() {
-		return null;
+		return target;
 	}
 
 	public LinkedList<Action> getAction() {
-		return null;
+		LinkedList<Action> result = new LinkedList<Action>();
+		result.add(action);
+		return result;
 	}
 
 }

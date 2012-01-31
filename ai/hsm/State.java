@@ -24,4 +24,12 @@ public class State extends HSMBase {
 		result.add(this);
 		return result;
 	}
+	
+	public int getDepth() {
+		if (parent == null) {
+			return 0;
+		}
+		
+		return 1 + parent.getDepth();
+	}
 }
