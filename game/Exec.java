@@ -42,13 +42,17 @@ public class Exec
 		//run game with time limits (un-comment if required)
 //		exec.runGameTimed(new Human(),new AttractRepelGhosts(true),true);
 		//run game with time limits. Here NearestPillPacManVS is chosen to illustrate how to use graphics for debugging/information purposes 
-		exec.runGameTimed(new MyPacMan(),new Legacy(),true);
+		//exec.runGameTimed(new MyPacMan(),new Legacy(),true);
 		
 		//this allows you to record a game and replay it later. This could be very useful when
 		//running many games in non-visual mode - one can then pick out those that appear irregular
 		//and replay them in visual mode to see what is happening.
 //		exec.runGameTimedAndRecorded(new Human(),new AttractRepelGhosts(false),true,"human-v-Legacy2.txt");
 //		exec.replayGame("human-v-Legacy2.txt");
+		
+		exec.runGameTimed(new MyPacMan(), new Legacy2TheReckoning(), true);
+		//exec.runExperiment(new MyPacMan(), new Legacy(), 100);
+		//exec.runExperiment(new MyPacMan(), new Legacy2TheReckoning(), 100);
 	}
 	
     protected int pacDir;
@@ -66,6 +70,8 @@ public class Exec
      */
     public void runExperiment(PacManController pacManController,GhostController ghostController,int trials)
     {
+    	int[] scores = new int[trials];
+    	
     	double avgScore=0;
     	
 		game=new _G_();
@@ -81,10 +87,24 @@ public class Exec
 			}
 			
 			avgScore+=game.getScore();
+			
+			scores[i] = game.getScore();
 			System.out.println(game.getScore());
 		}
 		
-		System.out.println(avgScore/trials);
+		avgScore /= trials;
+		
+		double stdDeviation = 0;
+		
+		for (int i = 0; i < trials; i++) {
+			stdDeviation += ((scores[i] - avgScore) * (scores[i] - avgScore));
+		}
+		
+		stdDeviation /= trials;
+		stdDeviation = Math.sqrt(stdDeviation);
+		
+		System.out.println(avgScore);
+		System.out.println(stdDeviation);
     }
     
     /*

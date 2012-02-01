@@ -32,7 +32,7 @@ public class MyPacMan implements PacManController
 		
 		@Override
 		public LinkedList<Action> getAction() {
-			System.out.println(message);
+			//System.out.println(message);
 			return NO_ACTION;
 		}
 	}
@@ -61,7 +61,7 @@ public class MyPacMan implements PacManController
 		
 		@Override
 		public LinkedList<Action> getEntryAction() {
-			System.out.println("\tEntering: " + message);
+			//System.out.println("\tEntering: " + message);
 			return entryAction;
 		}
 		
@@ -71,21 +71,19 @@ public class MyPacMan implements PacManController
 		}
 	}
 	
-	static final int CLOSE_DIST = 25;
-	static final int POWER_DIST = 35;
+	static final int CLOSE_DIST = 82;
 	
 	public static int[] ghostDist = new int[4];
 	public static int closestGhost = -1;
 	public static int closestBlueGhost = -1;
+	public static int closestNonBlueGhost = -1;
 	public static int currentLoc = -1;
-	public static boolean nearPowerPill = false;
-	public static int nearestPowerPillLoc = -1;
 	
 	SubMachineState root;
 	LinkedList<PacManAction> pacmanActions = new LinkedList<PacManAction>();
 	LinkedList<Action> resultActions = new LinkedList<Action>();
 
-	public static int closestNonBlueGhost;
+	
 	
 	public MyPacMan() {
 		root = new SubMachineState();
@@ -234,22 +232,6 @@ public class MyPacMan implements PacManController
 					distNonBlue = ghostDist[i];
 					closestNonBlueGhost = i;
 				}
-			}
-		}
-		
-		// find if near power pill
-		nearPowerPill = false;
-		nearestPowerPillLoc = -1;
-		dist = Integer.MAX_VALUE;
-		int[] powerPills = game.getPowerPillIndicesActive();
-		
-		for (int i = 0; i < powerPills.length; i++) {
-			dist = game.getPathDistance(powerPills[i], currentLoc);
-			
-			if (dist >= 0 && dist < POWER_DIST) {
-				nearestPowerPillLoc = powerPills[i];
-				nearPowerPill = true;
-				break;
 			}
 		}
 		
