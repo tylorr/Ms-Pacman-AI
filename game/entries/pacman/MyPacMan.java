@@ -91,7 +91,7 @@ public class MyPacMan implements PacManController
 		root = new SubMachineState();
 		
 		// Build states
-		PacManState eatPillState = new PacManState(new NearestPillAction(), "eat pill");
+		PacManState eatPillState = new PacManState(new NearestPillAvoidPowerAction(), "eat pill");
 		root.addState(eatPillState);
 		root.initialState = eatPillState;
 		
@@ -101,16 +101,9 @@ public class MyPacMan implements PacManController
 		PacManState eatGhostState = new PacManState(new EatGhostAction(), "eat ghost");
 		handleGhostState.addState(eatGhostState);
 		
-		SubMachineState avoidGhostState = new SubMachineState();
-		handleGhostState.addState(avoidGhostState);
-		handleGhostState.initialState = avoidGhostState;
-		
 		PacManState runAwayState = new PacManState(new RunAwayAction(), "run away");
-		avoidGhostState.addState(runAwayState);
-		avoidGhostState.initialState = runAwayState;
-		
-		PacManState eatPowerPillState = new PacManState(new EatPowerPillAction(), "eat power pill"); 
-		avoidGhostState.addState(eatPowerPillState);
+		handleGhostState.addState(runAwayState);
+		handleGhostState.initialState = runAwayState;
 		
 		
 		// Build Transitions
@@ -197,34 +190,12 @@ public class MyPacMan implements PacManController
 			
 		});
 		
-		PacManTransition nearPower = new PacManTransition("near power pill", new Condition() {
-
-			@Override
-			public boolean test() {
-				return nearPowerPill;
-			}
-			
-		});
-		
-		PacManTransition farPower = new PacManTransition("far from power pill", new Condition() {
-
-			@Override
-			public boolean test() {
-				return !nearPowerPill;
-			}
-			
-		});
-		
 		// Join states with transitions
 		bindTransition(eatPillState, handleGhostState, close);
 		bindTransition(handleGhostState, eatPillState, far);
 		
-		bindTransition(avoidGhostState, eatGhostState, nearBlue);
-		bindTransition(eatGhostState, avoidGhostState, nearNonBlue);
-		
-		bindTransition(runAwayState, eatPowerPillState, nearPower);
-		bindTransition(eatPowerPillState, runAwayState, farPower);
-		
+		bindTransition(runAwayState, eatGhostState, nearBlue);
+		bindTransition(eatGhostState, runAwayState, nearNonBlue);
 	}
 	
 	//Place your game logic here to play the game as Ms Pac-Man
@@ -291,10 +262,10 @@ public class MyPacMan implements PacManController
 			pacmanActions.add((PacManAction)action);
 		}
 		
-		// reset result acitons
+		// reset result actions
 		resultActions.clear();
 		
-		// prefrom pacman action
+		// preform PacMan action
 		return pacmanActions.removeFirst().act(game);
 	}
 	

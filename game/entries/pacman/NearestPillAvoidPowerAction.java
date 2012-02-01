@@ -2,7 +2,7 @@ package game.entries.pacman;
 
 import game.core.Game;
 
-class NearestPillAction extends PacManAction {
+class NearestPillAvoidPowerAction extends PacManAction {
 	@Override
 	public int act(Game game) {
 		int current = game.getCurPacManLoc();
@@ -23,7 +23,7 @@ class NearestPillAction extends PacManAction {
 		int powerLocation = -1;
 		
 		// Check for a power pill in the path
-		for (int i = 0; i < path.length; i++) {
+		for (int i = 0; (i < path.length) && !powerExists; i++) {
 			for (int j = 0; j < activePowerPills.length; j++) {
 				if (path[i] == activePowerPills[j]) {
 					powerExists = true;
