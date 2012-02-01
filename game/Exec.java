@@ -42,7 +42,7 @@ public class Exec
 		//run game with time limits (un-comment if required)
 //		exec.runGameTimed(new Human(),new AttractRepelGhosts(true),true);
 		//run game with time limits. Here NearestPillPacManVS is chosen to illustrate how to use graphics for debugging/information purposes 
-		exec.runGameTimed(new MyPacMan(),new Legacy(),true);
+		exec.runGameTimed(new MyPacMan(exec),new Legacy(),true);
 		
 		//this allows you to record a game and replay it later. This could be very useful when
 		//running many games in non-visual mode - one can then pick out those that appear irregular
@@ -53,7 +53,7 @@ public class Exec
 	
     protected int pacDir;
     protected int[] ghostDirs;
-    protected _G_ game;
+    public _G_ game;
     protected PacMan pacMan;
     protected Ghosts ghosts;
     protected boolean pacmanPlayed,ghostsPlayed;
