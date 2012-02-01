@@ -278,26 +278,17 @@ public class MyPacMan implements PacManController
 			}
 		}
 		
-		// loop until pacmanActions has an action
-		while (pacmanActions.isEmpty()) {
-			while (resultActions.isEmpty()) {
-				resultActions.addAll(root.update().actions);
-			}
-			
-			
-			for (Action action : resultActions) {
-				// add action if pacman action
-				if (action instanceof PacManAction) {
-					pacmanActions.add((PacManAction)action);
-				} else {
-					// perform action if not
-					action.act();
-				}
-			}
-			
-			// reset result acitons
-			resultActions.clear();
+		while (resultActions.isEmpty()) {
+			resultActions.addAll(root.update().actions);
 		}
+		
+		
+		for (Action action : resultActions) {
+			pacmanActions.add((PacManAction)action);
+		}
+		
+		// reset result acitons
+		resultActions.clear();
 		
 		// prefrom pacman action
 		return pacmanActions.removeFirst().act(game);
