@@ -79,6 +79,7 @@ public class MyPacMan implements PacManController
 	public static int closestBlueGhost = -1;
 	public static int currentLoc = -1;
 	public static boolean nearPowerPill = false;
+	public static int nearestPowerPillLoc = -1;
 	
 	SubMachineState root;
 	LinkedList<PacManAction> pacmanActions = new LinkedList<PacManAction>();
@@ -108,7 +109,7 @@ public class MyPacMan implements PacManController
 		avoidGhostState.addState(runAwayState);
 		avoidGhostState.initialState = runAwayState;
 		
-		PacManState eatPowerPillState = new PacManState(new NearestPillAction(), "eat power pill"); // TODO: change to eat power pill action
+		PacManState eatPowerPillState = new PacManState(new EatPowerPillAction(), "eat power pill"); 
 		avoidGhostState.addState(eatPowerPillState);
 		
 		
@@ -267,6 +268,7 @@ public class MyPacMan implements PacManController
 		
 		// find if near power pill
 		nearPowerPill = false;
+		nearestPowerPillLoc = -1;
 		dist = Integer.MAX_VALUE;
 		int[] powerPills = game.getPowerPillIndicesActive();
 		
@@ -274,7 +276,9 @@ public class MyPacMan implements PacManController
 			dist = game.getPathDistance(powerPills[i], currentLoc);
 			
 			if (dist >= 0 && dist < POWER_DIST) {
+				nearestPowerPillLoc = powerPills[i];
 				nearPowerPill = true;
+				break;
 			}
 		}
 		
