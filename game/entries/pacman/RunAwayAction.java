@@ -28,7 +28,7 @@ public class RunAwayAction extends PacManAction {
 		
 		int dirIndex = random.nextInt(preferredDirs.length);
 		
-		GameView.addPoints(game, Color.CYAN, game.getPath(game.getCurPacManLoc(), game.getCurGhostLoc(MyPacMan.closestGhost)));
+		GameView.addPoints(game, Color.RED, game.getPath(game.getCurPacManLoc(), game.getCurGhostLoc(MyPacMan.closestGhost)));
 		
 		return preferredDirs[dirIndex];
 		/*
