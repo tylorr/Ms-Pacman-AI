@@ -31,23 +31,6 @@ public class RunAwayAction extends PacManAction {
 		GameView.addPoints(game, Color.RED, game.getPath(game.getCurPacManLoc(), game.getCurGhostLoc(MyPacMan.closestGhost)));
 		
 		return preferredDirs[dirIndex];
-		/*
-		int closest = -1;
-		int dist = Integer.MAX_VALUE;
-		int ghostDist;
-		for (int i = 0; i < Game.NUM_GHOSTS; i++) {
-			ghostDist = game.getPathDistance(game.getCurPacManLoc(), game.getCurGhostLoc(i));
-			
-			if (ghostDist >= 0 && ghostDist < dist) {
-				dist = ghostDist;
-				closest = i;
-			}
-		}
-		
-		GameView.addPoints(game, Color.CYAN, game.getPath(game.getCurPacManLoc(), game.getCurGhostLoc(closest)));
-		
-		return game.getNextPacManDir(game.getCurGhostLoc(closest), false, Game.DM.PATH);
-		*/
 	}
 
 }
