@@ -53,6 +53,7 @@ public class Exec
 		exec.runGameTimed(new MyPacMan(), new Legacy2TheReckoning(), true);
 		//exec.runExperiment(new MyPacMan(), new Legacy(), 100);
 		//exec.runExperiment(new MyPacMan(), new Legacy2TheReckoning(), 100);
+		//exec.runMyExperiment(new Legacy2TheReckoning(), 100, 80, 95, 1);
 	}
 	
     protected int pacDir;
@@ -105,6 +106,54 @@ public class Exec
 		
 		System.out.println(avgScore);
 		System.out.println(stdDeviation);
+    }
+    
+    public void runMyExperiment(GhostController ghostController,int trials, int min, int max, int step)
+    {
+    	PacManController pacManController = new MyPacMan();
+    	
+    	int bestClose = -1;
+    	int bestBlue = -1;
+    	double bestScore = Double.MIN_VALUE;
+    	
+    	for (int close = min; close <= max; close += step) {
+    		System.out.println("Tick: " + close);
+    		for (int blue = min; blue <= max; blue += step) {
+    			System.out.println("\ttick: " + blue);
+    			MyPacMan.CLOSE_DIST = close;
+    			MyPacMan.CLOSE_BLUE_DIST = blue;
+    			
+		    	//int[] scores = new int[trials];
+		    	
+		    	double avgScore=0;
+		    	
+				game=new _G_();
+				
+				for(int i=0;i<trials;i++)
+				{
+					game.newGame();
+					
+					while(!game.gameOver())
+					{
+						long due=System.currentTimeMillis()+G.DELAY;
+				        game.advanceGame(pacManController.getAction(game.copy(),due),ghostController.getActions(game.copy(),due));
+					}
+					
+					avgScore+=game.getScore();
+				}
+				
+				avgScore /= trials;
+				
+				if (avgScore > bestScore) {
+					bestScore = avgScore;
+					bestClose = close;
+					bestBlue = blue;
+				}
+    		}
+    	}
+    	
+    	System.out.println("Best Close: " + bestClose + " blue: " + bestBlue);
+    	System.out.println(bestScore);
     }
     
     /*

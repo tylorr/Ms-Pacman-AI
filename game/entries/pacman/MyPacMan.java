@@ -71,7 +71,8 @@ public class MyPacMan implements PacManController
 		}
 	}
 	
-	static final int CLOSE_DIST = 82;
+	public static int CLOSE_DIST = 80;
+	public static int CLOSE_BLUE_DIST = 92;
 	
 	public static int[] ghostDist = new int[4];
 	public static int closestGhost = -1;
@@ -82,66 +83,48 @@ public class MyPacMan implements PacManController
 	SubMachineState root;
 	LinkedList<PacManAction> pacmanActions = new LinkedList<PacManAction>();
 	LinkedList<Action> resultActions = new LinkedList<Action>();
-
-	
 	
 	public MyPacMan() {
 		root = new SubMachineState();
 		
-		// Build states
+		SubMachineState normalState = new SubMachineState();
+		root.addState(normalState);
+		root.initialState = normalState;
+		
 		PacManState eatPillState = new PacManState(new NearestPillAvoidPowerAction(), "eat pill");
-		root.addState(eatPillState);
-		root.initialState = eatPillState;
-		
-		SubMachineState handleGhostState = new SubMachineState();
-		root.addState(handleGhostState);
-		
-		PacManState eatGhostState = new PacManState(new EatGhostAction(), "eat ghost");
-		handleGhostState.addState(eatGhostState);
+		normalState.addState(eatPillState);		
+		normalState.initialState = eatPillState;
 		
 		PacManState runAwayState = new PacManState(new RunAwayAction(), "run away");
-		handleGhostState.addState(runAwayState);
-		handleGhostState.initialState = runAwayState;
+		normalState.addState(runAwayState);
 		
+		PacManState eatGhostState = new PacManState(new EatGhostAction(), "eat ghost");
+		root.addState(eatGhostState);
 		
-		// Build Transitions
-		PacManTransition close = new PacManTransition("close transition", new Condition() {
-
+		final Condition closeCondition = new Condition() {
 			@Override
 			public boolean test() {
-				for (int i = 0; i < Game.NUM_GHOSTS; i++) {
-					
-					// if ghost exists and is close 
-					if (ghostDist[i] >= 0 && ghostDist[i] < CLOSE_DIST) {
-						return true;
-					}
+				if (closestNonBlueGhost < 0) {
+					return false;
 				}
-				
-				// if all ghosts are not close
-				return false;
+				return (ghostDist[closestNonBlueGhost] < CLOSE_DIST);
 			}
-			
-		});
+		};
+		
+		// Build Transitions
+		PacManTransition close = new PacManTransition("close transition", closeCondition);
 		
 		PacManTransition far = new PacManTransition("far transition", new Condition() {
 
 			@Override
 			public boolean test() {
-				for (int i = 0; i < Game.NUM_GHOSTS; i++) {
-					// if ghost exists and is close enough then can't be far
-					if (ghostDist[i] >= 0 && ghostDist[i] < CLOSE_DIST) {
-						return false;
-					}
-				}
-				
-				// all ghosts must be far
-				return true;
+				return !closeCondition.test();
 			}
 			
 		});
 		
-		PacManTransition nearBlue = new PacManTransition("near blue", new Condition() {
-
+		
+		final Condition nearBlueCondition = new Condition() {
 			@Override
 			public boolean test() {
 				// if closest blue doesn't exist
@@ -158,42 +141,29 @@ public class MyPacMan implements PacManController
 				
 				// return true if blue is closer than non-blue
 				else {
-					return ghostDist[closestBlueGhost] < ghostDist[closestNonBlueGhost];
+					return (ghostDist[closestBlueGhost] < CLOSE_BLUE_DIST) && 
+						   (ghostDist[closestNonBlueGhost] < CLOSE_DIST);
 				}
 			}
-			
-		});
+		};
+		
+		PacManTransition nearBlue = new PacManTransition("near blue", nearBlueCondition);
 		
 		PacManTransition nearNonBlue = new PacManTransition("near non-blue", new Condition() {
 
 			@Override
 			public boolean test() {
-				// if nearest blue ghost doesn't exist
-				// then can't be near blue
-				if (closestBlueGhost < 0) {
-					return true;
-				} 
-				
-				// if nearest non blue ghost doesn't exist
-				// then can't be near non-blue
-				else if (closestNonBlueGhost < 0) {
-					return false;
-				} 
-				
-				// return true if non blue is closer
-				else  {
-					return ghostDist[closestBlueGhost] > ghostDist[closestNonBlueGhost];
-				}
+				return !nearBlueCondition.test();
 			}
 			
 		});
 		
 		// Join states with transitions
-		bindTransition(eatPillState, handleGhostState, close);
-		bindTransition(handleGhostState, eatPillState, far);
+		bindTransition(eatPillState, runAwayState, close);
+		bindTransition(runAwayState, eatPillState, far);
 		
-		bindTransition(runAwayState, eatGhostState, nearBlue);
-		bindTransition(eatGhostState, runAwayState, nearNonBlue);
+		bindTransition(normalState, eatGhostState, nearBlue);
+		bindTransition(eatGhostState, normalState, nearNonBlue);
 	}
 	
 	//Place your game logic here to play the game as Ms Pac-Man
@@ -247,7 +217,7 @@ public class MyPacMan implements PacManController
 		// reset result actions
 		resultActions.clear();
 		
-		// preform PacMan action
+		// perform PacMan action
 		return pacmanActions.removeFirst().act(game);
 	}
 	
