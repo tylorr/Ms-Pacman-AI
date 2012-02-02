@@ -7,7 +7,6 @@ import game.controllers.GhostController;
 import game.controllers.examples.AttractRepelGhosts;
 import game.controllers.examples.Legacy;
 import game.controllers.examples.Legacy2TheReckoning;
-import game.controllers.examples.MyPacMan;
 import game.controllers.examples.NearestPillPacMan;
 import game.controllers.examples.NearestPillPacManVS;
 import game.controllers.examples.RandomGhosts;
@@ -18,11 +17,9 @@ import game.core.GameView;
 import game.core._G_;
 import game.core.Replay;
 import game.core._RG_;
-<<<<<<< HEAD
-import game.entries.pacman.MyPacMan;
-=======
+
 import game.entries.ghosts.*;
->>>>>>> master
+import game.entries.pacman.*;
 
 /*
  * This class may be used to execute the game in timed or un-timed modes, with or without
@@ -38,9 +35,9 @@ public class Exec
 	{
 		Exec exec=new Exec();
 		
-		exec.runGameTimed(new Human(), new MyFunGhosts(), true);
+		//exec.runGameTimed(new Human(), new MyFunGhosts(), true);
 		
-		//exec.runGameTimed(new MyPacMan(), new Legacy2TheReckoning(), true);
+		exec.runGameTimed(new MyPacMan(), new Legacy2TheReckoning(), true);
 		//exec.runExperiment(new MyPacMan(), new Legacy(), 100);
 		//exec.runExperiment(new MyPacMan(), new Legacy2TheReckoning(), 100);
 		//exec.runMyExperiment(new Legacy2TheReckoning(), 100, 80, 95, 1);
@@ -133,8 +130,6 @@ public class Exec
     			System.out.println("\ttick: " + blue);
     			MyPacMan.CLOSE_DIST = close;
     			MyPacMan.CLOSE_BLUE_DIST = blue;
-    			
-		    	//int[] scores = new int[trials];
 		    	
 		    	double avgScore=0;
 		    	
