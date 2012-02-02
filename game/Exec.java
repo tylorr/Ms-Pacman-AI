@@ -1,11 +1,13 @@
 package game;
 
+import ai.fun.ghosts.MyFunGhosts;
 import game.controllers.Human;
 import game.controllers.PacManController;
 import game.controllers.GhostController;
 import game.controllers.examples.AttractRepelGhosts;
 import game.controllers.examples.Legacy;
 import game.controllers.examples.Legacy2TheReckoning;
+import game.controllers.examples.MyPacMan;
 import game.controllers.examples.NearestPillPacMan;
 import game.controllers.examples.NearestPillPacManVS;
 import game.controllers.examples.RandomGhosts;
@@ -16,6 +18,7 @@ import game.core.GameView;
 import game.core._G_;
 import game.core.Replay;
 import game.core._RG_;
+import game.entries.ghosts.*;
 
 /*
  * This class may be used to execute the game in timed or un-timed modes, with or without
@@ -32,10 +35,10 @@ public class Exec
 		Exec exec=new Exec();
 		
 		//this can be used for numerical testing (non-visual, no delays)
-//		exec.runExperiment(new RandomPacMan(),new AttractRepelGhosts(true),100);
+//		exec.runExperiment(new MyPacMan(),new MyGhosts(),100);
 		
 		//run game without time limits (un-comment if required) 
-//		exec.runGame(new NearestPillPacMan(),new AttractRepelGhosts(false),true,G.DELAY);
+		exec.runGame(new RandomNonRevPacMan(),new MyFunGhosts(),true,G.DELAY);
 		
 		//run game with time limits (un-comment if required) ghosts chase you in this one
 //		exec.runGameTimed(new Human(),new AttractRepelGhosts(true),true);
@@ -47,7 +50,7 @@ public class Exec
 		//running many games in non-visual mode - one can then pick out those that appear irregular
 		//and replay them in visual mode to see what is happening.
 		//you can play as pacman in this version but ghosts scatter at this point
-//		exec.runGameTimedAndRecorded(new Human(),new AttractRepelGhosts(false),true,"human-v-Legacy2.txt");
+		exec.runGameTimedAndRecorded(new Human(),new Legacy(),true,"human-v-Legacy2.txt");
 //		exec.replayGame("human-v-Legacy2.txt");
 	}
 	

@@ -1,4 +1,4 @@
-package game.entries.ghosts;
+package ai.fun.ghosts;
 
 import game.controllers.GhostController;
 import game.core.Game;
@@ -9,25 +9,26 @@ import game.core.Game;
  * fill in the getActions() method. Any additional classes you write should either
  * be placed in this package or sub-packages (e.g., game.entries.ghosts.mypackage).
  */
-public class MyGhosts implements GhostController{
+public class MyFunGhosts implements GhostController{
 	
 	 Decision rootIsBlue;
 	 	 
-	 public MyGhosts(){
+	 public MyFunGhosts(){
 		 Action chasePacMan = new ChaseAction();
+		 Action chaseNewDir = new ChaseNewRouteAction();
 		 Action runAway = new RunAwayAction();
-		 Decision powerPill = new PowerPillClose();
+		 Decision ate = new IsEaten();
 		 rootIsBlue = new IsBlue();
-		 rootIsBlue.trueNode = runAway;
-		 rootIsBlue.falseNode = powerPill;
-		 powerPill.falseNode = chasePacMan;
-		 powerPill.trueNode = runAway;
+		 rootIsBlue.trueNode = ate;
+		 rootIsBlue.falseNode = chasePacMan;
+		 ate.falseNode = runAway;
+		 ate.trueNode = chaseNewDir;
 		 
 	 }
 	//Place your game logic here to play the game as the ghosts
 	public int[] getActions(Game game,long timeDue)
 	{
-		MyGhosts ghost = new MyGhosts();
+		MyFunGhosts ghost = new MyFunGhosts();
 		Action nextAction = (Action) ghost.rootIsBlue.makeDecision(game); //exception here
 		return nextAction.execute(game);		
 		

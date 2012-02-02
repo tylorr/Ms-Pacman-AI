@@ -1,4 +1,5 @@
-package game.entries.ghosts; //exception at Decision
+package ai.fun.ghosts;
+
 import game.core.*;
 
 

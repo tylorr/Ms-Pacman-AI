@@ -1,7 +1,5 @@
-/**
- * 
- */
-package game.entries.ghosts;
+package ai.fun.ghosts;
+
 import game.core.*;
 
 /**

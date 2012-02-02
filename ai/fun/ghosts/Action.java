@@ -1,4 +1,5 @@
-package game.entries.ghosts; //exception?? at ChaseAction
+package ai.fun.ghosts;
+
 import game.core.*;
 
 public class Action extends DecisionNode{
@@ -14,6 +15,3 @@ public class Action extends DecisionNode{
 		return result;
 	}
 }
-
-
-
