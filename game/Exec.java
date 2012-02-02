@@ -37,9 +37,10 @@ public class Exec
 		
 		//exec.runGameTimed(new Human(), new MyFunGhosts(), true);
 		
-		exec.runGameTimed(new MyPacMan(), new Legacy2TheReckoning(), true);
+		//exec.runGameTimed(new MyPacMan(), new Legacy2TheReckoning(), true);
 		//exec.runExperiment(new MyPacMan(), new Legacy(), 100);
 		//exec.runExperiment(new MyPacMan(), new Legacy2TheReckoning(), 100);
+		//exec.runExperiment(new MyPacMan(), new MyGhosts(), 100);
 		//exec.runMyExperiment(new Legacy2TheReckoning(), 100, 80, 95, 1);
 		
 		//this can be used for numerical testing (non-visual, no delays)
