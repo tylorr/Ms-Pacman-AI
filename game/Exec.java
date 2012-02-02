@@ -44,7 +44,8 @@ public class Exec
 		//exec.runMyExperiment(new Legacy2TheReckoning(), 100, 80, 95, 1);
 		
 		//this can be used for numerical testing (non-visual, no delays)
-		exec.runExperiment(new MyPacMan(),new MyGhosts(),100);
+		//exec.runExperiment(new MyPacMan(),new RandomGhosts(),100);
+		exec.runGameTimed(new MyPacMan(), new RandomGhosts(), true);
 		
 
 		//run game without time limits (un-comment if required)
