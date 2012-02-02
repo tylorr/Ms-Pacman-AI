@@ -79,9 +79,11 @@ public class MyPacMan implements PacManController
 	
 	public static int CLOSE_DIST = 35;
 	public static int CLOSE_BLUE_DIST = 50;
+	public static int POWER_DIST = 25;
+	public static int JUNC_DIST = 5;
 	
 	public static int[] ghostDist = new int[4];
-	public static int closestGhost = -1;
+	//public static int closestGhost = -1;
 	public static int closestBlueGhost = -1;
 	public static int closestNonBlueGhost = -1;
 	public static int currentLoc = -1;
@@ -178,10 +180,10 @@ public class MyPacMan implements PacManController
 		currentLoc = game.getCurPacManLoc();
 		
 		
-		closestGhost = -1;
+		//closestGhost = -1;
 		closestBlueGhost = -1;
 		closestNonBlueGhost = -1;
-		int dist = Integer.MAX_VALUE;
+		//int dist = Integer.MAX_VALUE;
 		int distBlue = Integer.MAX_VALUE;
 		int distNonBlue = Integer.MAX_VALUE;
 		
@@ -192,10 +194,10 @@ public class MyPacMan implements PacManController
 			if (ghostDist[i] >= 0) { 
 				
 				// find closest ghost
-				if (ghostDist[i] < dist) {
-					dist = ghostDist[i];
-					closestGhost = i;
-				}
+				//if (ghostDist[i] < dist) {
+				//	dist = ghostDist[i];
+				//	closestGhost = i;
+				//}
 				
 				// find closest blue ghost
 				if (game.isEdible(i) && ghostDist[i] < distBlue) {

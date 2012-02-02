@@ -8,6 +8,7 @@ import game.core.GameView;
 public class EatGhostAction extends PacManAction {
 	@Override
 	int act(Game game) {
+		RunAwayAction.visitedJunctions.clear();
 		int current = game.getCurPacManLoc();
 		int target = game.getCurGhostLoc(MyPacMan.closestBlueGhost);
 		GameView.addPoints(game, Color.ORANGE, game.getPath(current, target));

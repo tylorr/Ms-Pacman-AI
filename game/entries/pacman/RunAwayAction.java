@@ -1,7 +1,7 @@
 package game.entries.pacman;
 
 import java.awt.Color;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import ai.behaviourtree.Selector;
 import ai.behaviourtree.Task;
@@ -56,7 +56,11 @@ public class RunAwayAction extends PacManAction {
 							if (ghostDists[ghost] >= 0 && ghostDists[ghost] < MyPacMan.CLOSE_DIST) {
 								
 								// ghost is in path
-								if (ghosts[ghost] == paths[path][step]) {
+								//int pathDist = game.getPathDistance(paths[path][step], ghosts[ghost]);
+								int myDist = game.getPathDistance(current, paths[path][step]);
+								int ghostDist = game.getGhostPathDistance(ghost, paths[path][step]);
+								if (ghostDist > 0 && ghostDist < MyPacMan.POWER_DIST && (ghostDist < myDist + 1)) {
+								//if (pathDist > 0 && pathDist < MyPacMan.POWER_DIST) {
 									skipPath = true;
 									break;
 								} 
@@ -113,6 +117,9 @@ public class RunAwayAction extends PacManAction {
 			// if no ghost in the way
 			if (!ghostExists) {
 				visitedJunctions.clear();
+				
+				GameView.addPoints(game, Color.MAGENTA, game.getPath(current, target));
+				
 				setTarget(game.getNextPacManDir(target, true, Game.DM.PATH));
 				return true;
 			}
@@ -125,59 +132,67 @@ public class RunAwayAction extends PacManAction {
 
 		@Override
 		public boolean run() {
+			int i;
+			int j = -1;
+			int k;
+			int[] path;
+			int step;
 			
 			int current = game.getCurPacManLoc();
-			int[] neighbour = game.getPacManNeighbours();
+			
+			if (game.isJunction(current)) {
+				visitedJunctions.add(current);
+			}
+			
 			int[] junction = game.getJunctionIndices();
+			int[] array;
+			ArrayList<Integer> list = new ArrayList<Integer>();
 			
-			boolean isJunction = false;
-			isJunction = game.isJunction(current);
-			
-			for (int i = 0; i < neighbour.length && !isJunction; i++) {
-				if (neighbour[i] != -1) {
-					isJunction = game.isJunction(neighbour[i]);
-				}
+			for (i = 0; i < junction.length; i++) {
+				list.add(junction[i]);
 			}
 			
-			if (isJunction) {
-				visitedJunctions.add(game.getTarget(current, junction, true, Game.DM.PATH));
-			}
+			list.removeAll(visitedJunctions);
 			
+			boolean foundPath = false;
+			boolean foundGhost = false;
 			
-			int dist;
-			int[] path;
-			
-			boolean foundJunction = false;
-			boolean skipPath = false;
-			int targetJunction = -1;
-			
-			for (int i = 0; i < junction.length && !foundJunction; i++) {
-				dist = game.getPathDistance(current, junction[i]);
-				path = game.getPath(current, junction[i]);
+			while (!foundPath && !list.isEmpty()) {
+				array = new int[list.size()];
 				
-				if (dist < MAX_PATH_LENGTH && !visitedJunctions.contains(junction[i])) {
-					for (int step = 0; step < path.length && !skipPath; step++) {
-						for (int ghost = 0; ghost < Game.NUM_GHOSTS; ghost++) {
-							if (path[step] == game.getCurGhostLoc(ghost)) {
-								
-								skipPath = true;
-								break;
-							}
+				for (i = 0; i < array.length; i++) {
+					array[i] = list.get(i);
+				}
+				
+				j = game.getTarget(current, array, true, Game.DM.PATH);
+				path = game.getPath(current, j);
+				
+				foundGhost = false;
+				for (step = 0; step < path.length && !foundGhost; step++) {
+					for (k = 0; k < Game.NUM_GHOSTS; k++) {
+						int ghostDist = game.getGhostPathDistance(k, path[step]);
+						int myDist = game.getPathDistance(current, path[step]);
+						
+						//if (distance > 0 && distance < MyPacMan.JUNC_DIST) {
+						if (ghostDist > 0 && ghostDist < MyPacMan.JUNC_DIST && (ghostDist < myDist)) {
+							foundGhost = true;
+							list.remove(new Integer(j));
+							break;
 						}
 					}
-					
-					if (!skipPath) {
-						foundJunction = true;
-						targetJunction = junction[i];
-					}
 				}
+				
+				
+				
+				foundPath = !foundGhost;
 			}
 			
-			if (foundJunction) {
-				GameView.addPoints(game, Color.LIGHT_GRAY, game.getPath(current, targetJunction));
-				setTarget(game.getNextPacManDir(targetJunction, true, Game.DM.PATH));
+			if (foundPath) {
+				GameView.addPoints(game, Color.LIGHT_GRAY, game.getPath(current, j));
+				setTarget(game.getNextPacManDir(j, true, Game.DM.PATH));
 				return true;
 			}
+			
 			return false;
 		}
 		
@@ -194,28 +209,28 @@ public class RunAwayAction extends PacManAction {
 				ghostLocations[i] = game.getCurGhostLoc(i);
 			}
 			
-			setTarget(game.getNextPacManDir(game.getTarget(current, ghostLocations, true, Game.DM.PATH), false, Game.DM.PATH));
+			int target = game.getTarget(current, ghostLocations, true, Game.DM.PATH);
+			//GameView.addPoints(game, Color.RED, game.getPath(current, target));
+			setTarget(game.getNextPacManDir(target, false, Game.DM.PATH));
 			visitedJunctions.clear();
 			return true;
 		}
 		
 	}
 	
-	public static final int MAX_PATH_LENGTH = 40;
-	
-	public static LinkedList<Integer> visitedJunctions = new LinkedList<Integer>();
+	public static ArrayList<Integer> visitedJunctions = new ArrayList<Integer>();
 	
 	private int target = -1;
 	Task taskTree;
 	Game game;
 	
 	public RunAwayAction() {
+		
 		taskTree = new Selector();
 		
 		taskTree.children.add(new RunForPowerPill());
-		taskTree.children.add(new RunForPill());
+		//taskTree.children.add(new RunForPill());
 		taskTree.children.add(new RunForJunction());
-		// TODO: add run for junction 
 		taskTree.children.add(new NaiveRunAway());
 	}
 	

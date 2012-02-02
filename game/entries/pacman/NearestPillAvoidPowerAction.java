@@ -5,6 +5,7 @@ import game.core.Game;
 class NearestPillAvoidPowerAction extends PacManAction {
 	@Override
 	public int act(Game game) {
+		RunAwayAction.visitedJunctions.clear();
 		int current = game.getCurPacManLoc();
 		
 		//get all active pills
