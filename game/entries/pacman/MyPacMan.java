@@ -78,7 +78,7 @@ public class MyPacMan implements PacManController
 	*/
 	
 	public static int CLOSE_DIST = 35;
-	public static int CLOSE_BLUE_DIST = 92;
+	public static int CLOSE_BLUE_DIST = 50;
 	
 	public static int[] ghostDist = new int[4];
 	public static int closestGhost = -1;
@@ -147,8 +147,8 @@ public class MyPacMan implements PacManController
 				
 				// return true if blue is closer than non-blue
 				else {
-					return (ghostDist[closestBlueGhost] < CLOSE_BLUE_DIST) && 
-						   (ghostDist[closestNonBlueGhost] < CLOSE_DIST);
+					return !((ghostDist[closestNonBlueGhost] < ghostDist[closestBlueGhost]) && 
+						   (ghostDist[closestNonBlueGhost] < CLOSE_DIST));
 				}
 			}
 		};
