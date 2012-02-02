@@ -7,15 +7,12 @@ public class RunAwayAction extends Action{
   //blue's original path could be useful in this	
   //search for the closest decision nodes, figure out distance between each
   //pick the one farthest away from Ms. Pac-Man	
-  public int[] run(){
-	  /*
+  public int[] execute(Game game){
 	  int[] directions = new int[Game.NUM_GHOSTS];
-	  for(int i=0;i<directions.length;i++)		//for each ghost
+	  for(int i=0;i<directions.length;i++){		//for each ghost
 		if(game.ghostRequiresAction(i))			//if it requires an action
-		  directions[i]=game.getNextGhostDir(i,game.getCurPacManLoc(),false,Game.DM.PATH);
-
+		  directions[i] = game.getNextGhostDir(i,game.getCurPacManLoc(),false,Game.DM.PATH);
+	  }
 		return directions;
-		*/
-	  return null;
   }
 }

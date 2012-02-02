@@ -1,35 +1,43 @@
-package game.entries.ghosts;
+package game.entries.ghosts; //exception at Decision
 import game.core.*;
 import game.core.Game.DM;
 
-public class ChaseAction extends Action {
+public class ChaseAction extends Action{
     
-	public int OrangeGhostDirection(){
-		int direction;
-		/*
-		if (pacManGame.getGhostPathDistance(3,pacManDirection) > 15)
-		  direction = getNextGhostDir(3,pacManDirection,true,Game.DM.PATH);
-		else if (pacManGame.getGhostPathDistance(3,pacManDirection) > 7 && pacManGame.getGhostPathDistance(3,pacManDirection) < 15)
-		  direction = getNextGhostDir(3,getNextPacManDir(true,PATH),true,PATH);
+	public int OrangeGhostLocation(Game game,int whichGhost){
+		int location;
+		if (game.getEuclideanDistance(game.getCurGhostLoc(whichGhost),game.getCurPacManLoc()) > 10)
+		  location = getNextPacManNode(game);
 		else
-		  direction = getNextGhostDir(3,pacManDirection,true,PATH); 	
-		  */
-		return -1;
+			location = game.getCurPacManLoc();
+		return location;
 	}
 	
-	public int[] Chase(){
-		/*
-	  int[] directions = new int[Game.NUM_GHOSTS];
+	public int getNextPacManNode(Game game){
+		return game.getNeighbour(game.getCurPacManLoc(),game.getCurPacManDir());
+	}
+	
+	public int[] execute(Game game){
+	  int[] directions = new int[Game.NUM_GHOSTS]; 
 	  //make red follow pac man
-	  directions[0] = pacManGame.getNextGhostDir(0,pacManDirection,true,PATH);	 
-	  //make pink flank pac man
-	  directions[1] = pacManGame.getNextGhostDir(1,getNextPacManDir(true,PATH),true,PATH);
-	  //make blue chase pac man as usual
-	  directions[2] = pacManGame.getNextGhostDir(2,(pacManGame.getGhostPathDistance(1,pacManDirection + 2)*2),true,pacManGame.PATH); 
-	  //make orange follow red, but flank and follow alongside pac man and then corner him
-	  directions[3] = getNextGhostDir(3,OrangeGhostDirection(),true,PATH);
+	  directions[0] = game.getNextGhostDir(0,game.getCurPacManLoc(),true,Game.DM.PATH);
+	  if (getNextPacManNode(game) == -1){
+		  directions[1] = 0;
+          directions[3] = game.getCurPacManDir();
+          directions[2] = game.getNextGhostDir(0,game.getCurPacManLoc(),true,Game.DM.PATH);
+	  }	  
+	  else{
+		//make pink flank pac man  
+	    directions[1] = game.getNextGhostDir(1,getNextPacManNode(game),true,Game.DM.PATH);
+	    //make blue mimic pac man and go for the kill
+	    if(game.getCurGhostDir(3) == -1 || game.getGhostPathDistance(3, game.getCurPacManLoc()) < 4)
+	    	directions[3] = game.getNextGhostDir(0,game.getCurPacManLoc(),true,Game.DM.PATH);
+	    else
+	      directions[3] = game.getNextGhostDir(3,game.getCurPacManLoc(),true,Game.DM.PATH);   
+	    //make orange follow red, but flank and follow alongside pac man and then corner him
+	    directions[2] = game.getNextGhostDir(2,OrangeGhostLocation(game,2),true,Game.DM.PATH);
+	  }
 	  return directions;
-	  */
-		return null;
   }
+
 }

@@ -1,9 +1,8 @@
 package game.entries.ghosts;
 
-import game.entries.ghosts.*;
 import game.controllers.GhostController;
 import game.core.Game;
-import java.util.*;
+
 
 /*
  * This is the class you need to modify for your entry. In particular, you need to
@@ -12,25 +11,25 @@ import java.util.*;
  */
 public class MyGhosts implements GhostController{
 	
-	 Decision root;
+	 Decision rootIsBlue;
 	 	 
 	 public MyGhosts(){
+		 Action chasePacMan = new ChaseAction();
 		 Action runAway = new RunAwayAction();
-		 Action chaseAfter = new ChaseAction();
-		 Decision powerPill = new Decision();
-		 root = new Decision();
-		 root.threshold = 6;
-		 root.testValue = new DistanceToPacMan();
-		 root.trueAction = runAway;
-		 root.falseNode = powerPill;
-		 powerPill.threshold = 6;
-		 powerPill.testValue = new DistanceToPacMan();
-		 powerPill.trueAction = runAway;
-		 powerPill.falseAction = chaseAfter;
+		 Decision powerPill = new PowerPillClose();
+		 rootIsBlue = new IsBlue();
+		 rootIsBlue.trueNode = runAway;
+		 rootIsBlue.falseNode = powerPill;
+		 powerPill.falseNode = chasePacMan;
+		 powerPill.trueNode = runAway;
+		 
 	 }
 	//Place your game logic here to play the game as the ghosts
 	public int[] getActions(Game game,long timeDue)
 	{
-		return null;
+		MyGhosts ghost = new MyGhosts();
+		Action nextAction = (Action) ghost.rootIsBlue.makeDecision(game); //exception here
+		return nextAction.execute(game);		
+		
 	}
 }

@@ -1,7 +1,5 @@
-/**
- * 
- */
-package game.entries.ghosts;
+package ai.fun.ghosts;
+
 import game.core.*;
 
 /**
@@ -14,24 +12,24 @@ abstract class DecisionNode {
 }
 
 
- public abstract class Decision extends DecisionNode{
+public abstract class Decision extends DecisionNode{
 	public DecisionNode trueNode;
 	public DecisionNode falseNode;
-	
+
 	public DecisionNode getBranch(Game game){
 		System.out.println("Warning!");
 		return null;
 	}
-		
-	
+
+
 
 
 	public Action makeDecision(Game game) {
-		  DecisionNode branch = this.getBranch(game);
-		  return branch.makeDecision(game); 
+		DecisionNode branch = this.getBranch(game);
+		return branch.makeDecision(game); 
 	}
 
- }
+}
 
 
 
