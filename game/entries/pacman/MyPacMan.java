@@ -71,7 +71,13 @@ public class MyPacMan implements PacManController
 		}
 	}
 	
+	/*
+	// reckoning
 	public static int CLOSE_DIST = 80;
+	public static int CLOSE_BLUE_DIST = 92;
+	*/
+	
+	public static int CLOSE_DIST = 35;
 	public static int CLOSE_BLUE_DIST = 92;
 	
 	public static int[] ghostDist = new int[4];

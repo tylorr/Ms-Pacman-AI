@@ -1,6 +1,7 @@
 package game.entries.pacman;
 
 import java.awt.Color;
+import java.util.LinkedList;
 
 import ai.behaviourtree.Selector;
 import ai.behaviourtree.Task;
@@ -79,6 +80,8 @@ public class RunAwayAction extends PacManAction {
 					GameView.addPoints(game, Color.GREEN, game.getPath(current, targets[targetIndex]));
 					//return game.getNextPacManDir(targets[targetIndex], true, Game.DM.PATH);
 					setTarget(game.getNextPacManDir(targets[targetIndex], true, Game.DM.PATH));
+					
+					visitedJunctions.clear();
 					return true;
 				}
 			}
@@ -109,7 +112,70 @@ public class RunAwayAction extends PacManAction {
 			
 			// if no ghost in the way
 			if (!ghostExists) {
+				visitedJunctions.clear();
 				setTarget(game.getNextPacManDir(target, true, Game.DM.PATH));
+				return true;
+			}
+			return false;
+		}
+		
+	}
+	
+	class RunForJunction extends Task {
+
+		@Override
+		public boolean run() {
+			
+			int current = game.getCurPacManLoc();
+			int[] neighbour = game.getPacManNeighbours();
+			int[] junction = game.getJunctionIndices();
+			
+			boolean isJunction = false;
+			isJunction = game.isJunction(current);
+			
+			for (int i = 0; i < neighbour.length && !isJunction; i++) {
+				if (neighbour[i] != -1) {
+					isJunction = game.isJunction(neighbour[i]);
+				}
+			}
+			
+			if (isJunction) {
+				visitedJunctions.add(game.getTarget(current, junction, true, Game.DM.PATH));
+			}
+			
+			
+			int dist;
+			int[] path;
+			
+			boolean foundJunction = false;
+			boolean skipPath = false;
+			int targetJunction = -1;
+			
+			for (int i = 0; i < junction.length && !foundJunction; i++) {
+				dist = game.getPathDistance(current, junction[i]);
+				path = game.getPath(current, junction[i]);
+				
+				if (dist < MAX_PATH_LENGTH && !visitedJunctions.contains(junction[i])) {
+					for (int step = 0; step < path.length && !skipPath; step++) {
+						for (int ghost = 0; ghost < Game.NUM_GHOSTS; ghost++) {
+							if (path[step] == game.getCurGhostLoc(ghost)) {
+								
+								skipPath = true;
+								break;
+							}
+						}
+					}
+					
+					if (!skipPath) {
+						foundJunction = true;
+						targetJunction = junction[i];
+					}
+				}
+			}
+			
+			if (foundJunction) {
+				GameView.addPoints(game, Color.LIGHT_GRAY, game.getPath(current, targetJunction));
+				setTarget(game.getNextPacManDir(targetJunction, true, Game.DM.PATH));
 				return true;
 			}
 			return false;
@@ -129,10 +195,15 @@ public class RunAwayAction extends PacManAction {
 			}
 			
 			setTarget(game.getNextPacManDir(game.getTarget(current, ghostLocations, true, Game.DM.PATH), false, Game.DM.PATH));
-			return false;
+			visitedJunctions.clear();
+			return true;
 		}
 		
 	}
+	
+	public static final int MAX_PATH_LENGTH = 40;
+	
+	public static LinkedList<Integer> visitedJunctions = new LinkedList<Integer>();
 	
 	private int target = -1;
 	Task taskTree;
@@ -143,6 +214,7 @@ public class RunAwayAction extends PacManAction {
 		
 		taskTree.children.add(new RunForPowerPill());
 		taskTree.children.add(new RunForPill());
+		taskTree.children.add(new RunForJunction());
 		// TODO: add run for junction 
 		taskTree.children.add(new NaiveRunAway());
 	}
@@ -156,7 +228,9 @@ public class RunAwayAction extends PacManAction {
 		this.game = game;
 		this.target = -1;
 		
-		taskTree.run();
+		if (!taskTree.run()) {
+			throw new RuntimeException("No Selection");
+		}
 		
 		return target;
 	}
