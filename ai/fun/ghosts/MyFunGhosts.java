@@ -10,27 +10,27 @@ import game.core.Game;
  * be placed in this package or sub-packages (e.g., game.entries.ghosts.mypackage).
  */
 public class MyFunGhosts implements GhostController{
-	
-	 Decision rootIsBlue;
-	 	 
-	 public MyFunGhosts(){
-		 Action chasePacMan = new ChaseAction();
-		 Action chaseNewDir = new ChaseNewRouteAction();
-		 Action runAway = new RunAwayAction();
-		 Decision ate = new IsEaten();
-		 rootIsBlue = new IsBlue();
-		 rootIsBlue.trueNode = ate;
-		 rootIsBlue.falseNode = chasePacMan;
-		 ate.falseNode = runAway;
-		 ate.trueNode = chaseNewDir;
-		 
-	 }
+
+	Decision rootIsBlue;
+
+	public MyFunGhosts(){
+		Action chasePacMan = new ChaseAction();
+		Action chaseNewDir = new ChaseNewRouteAction();
+		Action runAway = new RunAwayAction();
+		Decision ate = new IsEaten();
+		rootIsBlue = new IsBlue();
+		rootIsBlue.trueNode = ate;
+		rootIsBlue.falseNode = chasePacMan;
+		ate.falseNode = runAway;
+		ate.trueNode = chaseNewDir;
+
+	}
 	//Place your game logic here to play the game as the ghosts
 	public int[] getActions(Game game,long timeDue)
 	{
-		MyFunGhosts ghost = new MyFunGhosts();
-		Action nextAction = (Action) ghost.rootIsBlue.makeDecision(game); //exception here
+		//MyFunGhosts ghost = new MyFunGhosts();
+		Action nextAction = rootIsBlue.makeDecision(game); //exception here
 		return nextAction.execute(game);		
-		
+
 	}
 }
