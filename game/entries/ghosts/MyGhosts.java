@@ -22,13 +22,13 @@ public class MyGhosts implements GhostController{
 		 rootIsBlue.falseNode = powerPill;
 		 powerPill.falseNode = chasePacMan;
 		 powerPill.trueNode = runAway;
+
 		 
 	 }
 	//Place your game logic here to play the game as the ghosts
 	public int[] getActions(Game game,long timeDue)
 	{
-		MyGhosts ghost = new MyGhosts();
-		Action nextAction = (Action) ghost.rootIsBlue.makeDecision(game); //exception here
+		Action nextAction = (Action) rootIsBlue.makeDecision(game); //exception here
 		return nextAction.execute(game);		
 		
 	}
