@@ -28,8 +28,7 @@ public class MyFunGhosts implements GhostController{
 	//Place your game logic here to play the game as the ghosts
 	public int[] getActions(Game game,long timeDue)
 	{
-		//MyFunGhosts ghost = new MyFunGhosts();
-		Action nextAction = rootIsBlue.makeDecision(game); //exception here
+		Action nextAction = (Action) rootIsBlue.makeDecision(game); //exception here
 		return nextAction.execute(game);		
 
 	}

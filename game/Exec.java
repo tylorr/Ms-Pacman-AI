@@ -44,11 +44,11 @@ public class Exec
 		//exec.runMyExperiment(new Legacy2TheReckoning(), 100, 80, 95, 1);
 		
 		//this can be used for numerical testing (non-visual, no delays)
-//		exec.runExperiment(new MyPacMan(),new MyGhosts(),100);
+		exec.runExperiment(new MyPacMan(),new MyGhosts(),100);
 		
 
-		//run game without time limits (un-comment if required) 
-		//exec.runGame(new RandomNonRevPacMan(),new MyFunGhosts(),true,G.DELAY);
+		//run game without time limits (un-comment if required)
+//		exec.runGame(new Human(),new MyFunGhosts(),true,G.DELAY);
 		
 		//run game with time limits (un-comment if required)
 //		exec.runGameTimed(new Human(),new AttractRepelGhosts(true),true);
@@ -59,7 +59,7 @@ public class Exec
 		//running many games in non-visual mode - one can then pick out those that appear irregular
 		//and replay them in visual mode to see what is happening.
 		//you can play as pacman in this version but ghosts scatter at this point
-		//exec.runGameTimedAndRecorded(new Human(),new MyFunGhosts(),true,"human-v-Legacy2.txt");
+//		exec.runGameTimedAndRecorded(new Human(),new MyFunGhosts(),true,"human-v-Legacy2.txt");
 //		exec.replayGame("human-v-Legacy2.txt");
 		
 		
