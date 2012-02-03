@@ -45,7 +45,8 @@ public class Exec
 		
 		//this can be used for numerical testing (non-visual, no delays)
 		//exec.runExperiment(new MyPacMan(),new RandomGhosts(),100);
-		exec.runGameTimed(new MyPacMan(), new RandomGhosts(), true);
+		exec.runOptimizeExperiment(new Legacy(), 10, 20, 40, 40, 60, 0, 10, 0, 10, 5);
+		//exec.runGameTimed(new MyPacMan(), new RandomGhosts(), true);
 		
 
 		//run game without time limits (un-comment if required)
@@ -161,6 +162,73 @@ public class Exec
     	}
     	
     	System.out.println("Best Close: " + bestClose + " blue: " + bestBlue);
+    	System.out.println(bestScore);
+    }
+    
+    public void runOptimizeExperiment(
+    		GhostController ghostController, int trials, 
+    		int close_min, int close_max,
+    		int blue_min, int blue_max,
+    		int power_min, int power_max,
+    		int junc_min, int junc_max,
+    		int step)
+    {
+    	PacManController pacManController = new MyPacMan();
+    	
+    	int bestClose = -1;
+    	int bestBlue = -1;
+    	int bestPower = -1;
+    	int bestJunc = -1;
+    	double bestScore = Double.MIN_VALUE;
+    	
+    	for (int close = close_min; close <= close_max; close += step) {
+    		System.out.println("Tick: " + close);
+    		for (int blue = blue_min; blue <= blue_max; blue += step) {
+    			System.out.println("\tTick: " + blue);
+    			for (int power = power_min; power <= power_max; power += step) {
+    				System.out.println("\t\tTick: " + power);
+    				for (int junc = junc_min; junc <= junc_max; junc += step) {
+    					System.out.println("\t\t\tTick: " + junc);
+		    			MyPacMan.CLOSE_DIST = close;
+		    			MyPacMan.CLOSE_BLUE_DIST = blue;
+		    			MyPacMan.POWER_DIST = power;
+		    			MyPacMan.JUNC_DIST = junc;
+				    	
+				    	double avgScore=0;
+				    	
+						game=new _G_();
+						
+						for(int i=0;i<trials;i++)
+						{
+							game.newGame();
+							
+							while(!game.gameOver())
+							{
+								long due=System.currentTimeMillis()+G.DELAY;
+						        game.advanceGame(pacManController.getAction(game.copy(),due),ghostController.getActions(game.copy(),due));
+							}
+							
+							avgScore+=game.getScore();
+						}
+						
+						avgScore /= trials;
+						
+						if (avgScore > bestScore) {
+							bestScore = avgScore;
+							bestClose = close;
+							bestBlue = blue;
+							bestPower = power;
+							bestJunc = junc;
+						}
+    				}
+				}
+    		}
+    	}
+    	
+    	System.out.println("Best Close: " + bestClose);
+    	System.out.println("Best blue: " + bestBlue);
+    	System.out.println("Best power: " + bestPower);
+    	System.out.println("Best junc: " + bestJunc);
     	System.out.println(bestScore);
     }
     
