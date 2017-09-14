@@ -9,17 +9,17 @@ package game.core;
 public final class _RG_ extends _G_
 {	
 	//Updates the locations of the ghosts without reversals
-	protected void updateGhosts(int[] directions,boolean reverse)
+	protected void updateEnemies(int[] directions, boolean reverse)
 	{
-		super.updateGhosts(directions,false);
+		super.updateEnemies(directions,false);
 	}
 	
-	public int checkGhostDir(int whichGhost,int direction)
+	public int checkEnemyDir(int whichEnemy, int direction)
 	{
 		return direction;
 	}
 	
-	public int checkPacManDir(int direction)
+	public int checkHeroDir(int direction)
 	{
 		return direction;		
 	}

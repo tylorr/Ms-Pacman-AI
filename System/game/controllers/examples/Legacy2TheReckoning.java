@@ -1,10 +1,10 @@
 package game.controllers.examples;
 
-import game.controllers.GhostController;
+import game.controllers.EnemyController;
 import game.core.Game;
 import game.core.Node;
 
-public class Legacy2TheReckoning implements GhostController
+public class Legacy2TheReckoning implements EnemyController
 {
 	public static final int CROWDED_DISTANCE=30;
 	public static final int PACMAN_DISTANCE=10;
@@ -14,26 +14,26 @@ public class Legacy2TheReckoning implements GhostController
     
     public Legacy2TheReckoning()
     {
-        dirs=new int[Game.NUM_GHOSTS];
+        dirs=new int[Game.NUM_ENEMY];
     }
 
     public int[] getActions(Game game,long timeDue)
     {
-    	Node pacmanLoc = game.getCurPacManLoc();
+    	Node pacmanLoc = game.getCurHeroLoc();
     	
         for(int i=0;i<dirs.length;i++)      
         {
-        	if(game.ghostRequiresAction(i))
+        	if(game.enemyRequiresAction(i))
         	{
         		//if ghosts are all in close proximity and not near Ms Pac-Man, disperse
-        		if(isCrowded(game) && !closeToMsPacMan(game,game.getCurGhostLoc(i)))
+        		if(isCrowded(game) && !closeToMsPacMan(game,game.getCurEnemyLoc(i)))
         			dirs[i]=getRetreatActions(game,i);                          				//go towards the power pill locations
         		//if edible or Ms Pac-Man is close to power pill, move away from Ms Pac-Man
         		else if(game.getEdibleTime(i)>0 || closeToPower(game))
-        			dirs[i]=game.getNextGhostDir(i,pacmanLoc,false,Game.DM.PATH);      			//move away from ms pacman
+        			dirs[i]=game.getNextEnemyDir(i,pacmanLoc,false,Game.DM.PATH);      			//move away from ms pacman
         		//else go towards Ms Pac-Man
         		else        		
-        			dirs[i]=game.getNextGhostDir(i,pacmanLoc,true,Game.DM.PATH);       			//go towards ms pacman
+        			dirs[i]=game.getNextEnemyDir(i,pacmanLoc,true,Game.DM.PATH);       			//go towards ms pacman
         	}
         }
         
@@ -42,7 +42,7 @@ public class Legacy2TheReckoning implements GhostController
 
     private boolean closeToPower(Game game)
     {
-    	Node pacmanLoc = game.getCurPacManLoc();
+    	Node pacmanLoc = game.getCurHeroLoc();
     	Node[] powerPills = game.getPowerPillNodes();
     	
     	for(int i=0;i<powerPills.length;i++)
@@ -54,7 +54,7 @@ public class Legacy2TheReckoning implements GhostController
 
     private boolean closeToMsPacMan(Game game, Node location)
     {
-    	if(game.getPathDistance(game.getCurPacManLoc(), location) < PACMAN_DISTANCE)
+    	if(game.getPathDistance(game.getCurHeroLoc(), location) < PACMAN_DISTANCE)
     		return true;
 
     	return false;
@@ -64,18 +64,18 @@ public class Legacy2TheReckoning implements GhostController
     {
         float distance=0;
 
-        for (int i=0;i<Game.NUM_GHOSTS-1;i++)
-            for(int j=i+1;j<Game.NUM_GHOSTS;j++)
-                distance+=game.getPathDistance(game.getCurGhostLoc(i),game.getCurGhostLoc(j));
+        for (int i = 0; i<Game.NUM_ENEMY -1; i++)
+            for(int j = i+1; j<Game.NUM_ENEMY; j++)
+                distance+=game.getPathDistance(game.getCurEnemyLoc(i),game.getCurEnemyLoc(j));
         
         return (distance/6)<CROWDED_DISTANCE ? true : false;
     }
 
     private int getRetreatActions(Game game,int index)
     {
-        if(game.getEdibleTime(index)==0 && game.getPathDistance(game.getCurGhostLoc(index),game.getCurPacManLoc())<PACMAN_DISTANCE)
-            return game.getNextGhostDir(index,game.getCurPacManLoc(),true,Game.DM.PATH);
+        if(game.getEdibleTime(index)==0 && game.getPathDistance(game.getCurEnemyLoc(index),game.getCurHeroLoc())<PACMAN_DISTANCE)
+            return game.getNextEnemyDir(index,game.getCurHeroLoc(),true,Game.DM.PATH);
         else
-            return game.getNextGhostDir(index,game.getPowerPillNodes()[index],true,Game.DM.PATH);
+            return game.getNextEnemyDir(index,game.getPowerPillNodes()[index],true,Game.DM.PATH);
     }
 }

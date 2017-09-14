@@ -1,11 +1,11 @@
 /*
- * Implementation of "Ms Pac-Man" for the "Ms Pac-Man versus Ghost Team Competition", brought
- * to you by Philipp Rohlfshagen, David Robles and Simon Lucas of the University of Essex.
+ * Generalized update based on "Ms Pac-Man versus Ghost Team Competition" by
+ * Philipp Rohlfshagen, David Robles and Simon Lucas of the University of Essex.
  * 
- * www.pacman-vs-ghosts.net
- * 
- * Code written by Philipp Rohlfshagen, based on earlier implementations of the game by
- * Simon Lucas and David Robles. 
+ * Generalized version written by Jeremiah Blanchard at the University of Florida (2017).
+ *
+ * Original code written by Philipp Rohlfshagen, based on earlier implementations of
+ * the game by Simon Lucas and David Robles.
  * 
  * You may use and distribute this code freely for non-commercial purposes. This notice 
  * needs to be included in all distributions. Deviations from the original should be 
@@ -30,82 +30,78 @@ public interface Game
 	public static final int EMPTY=-1;						//value of an non-existing neighbour
 	public static final int PILL=10;						//points for a pill
 	public static final int POWER_PILL=50;					//points for a power pill
-	public static final int GHOST_EAT_SCORE=200;			//score for the first ghost eaten (doubles every time for the duration of a single power pill)
-	public static final int EDIBLE_TIME=200;				//initial time a ghost is edible for (decreases as level number increases) 
+	public static final int ENEMY_EAT_SCORE =200;			//score for the first enemy eaten (doubles every time for the duration of a single power pill)
+	public static final int EDIBLE_TIME=200;				//initial time an enemy is edible for (decreases as level number increases)
 	public static final float EDIBLE_TIME_REDUCTION=0.9f;	//reduction factor by which edible time decreases as level number increases
-	public static final int[] LAIR_TIMES={40,60,80,100};	//time spend in the lair by each ghost at the start of a level
+	public static final int[] LAIR_TIMES={40,60,80,100};	//time spend in the lair by each enemy at the start of a level
 	public static final int COMMON_LAIR_TIME=40;			//time spend in lair after being eaten
 	public static final float LAIR_REDUCTION=0.9f;			//reduction factor by which lair times decrease as level number increases
 	public static final int LEVEL_LIMIT=3000;				//time limit for a level
-	public static final float GHOST_REVERSAL=0.0015f;		//probability of a global ghost reversal event
+	public static final float ENEMY_REVERSAL =0.0015f;		//probability of a global enemy reversal event
 	public static final int MAX_LEVELS=16;					//maximum number of levels played before the end of the game
 	public static final int EXTRA_LIFE_SCORE=10000;			//extra life is awarded when this many points have been collected
 	public static final int EAT_DISTANCE=2;					//distance in the connected graph considered close enough for an eating event to take place
-	public static final int NUM_GHOSTS=4;					//number of ghosts in the game
+	public static final int NUM_ENEMY =4;					//number of enemies in the game
 	public static final int NUM_MAZES=4;					//number of different mazes in the game
 	public static final int DELAY=40;						//delay (in milliseconds) between game advancements						
-	public static final int NUM_LIVES=3;					//total number of lives Ms Pac-Man has (current + NUM_LIVES-1 spares)
-	public static final int INITIAL_PAC_DIR=3;				//initial direction taken by Ms Pac-Man
-	public static final int[] INITIAL_GHOST_DIRS={3,1,3,1};	//initial directions for the ghosts (after leaving the lair)
-	public static final int GHOST_SPEED_REDUCTION=2;		//difference in speed when ghosts are edible (every GHOST_SPEED_REDUCTION, a ghost remains stationary)
+	public static final int NUM_LIVES=3;					//total number of lives the hero has (current + NUM_LIVES-1 spares)
+	public static final int INITIAL_HERO_DIR =3;				//initial direction taken by the hero
+	public static final int[] INITIAL_ENEMY_DIRS ={3,1,3,1};	//initial directions for the enemies (after leaving the lair)
+	public static final int ENEMY_SPEED_REDUCTION =2;		//difference in speed when enemies are edible (every ENEMY_SPEED_REDUCTION, an enemy remains stationary)
 
 	public Game copy();												//returns an exact copy of the game (forward model)
-	public int[] advanceGame(int pacManDir,int[] ghostDirs);		//advances the game using the actions (directions) supplied; returns all directions played [PacMan, Ghost1, Ghost2, Ghost3, Ghost4]
+	public int[] advanceGame(int heroDir, int[] enemyDirs);		//advances the game using the actions (directions) supplied; returns all directions played [Hero, Enemy1, Enemy2, Enemy3, Enemy4]
 	public int getReverse(int direction);							//returns the reverse of the direction supplied
-	public boolean gameOver();										//returns true is Ms Pac-Man has lost all her lives or if MAX_LEVELS has been reached
+	public boolean gameOver();										//returns true if the hero has lost all her lives or if MAX_LEVELS has been reached
 	public boolean checkPill(int pillIndex);						//checks if the pill specified is still available
 	public boolean checkPowerPill(int powerPillIndex);				//checks if the power pill specified is still available
 	
-	public Node[] getPacManNeighbours();								//returns an array of size 4, indicating neighbouring nodes for the current position of Ms Pac-Man. E.g., [-1,12,-1,44] for neighbours 12 and 44 in direction RIGHT and LEFT
-	public Node[] getGhostNeighbours(int whichGhost);				//returns an array of size 4, indicating neighbouring nodes for the current position of the ghost specified. Replaces the direction corresponding to the opposite previous direction with -1
+	public Node[] getHeroNeighbors();								//returns an array of size 4, indicating neighbouring nodes for the current position of the hero. E.g., [-1,12,-1,44] for neighbours 12 and 44 in direction RIGHT and LEFT
+	public Node[] getEnemyNeighbors(int whichEnemy);				//returns an array of size 4, indicating neighbouring nodes for the current position of the enemy specified. Replaces the direction corresponding to the opposite previous direction with -1
 
 	public int getCurLevel();										//returns the current level
 	public int getCurMaze();										//returns the current maze
-	public Node getCurPacManLoc();									//returns the node index Ms Pac-Man is at
-	public int getCurPacManDir();									//returns the last direction taken by Ms Pac-Man
-	public int getLivesRemaining();									//returns the number of lives remaining for Ms Pac-Man
-	public Node getCurGhostLoc(int whichGhost);						//returns the node index for the ghost specified
-	public int getCurGhostDir(int whichGhost);						//returns the last direction taken by the ghost specified
-	public int getEdibleTime(int whichGhost);						//returns the edible time (time left in which the ghost can be eaten) for the ghost specified
-	public boolean isEdible(int whichGhost);						//returns true if the ghost is currently edible
+	public Node getCurHeroLoc();									//returns the node index the hero is at
+	public int getCurHeroDir();									//returns the last direction taken by the hero
+	public int getLivesRemaining();									//returns the number of lives remaining for the hero
+	public Node getCurEnemyLoc(int whichEnemy);						//returns the node index for the enemy specified
+	public int getCurEnemyDir(int whichEnemy);						//returns the last direction taken by the enemy specified
+	public int getEdibleTime(int whichEnemy);						//returns the edible time (time left in which the enemy can be eaten) for the enemy specified
+	public boolean isEdible(int whichEnemy);						//returns true if the enemy is currently edible
 	public int getScore();											//returns the score of the game
 	public int getLevelTime();										//returns the time for which the CURRENT level has been played
 	public int getTotalTime();										//returns the time for which the game has been played (across all levels)
 	public int getNumberPills();									//returns the total number of pills in this maze (at the beginning of the level)
 	public int getNumberPowerPills();								//returns the total number of power pills in this maze (at the beginning of the level)
-	public int getLairTime(int whichGhost);							//returns the time remaining the ghost specified spends in the lair
-	public boolean ghostRequiresAction(int whichGhost);				//returns true of ghost is at a junction and a direction is needed	
+	public int getLairTime(int whichEnemy);							//returns the time remaining the enemy specified spends in the lair
+	public boolean enemyRequiresAction(int whichEnemy);				//returns true of enemy is at a junction and a direction is needed
 	public String getName();										//returns the name of the maze
-	public Node getInitialPacPosition();								//returns the position where Ms Pac-Man starts at the beginning of the level
-	public Node getInitialGhostsPosition();							//returns the position where the ghosts starts at the beginning of the level, AFTER leaving the lair
+	public Node getInitialHeroPosition();								//returns the position where the hero starts at the beginning of the level
+	public Node getInitialEnemiesPosition();							//returns the position where the enemies starts at the beginning of the level, AFTER leaving the lair
 	public int getNumberOfNodes();									//returns the total number of nodes in the graph (pills, power pills and empty)
-	public int getX(int nodeIndex);									//returns the x-coordinate of the node specified
-	public int getY(int nodeIndex);									//returns the y-coordinate of the node specified
 	public int getPillIndex(Node node);							//returns the pill index of the node specified (can be used with the bitset for the pills)
 	public int getPowerPillIndex(Node node);					//returns the power pill index of the node specified (can be used with the bitset for the power pills)
 	public Node getNeighbor(Node startNode, int direction);			//returns the neighbour of the node specified for the direction supplied
 	public Node[] getPillNodes();									//returns all nodes with pills
-	public int[] getPillIndices();									//returns indices to all nodes with pills
 	public Node[] getPowerPillNodes();								//returns all nodes with power pills
-	public int[] getPowerPillIndices();								//returns indices to all nodes with power pills
-	public int[] getJunctionIndices();								//returns indices to all nodes that are junctions
-	public boolean isJunction(int nodeIndex);						//returns true if node is a junction (more than 2 neighbours)
-	public int getNumNeighbours(int nodeIndex);						//returns the number of neighbours of the node specified
+	public Node[] getJunctionNodes();								//returns indices to all nodes that are junctions
+	public boolean isJunction(Node node);						//returns true if node is a junction (more than 2 neighbours)
+	public int getNumNeighbors(Node node);						//returns the number of neighbours of the node specified
 	
 	public enum DM{PATH,EUCLID,MANHATTEN};				 			//simple enumeration for use with the direction methods (below)
-	public int getNextPacManDir(Node to, boolean closer, DM measure);	//returns the direction Ms Pac-Man should take to approach/retreat from the node specified, using the distance measure specified
-	public int getNextGhostDir(int whichGhost, Node to, boolean closer, DM measure);	//returns the direction the ghost specified should take to approach/retreat from the node specified, using the distance measure specified
+	public int getNextHeroDir(Node to, boolean closer, DM measure);	//returns the direction the hero should take to approach/retreat from the node specified, using the distance measure specified
+	public int getNextEnemyDir(int whichEnemy, Node to, boolean closer, DM measure);	//returns the direction the enemy specified should take to approach/retreat from the node specified, using the distance measure specified
 	
 	public int getPathDistance(Node from, Node to);					//returns the shortest path distance (Dijkstra) from one node to another
 	public double getEuclideanDistance(Node from, Node to);			//returns the Euclidean distance between two nodes
-	public int getManhattenDistance(Node from, Node to);				//returns the Manhatten distance between two nodes
+	public int getManhattanDistance(Node from, Node to);				//returns the Manhattan distance between two nodes
 	
-	public int[] getPossiblePacManDirs(boolean includeReverse);		//returns the set of possible directions for Ms Pac-Man, with or without the direction opposite to the last direction taken
-	public int[] getPossibleGhostDirs(int whichGhost);				//returns the set of possible directions for the ghost specified (excludes the opposite of the previous direction)
+	public int[] getPossibleHeroDirs(boolean includeReverse);		//returns the set of possible directions for the hero, with or without the direction opposite to the last direction taken
+	public int[] getPossibleEnemyDirs(int whichEnemy);				//returns the set of possible directions for the enemy specified (excludes the opposite of the previous direction)
 
 	public Node[] getPath(Node from, Node to);							//returns the path from one node to another (e.g., [1,2,5,7,9] for 1 to 9)
-	public Node[] getGhostPath(int whichGhost, Node to);				//returns the path from one node to another, taking into account that reversals are not possible
+	public Node[] getEnemyPath(int whichEnemy, Node to);				//returns the path from one node to another, taking into account that reversals are not possible
 	public Node getTarget(Node from, Node[] targets, boolean nearest, DM measure);	//selects a target from 'targets' given current position ('from'), a distance measure and whether it should be the point closest or farthest
-	public Node getGhostTarget(int whichGhost, Node[] targets, boolean nearest);	//selects a target for a ghost (accounts for the fact that ghosts may not reverse)
-	public int getGhostPathDistance(int whichGhost, Node to);			//returns the distance of a path for the ghost specified (accounts for the fact that ghosts may not reverse)
+	public Node getEnemyTarget(int whichEnemy, Node[] targets, boolean nearest);	//selects a target for an enemy (accounts for the fact that enemies may not reverse)
+	public int getEnemyPathDistance(int whichEnemy, Node to);			//returns the distance of a path for the enemy specified (accounts for the fact that enemies may not reverse)
 }

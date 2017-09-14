@@ -1,12 +1,10 @@
 /*
- * Implementation of "Ms Pac-Man" for the "Ms Pac-Man versus Ghost Team Competition", brought
- * to you by Philipp Rohlfshagen, David Robles and Simon Lucas of the University of Essex.
- * 
- * www.pacman-vs-ghosts.net
- * 
+ *
  * Code written by Philipp Rohlfshagen, based on earlier implementations of the game by
  * Simon Lucas and David Robles. 
- * 
+ *
+ * Code refactored and updated by Jeremiah Blanchard at the University of Florida (2017).
+ *
  * You may use and distribute this code freely for non-commercial purposes. This notice 
  * needs to be included in all distributions. Deviations from the original should be 
  * clearly documented. We welcome any comments and suggestions regarding the code.
@@ -24,9 +22,9 @@ import java.util.BitSet;
 import java.util.Random;
 
 /*
- * Simple implementation of Ms Pac-Man. The class Game contains all code relating to the
- * game; the class GameView displays the game. Controllers must implement PacManController
- * and GhostController respectively. The game may be executed using Exec.
+ * Simple implementation of the game. The class Game contains all code relating to the
+ * game; the class GameView displays the game. Controllers must implement HeroController
+ * and EnemyController respectively. The game may be executed using Exec.
  */
 public class G implements Game
 {	
@@ -45,16 +43,16 @@ public class G implements Game
 	//Variables (game state):
 	protected BitSet pills,powerPills;
 	//level-specific
-	protected int curMaze,totLevel,levelTime,totalTime,score,ghostEatMultiplier;
+	protected int curMaze,totLevel,levelTime,totalTime,score, enemyEatMultiplier;
 	protected boolean gameOver;
-	//pac-man-specific
-	protected Node curPacManLoc;
-	protected int lastPacManDir,livesRemaining;
+	//hero-specific
+	protected Node curHeroLoc;
+	protected int lastHeroDir,livesRemaining;
 	protected boolean extraLife;
 
-	//ghosts-specific
-	protected Node[] curGhostLocs;
-	protected int[] lastGhostDirs,edibleTimes,lairTimes;
+	//enemy-specific
+	protected Node[] curEnemyLocs;
+	protected int[] lastHeroDirs,edibleTimes,lairTimes;
 	
 	/////////////////////////////////////////////////////////////////////////////
 	/////////////////  Constructors and Initialisers   //////////////////////////
@@ -82,21 +80,21 @@ public class G implements Game
 		copy.levelTime=levelTime;
 		copy.totalTime=totalTime;
 		copy.score=score;
-		copy.ghostEatMultiplier=ghostEatMultiplier;
+		copy.enemyEatMultiplier = enemyEatMultiplier;
 		copy.gameOver=gameOver;
-		copy.curPacManLoc=curPacManLoc;
-		copy.lastPacManDir=lastPacManDir;
+		copy.curHeroLoc = curHeroLoc;
+		copy.lastHeroDir = lastHeroDir;
 		copy.livesRemaining=livesRemaining;
 		copy.extraLife=extraLife;
-		copy.curGhostLocs=Arrays.copyOf(curGhostLocs,curGhostLocs.length);
-		copy.lastGhostDirs=Arrays.copyOf(lastGhostDirs,lastGhostDirs.length);
+		copy.curEnemyLocs =Arrays.copyOf(curEnemyLocs, curEnemyLocs.length);
+		copy.lastHeroDirs =Arrays.copyOf(lastHeroDirs, lastHeroDirs.length);
 		copy.edibleTimes=Arrays.copyOf(edibleTimes,edibleTimes.length);
 		copy.lairTimes=Arrays.copyOf(lairTimes,lairTimes.length);
 		
 		return copy;
 	}
 	
-	//If pac-man has been eaten or a new level has been reached
+	//If the hero has been eaten or a new level has been reached
 	protected void reset(boolean newLevel)
 	{
 		if(newLevel)
@@ -108,14 +106,14 @@ public class G implements Game
 			powerPills.set(0,getNumberPowerPills());						
 		}
 		
-		curPacManLoc = getInitialPacPosition();
-		lastPacManDir = G.INITIAL_PAC_DIR;
+		curHeroLoc = getInitialHeroPosition();
+		lastHeroDir = G.INITIAL_HERO_DIR;
 		
-		Arrays.fill(curGhostLocs,mazes[curMaze].lairPosition);	
-		lastGhostDirs=Arrays.copyOf(G.INITIAL_GHOST_DIRS,G.INITIAL_GHOST_DIRS.length);
+		Arrays.fill(curEnemyLocs,mazes[curMaze].lairPosition);
+		lastHeroDirs =Arrays.copyOf(G.INITIAL_ENEMY_DIRS,G.INITIAL_ENEMY_DIRS.length);
 	
 		Arrays.fill(edibleTimes,0);		
-		ghostEatMultiplier=1;
+		enemyEatMultiplier =1;
 		
 		for(int i=0;i<lairTimes.length;i++)
 			lairTimes[i]=(int)(G.LAIR_TIMES[i]*(Math.pow(LAIR_REDUCTION,totLevel)));
@@ -126,18 +124,18 @@ public class G implements Game
 	/////////////////////////////////////////////////////////////////////////////
 			
 	//Central method that advances the game state
-	public int[] advanceGame(int pacManDir,int[] ghostDirs)
+	public int[] advanceGame(int heroDir, int[] enemyDirs)
 	{			
-		updatePacMan(pacManDir);			//move pac-man		
+		updateHero(heroDir);			//move the hero
 		eatPill();							//eat a pill
 		boolean reverse=eatPowerPill();		//eat a power pill
-		updateGhosts(ghostDirs,reverse);	//move ghosts
+		updateEnemies(enemyDirs,reverse);	//move enemies
 		
 		//This is primarily done for the replays as reset (as possibly called by feast()) sets the 
 		//last directions to the initial ones, not the ones taken
-		int[] actionsTakens={lastPacManDir,lastGhostDirs[0],lastGhostDirs[1],lastGhostDirs[2],lastGhostDirs[3]};
+		int[] actionsTakens={lastHeroDir, lastHeroDirs[0], lastHeroDirs[1], lastHeroDirs[2], lastHeroDirs[3]};
 		
-		feast();							//ghosts eat pac-man or vice versa
+		feast();							//enemies eat the hero or vice versa
 		
 		for(int i=0;i<lairTimes.length;i++)
 			if(lairTimes[i]>0)
@@ -145,7 +143,7 @@ public class G implements Game
 				lairTimes[i]--;
 			
 				if(lairTimes[i]==0)
-					curGhostLocs[i] = mazes[curMaze].initialGhostsPosition;
+					curEnemyLocs[i] = mazes[curMaze].initialEnemiesPosition;
 			}
 				
 		if(!extraLife && score>=EXTRA_LIFE_SCORE)	//award 1 extra life at 10000 points
@@ -161,74 +159,74 @@ public class G implements Game
 		return actionsTakens;
 	}
 	
-	//Updates the location of Ms Pac-Man
-	protected void updatePacMan(int direction)
+	//Updates the location of the hero
+	protected void updateHero(int direction)
 	{
-		direction=checkPacManDir(direction);
-		lastPacManDir=direction;		
-		curPacManLoc=getNeighbor(curPacManLoc,direction);
+		direction= checkHeroDir(direction);
+		lastHeroDir =direction;
+		curHeroLoc =getNeighbor(curHeroLoc,direction);
 	}
 		
 	//Checks the direction supplied by the controller and substitutes for a legal one if necessary
-	protected int checkPacManDir(int direction)
+	protected int checkHeroDir(int direction)
 	{
-		Node[] neighbors=getPacManNeighbours();
+		Node[] neighbors= getHeroNeighbors();
 				
-		if((direction>3 || direction<0 || neighbors[direction] == null) && (lastPacManDir>3 || lastPacManDir<0 || neighbors[lastPacManDir] == null))
+		if((direction>3 || direction<0 || neighbors[direction] == null) && (lastHeroDir >3 || lastHeroDir <0 || neighbors[lastHeroDir] == null))
 			return 4;
 		
 		if(direction<0 || direction>3)
-			direction=lastPacManDir;
+			direction= lastHeroDir;
 		
 		if(neighbors[direction] == null)
-			if(neighbors[lastPacManDir] != null)
-				direction=lastPacManDir;
+			if(neighbors[lastHeroDir] != null)
+				direction= lastHeroDir;
 			else
 			{
-				int[] options=getPossiblePacManDirs(true);
+				int[] options= getPossibleHeroDirs(true);
 				direction=options[G.rnd.nextInt(options.length)];
 			}
 
 		return direction;		
 	}
 	
-	//Updates the locations of the ghosts
-	protected void updateGhosts(int[] directions,boolean reverse)
+	//Updates the locations of the enemies
+	protected void updateEnemies(int[] directions, boolean reverse)
 	{
 		if(directions==null)
-			directions=Arrays.copyOf(lastGhostDirs,lastGhostDirs.length);
+			directions=Arrays.copyOf(lastHeroDirs, lastHeroDirs.length);
 		
 		for(int i=0;i<directions.length;i++)
 		{											
 			if(reverse && lairTimes[i]==0)
 			{
-				lastGhostDirs[i]=getReverse(lastGhostDirs[i]);
-				curGhostLocs[i]=getNeighbor(curGhostLocs[i],lastGhostDirs[i]);
+				lastHeroDirs[i]=getReverse(lastHeroDirs[i]);
+				curEnemyLocs[i]=getNeighbor(curEnemyLocs[i], lastHeroDirs[i]);
 			}
-			else if(lairTimes[i]==0 && (edibleTimes[i]==0 || edibleTimes[i]%GHOST_SPEED_REDUCTION!=0))
+			else if(lairTimes[i]==0 && (edibleTimes[i]==0 || edibleTimes[i]% ENEMY_SPEED_REDUCTION !=0))
 			{
-				directions[i]=checkGhostDir(i,directions[i]);
-				lastGhostDirs[i]=directions[i];
-				curGhostLocs[i]=getNeighbor(curGhostLocs[i],directions[i]);
+				directions[i]= checkEnemyDir(i,directions[i]);
+				lastHeroDirs[i]=directions[i];
+				curEnemyLocs[i]=getNeighbor(curEnemyLocs[i],directions[i]);
 			}
 		}		
 	}
 	
 	//Checks the directions supplied by the controller and substitutes for a legal ones if necessary
-	protected int checkGhostDir(int whichGhost,int direction)
+	protected int checkEnemyDir(int whichEnemy, int direction)
 	{
 		if(direction<0 || direction>3)
-			direction=lastGhostDirs[whichGhost];
+			direction= lastHeroDirs[whichEnemy];
 			
-		Node[] neighbors=getGhostNeighbours(whichGhost);
+		Node[] neighbors= getEnemyNeighbors(whichEnemy);
 			
 		if(neighbors[direction] == null)
 		{
-			if(neighbors[lastGhostDirs[whichGhost]] != null)
-				direction=lastGhostDirs[whichGhost];
+			if(neighbors[lastHeroDirs[whichEnemy]] != null)
+				direction= lastHeroDirs[whichEnemy];
 			else
 			{
-				int[] options=getPossibleGhostDirs(whichGhost);
+				int[] options= getPossibleEnemyDirs(whichEnemy);
 				direction=options[G.rnd.nextInt(options.length)];
 			}
 		}
@@ -239,7 +237,7 @@ public class G implements Game
 	//Eats a pill
 	protected void eatPill()
 	{
-		int pillIndex = getPillIndex(curPacManLoc);
+		int pillIndex = getPillIndex(curHeroLoc);
 
 		if(pillIndex>=0 && pills.get(pillIndex))
 		{
@@ -248,33 +246,33 @@ public class G implements Game
 		}
 	}
 	
-	//Eats a power pill - turns ghosts edible (blue)
+	//Eats a power pill - turns enemies edible (blue)
 	protected boolean eatPowerPill()
 	{
 		boolean reverse=false;
-		int powerPillIndex=getPowerPillIndex(curPacManLoc);
+		int powerPillIndex=getPowerPillIndex(curHeroLoc);
 		
 		if(powerPillIndex>=0 && powerPills.get(powerPillIndex))
 		{
 			score+=G.POWER_PILL;
-			ghostEatMultiplier=1;
+			enemyEatMultiplier =1;
 			powerPills.clear(powerPillIndex);
 			
-			//This ensures that only ghosts outside the lair (i.e., inside the maze) turn edible
+			//This ensures that only enemies outside the lair (i.e., inside the maze) turn edible
 			int newEdibleTime=(int)(G.EDIBLE_TIME*(Math.pow(G.EDIBLE_TIME_REDUCTION,totLevel)));
 			
-			for(int i=0;i<NUM_GHOSTS;i++)
+			for(int i = 0; i< NUM_ENEMY; i++)
 				if(lairTimes[i]==0)
 					edibleTimes[i]=newEdibleTime;
 				else
 					edibleTimes[i]=0;
 			
-			//This turns all ghosts edible, independent on whether they are in the lair or not
+			//This turns all enemies edible, independent on whether they are in the lair or not
 //			Arrays.fill(edibleTimes,(int)(G.EDIBLE_TIME*(Math.pow(G.EDIBLE_TIME_REDUCTION,totLevel))));						
 			
 			reverse=true;
 		}
-		else if(levelTime>1 && G.rnd.nextDouble()<G.GHOST_REVERSAL)	//random ghost reversal
+		else if(levelTime>1 && G.rnd.nextDouble()<G.ENEMY_REVERSAL)	//random enemy reversal
 			reverse=true;
 		
 		return reverse;
@@ -283,22 +281,22 @@ public class G implements Game
 	//This is where the characters of the game eat one another if possible
 	protected void feast()
 	{		
-		for(int i=0;i<curGhostLocs.length;i++)
+		for(int i = 0; i< curEnemyLocs.length; i++)
 		{
-			int distance=getPathDistance(curPacManLoc,curGhostLocs[i]);
+			int distance=getPathDistance(curHeroLoc, curEnemyLocs[i]);
 			
 			if(distance<=G.EAT_DISTANCE && distance!=-1)
 			{
-				if(edibleTimes[i]>0)									//pac-man eats ghost
+				if(edibleTimes[i]>0)									//hero eats enemy
 				{
-					score+=G.GHOST_EAT_SCORE*ghostEatMultiplier;
-					ghostEatMultiplier*=2;
+					score+=G.ENEMY_EAT_SCORE * enemyEatMultiplier;
+					enemyEatMultiplier *=2;
 					edibleTimes[i]=0;					
 					lairTimes[i]=(int)(G.COMMON_LAIR_TIME*(Math.pow(G.LAIR_REDUCTION,totLevel)));					
-					curGhostLocs[i] = mazes[curMaze].lairPosition;
-					lastGhostDirs[i] = G.INITIAL_GHOST_DIRS[i];
+					curEnemyLocs[i] = mazes[curMaze].lairPosition;
+					lastHeroDirs[i] = G.INITIAL_ENEMY_DIRS[i];
 				}
-				else													//ghost eats pac-man
+				else													//enemy eats hero
 				{
 					livesRemaining--;
 					
@@ -324,7 +322,7 @@ public class G implements Game
 		//if all pills have been eaten or the time is up...
 		if((pills.isEmpty() && powerPills.isEmpty()) || levelTime>=LEVEL_LIMIT)
 		{
-			//award any remaining pills to Ms Pac-Man
+			//award any remaining pills to the hero
 			score+=G.PILL*pills.cardinality()+G.POWER_PILL*powerPills.cardinality();			 
 			
 			//put a cap on the total number of levels played
@@ -374,18 +372,18 @@ public class G implements Game
 		return powerPills.get(nodeIndex);
 	}
 	
-	//Returns the neighbours of the node at which Ms Pac-Man currently resides
-	public Node[] getPacManNeighbours()
+	//Returns the neighbours of the node at which the hero currently resides
+	public Node[] getHeroNeighbors()
 	{
-		return Arrays.copyOf(curPacManLoc.neighbors, curPacManLoc.neighbors.length);
+		return Arrays.copyOf(curHeroLoc.neighbors, curHeroLoc.neighbors.length);
 	}
 	
-	//Returns the neighbours of the node at which the specified ghost currently resides. NOTE: since ghosts are not allowed to reverse, that
-	//neighbour is filtered out. Alternatively use: getNeighbour(), given curGhostLoc[-] for all directions
-	public Node[] getGhostNeighbours(int whichGhost)
+	//Returns the neighbours of the node at which the specified enemy currently resides. NOTE: since enemies are not allowed to reverse, that
+	//neighbour is filtered out. Alternatively use: getNeighbour(), given curEnemyLoc[-] for all directions
+	public Node[] getEnemyNeighbors(int whichEnemy)
 	{
-		Node[] neighbors=Arrays.copyOf(curGhostLocs[whichGhost].neighbors,curGhostLocs[whichGhost].neighbors.length);
-		neighbors[getReverse(lastGhostDirs[whichGhost])] = null;
+		Node[] neighbors=Arrays.copyOf(curEnemyLocs[whichEnemy].neighbors, curEnemyLocs[whichEnemy].neighbors.length);
+		neighbors[getReverse(lastHeroDirs[whichEnemy])] = null;
 		
 		return neighbors;
 	}
@@ -402,46 +400,46 @@ public class G implements Game
 		return curMaze;
 	}
 	
-	//Current node index of Ms Pac-Man
-	public Node getCurPacManLoc()
+	//Current node index of the hero
+	public Node getCurHeroLoc()
 	{
-		return curPacManLoc;
+		return curHeroLoc;
 	}
 	
-	//Current node index of Ms Pac-Man
-	public int getCurPacManDir()
+	//Current node index of the hero
+	public int getCurHeroDir()
 	{
-		return lastPacManDir;
+		return lastHeroDir;
 	}
 	
-	//Lives that remain for Ms Pac-Man
+	//Lives that remain for the hero
 	public int getLivesRemaining()
 	{
 		return livesRemaining;
 	}
 	
-	//Current node at which the specified ghost resides
-	public Node getCurGhostLoc(int whichGhost)
+	//Current node at which the specified enemy resides
+	public Node getCurEnemyLoc(int whichEnemy)
 	{
-		return curGhostLocs[whichGhost];
+		return curEnemyLocs[whichEnemy];
 	}
 
-	//Current direction of the specified ghost
-	public int getCurGhostDir(int whichGhost)
+	//Current direction of the specified enemy
+	public int getCurEnemyDir(int whichEnemy)
 	{
-		return lastGhostDirs[whichGhost];
+		return lastHeroDirs[whichEnemy];
 	}
 	
-	//Returns the edible time for the specified ghost
-	public int getEdibleTime(int whichGhost)
+	//Returns the edible time for the specified enemy
+	public int getEdibleTime(int whichEnemy)
 	{
-		return edibleTimes[whichGhost];
+		return edibleTimes[whichEnemy];
 	}
 	
-	//Simpler check to see if a ghost is edible
-	public boolean isEdible(int whichGhost)
+	//Simpler check to see if a enemy is edible
+	public boolean isEdible(int whichEnemy)
 	{
-		return edibleTimes[whichGhost]>0;
+		return edibleTimes[whichEnemy]>0;
 	}
 
 	//Returns the score of the game
@@ -465,25 +463,25 @@ public class G implements Game
 	//Total number of pills in the maze
 	public int getNumberPills()
 	{
-		return mazes[curMaze].pillIndices.length;
+		return mazes[curMaze].pillNodes.length;
 	}
 	
 	//Total number of power pills in the maze
 	public int getNumberPowerPills()
 	{
-		return mazes[curMaze].powerPillIndices.length;
+		return mazes[curMaze].powerPillNodes.length;
 	}
 	
-	//Time left that the specified ghost will spend in the lair
-	public int getLairTime(int whichGhost)
+	//Time left that the specified enemy will spend in the lair
+	public int getLairTime(int whichEnemy)
 	{
-		return lairTimes[whichGhost];
+		return lairTimes[whichEnemy];
 	}
 	
 	//If in lair (getLairTime(-)>0) or if not at junction
-	public boolean ghostRequiresAction(int whichGhost)
+	public boolean enemyRequiresAction(int whichEnemy)
 	{
-		return (isJunction(curGhostLocs[whichGhost].getNodeIndex()) && (edibleTimes[whichGhost]==0 || edibleTimes[whichGhost]%GHOST_SPEED_REDUCTION!=0));
+		return (isJunction(curEnemyLocs[whichEnemy]) && (edibleTimes[whichEnemy]==0 || edibleTimes[whichEnemy]% ENEMY_SPEED_REDUCTION !=0));
 	}
 	
 	//Returns name of maze: A, B, C, D
@@ -492,16 +490,16 @@ public class G implements Game
 		return mazes[curMaze].name;
 	}
 				
-	//Returns the starting position of Ms PacMan
-	public Node getInitialPacPosition()
+	//Returns the starting position of the hero
+	public Node getInitialHeroPosition()
 	{
-		return mazes[curMaze].initialPacPosition;
+		return mazes[curMaze].initialHeroPosition;
 	}
 	
-	//Returns the starting position of the ghosts (i.e., first node AFTER leaving the lair)
-	public Node getInitialGhostsPosition()
+	//Returns the starting position of the enemies (i.e., first node AFTER leaving the lair)
+	public Node getInitialEnemiesPosition()
 	{
-		return mazes[curMaze].initialGhostsPosition;
+		return mazes[curMaze].initialEnemiesPosition;
 	}
 	
 	//Total number of nodes in the graph (i.e., those with pills, power pills and those that are empty)
@@ -509,19 +507,7 @@ public class G implements Game
 	{
 		return mazes[curMaze].graph.length;
 	}
-		
-	//Returns the x coordinate of the specified node
-	public int getX(int index)
-	{
-		return mazes[curMaze].graph[index].getX();
-	}
-	
-	//Returns the y coordinate of the specified node
-	public int getY(int index)
-	{
-		return mazes[curMaze].graph[index].getY();
-	}
-	
+
 	//Returns the pill index of the node. If it is -1, the node has no pill. Otherwise one can
 	//use the bitset to check whether the pill has already been eaten
 	public int getPillIndex(Node node)
@@ -547,111 +533,89 @@ public class G implements Game
 	}
 		
 	//Returns the indices to all the nodes that have pills
-	public int[] getPillIndices()
-	{
-		return Arrays.copyOf(mazes[curMaze].pillIndices,mazes[curMaze].pillIndices.length);
-	}
-
-	//Returns the indices to all the nodes that have pills
 	public Node[] getPillNodes()
 	{
-		Node[] pillNodes = new Node[mazes[curMaze].pillIndices.length];
-
-		for (int index = 0; index < pillNodes.length; index++)
-			pillNodes[index] = mazes[curMaze].graph[mazes[curMaze].pillIndices[index]];
-
-		return pillNodes;
+		return Arrays.copyOf(mazes[curMaze].pillNodes, mazes[curMaze].pillNodes.length);
 	}
 
 	//Returns all the nodes that have power pills
 	public Node[] getPowerPillNodes()
 	{
-		Node[] powerPillNodes = new Node[mazes[curMaze].powerPillIndices.length];
-
-		for (int index = 0; index < powerPillNodes.length; index++)
-			powerPillNodes[index] = mazes[curMaze].graph[mazes[curMaze].powerPillIndices[index]];
-
-		return powerPillNodes;
-	}
-
-	//Returns the indices to all the nodes that have power pills
-	public int[] getPowerPillIndices()
-	{
-		return Arrays.copyOf(mazes[curMaze].powerPillIndices,mazes[curMaze].powerPillIndices.length);
+		return Arrays.copyOf(mazes[curMaze].powerPillNodes, mazes[curMaze].powerPillNodes.length);
 	}
 
 	//Returns the indices to all the nodes that are junctions
-	public int[] getJunctionIndices()
+	public Node[] getJunctionNodes()
 	{
-		return Arrays.copyOf(mazes[curMaze].junctionIndices,mazes[curMaze].junctionIndices.length);
+		return Arrays.copyOf(mazes[curMaze].junctionNodes, mazes[curMaze].junctionNodes.length);
 	}
 
 	//Checks of a node is a junction
-	public boolean isJunction(int nodeIndex)
+	public boolean isJunction(Node node)
 	{
-		return mazes[curMaze].graph[nodeIndex].getNumNeighbors()>2;
+		return node.getNumNeighbors() > 2;
 	}
 	
 	//Returns the number of neighbours of a node: 2, 3 or 4. Exception: lair, which has no neighbours
-	public int getNumNeighbours(int nodeIndex)
+	public int getNumNeighbors(Node node)
 	{
-		return mazes[curMaze].graph[nodeIndex].getNumNeighbors();
+		return node.getNumNeighbors();
 	}
 	
-	//Returns the actual directions Ms Pac-Man can take
-	public int[] getPossiblePacManDirs(boolean includeReverse)
+	//Returns the actual directions the hero can take
+	public int[] getPossibleHeroDirs(boolean includeReverse)
 	{
-		return getPossibleDirs(curPacManLoc.getNodeIndex(),lastPacManDir,includeReverse);
+		return getPossibleDirs(curHeroLoc, lastHeroDir,includeReverse);
 	}
 	
-	//Returns the actual directions the specified ghost can take
-	public int[] getPossibleGhostDirs(int whichGhost)
+	//Returns the actual directions the specified enemy can take
+	public int[] getPossibleEnemyDirs(int whichEnemy)
 	{
-		return getPossibleDirs(curGhostLocs[whichGhost].getNodeIndex(),lastGhostDirs[whichGhost],false);
+		return getPossibleDirs(curEnemyLocs[whichEnemy], lastHeroDirs[whichEnemy],false);
 	}
 	
 	//Computes the directions to be taken given the current location
-	private int[] getPossibleDirs(int curLoc,int curDir,boolean includeReverse)
+	private int[] getPossibleDirs(Node curLoc, int curDir, boolean includeReverse)
 	{
-		int numNeighbours=mazes[curMaze].graph[curLoc].getNumNeighbors();
+		int numNeighbors = curLoc.getNumNeighbors();
 
-		if(numNeighbours==0)
+		if(numNeighbors == 0)
 			return new int[0];
 		
-		Node[] nodes=mazes[curMaze].graph[curLoc].neighbors;
+		Node[] nodes = curLoc.neighbors;
 		int[] directions;
 		
-		if(includeReverse || (curDir<0 || curDir>3))
-			directions=new int[numNeighbours];
+		if(includeReverse || (curDir < 0 || curDir > 3))
+			directions=new int[numNeighbors];
 		else
-			directions=new int[numNeighbours-1];
+			directions=new int[numNeighbors - 1];
 		
-		int index=0;
+		int index = 0;
 		
-		for(int i=0;i<nodes.length;i++)
+		for(int i = 0; i < nodes.length; i++)
 			if(nodes[i] != null)
 			{
-				if(includeReverse || (curDir<0 || curDir>3))
-					directions[index++]=i;
-				else if(i!=getReverse(curDir))
-					directions[index++]=i;
+				if(includeReverse || (curDir < 0 || curDir > 3))
+					directions[index++] = i;
+				else if(i != getReverse(curDir))
+					directions[index++] = i;
 			}
 
 		return directions;
 	}
 			
-	//Returns the direction Pac-Man should take to approach/retreat a target (to) given some distance 
+	//Returns the direction the hero should take to approach/retreat a target (to) given some distance
 	//measure
-	public int getNextPacManDir(Node to, boolean closer, DM measure)
+	public int getNextHeroDir(Node to, boolean closer, DM measure)
 	{
-		return getNextDir(curPacManLoc.neighbors, to, closer,measure);
+		return getNextDir(curHeroLoc.neighbors, to, closer,measure);
 	}
 	
-	//Returns the direction the ghost should take to approach/retreat a target (to) given some distance 
+	//Returns the direction the enemy should take to approach/retreat a target (to) given some distance
 	//measure. Reversals are filtered.
-	public int getNextGhostDir(int whichGhost, Node to, boolean closer, Game.DM measure)
+	public int getNextEnemyDir(int whichEnemy, Node to, boolean closer, Game.DM measure)
 	{	
-		return getNextDir(getGhostNeighbours(whichGhost),to,closer,measure);
+		return getNextDir(getEnemyNeighbors(whichEnemy),to,closer,measure);
 	}
 			
 	
@@ -675,7 +639,7 @@ public class G implements Game
 				{
 					case PATH: dist = getPathDistance(from[i], to); break;
 					case EUCLID: dist = getEuclideanDistance(from[i] ,to); break;
-					case MANHATTEN: dist = getManhattenDistance(from[i], to); break;
+					case MANHATTEN: dist = getManhattanDistance(from[i], to); break;
 				}
 					
 				if(closer && dist < min)
@@ -698,12 +662,7 @@ public class G implements Game
 	//Returns the PATH distance from any node to any other node
 	public int getPathDistance(Node from, Node to)
 	{
-		if(from == to)
-			return 0;		
-		else if(from.getNodeIndex() < to.getNodeIndex())
-			return mazes[curMaze].distances[((to.getNodeIndex()*(to.getNodeIndex()+1))/2)+from.getNodeIndex()];
-		else
-			return mazes[curMaze].distances[((from.getNodeIndex()*(from.getNodeIndex()+1))/2)+to.getNodeIndex()];
+		return mazes[curMaze].distances.get(from, to);
 	}
 	
 	//Returns the EUCLEDIAN distance between two nodes in the current maze.
@@ -713,7 +672,7 @@ public class G implements Game
 	}
 	
 	//Returns the MANHATTEN distance between two nodes in the current maze.
-	public int getManhattenDistance(Node from, Node to)
+	public int getManhattanDistance(Node from, Node to)
 	{
 		return (int)(Math.abs(from.getX() - to.getX()) + Math.abs(from.getY() - to.getY()));
 	}
@@ -742,21 +701,21 @@ public class G implements Game
 		return arrayPath;
 	}
 	
-	//Similar to getPath(-) but takes into consideration the fact that ghosts may not reverse. Hence the path to be taken
+	//Similar to getPath(-) but takes into consideration the fact that enemies may not reverse. Hence the path to be taken
 	//may be significantly longer than the shortest available path
-	public Node[] getGhostPath(int whichGhost, Node to)
+	public Node[] getEnemyPath(int whichEnemy, Node to)
 	{
-		if(curGhostLocs[whichGhost].getNumNeighbors()==0)
+		if(curEnemyLocs[whichEnemy].getNumNeighbors()==0)
 			return new Node[0];
 
-		Node currentNode = curGhostLocs[whichGhost];
+		Node currentNode = curEnemyLocs[whichEnemy];
 		ArrayList<Node> path=new ArrayList<Node>();
-		int lastDir=lastGhostDirs[whichGhost];
+		int lastDir= lastHeroDirs[whichEnemy];
 
 		while(currentNode != to)
 		{
 			path.add(currentNode);
-			Node[] neighbours = getGhostNeighbours(currentNode, lastDir);
+			Node[] neighbours = getEnemyNeighbors(currentNode, lastDir);
 			lastDir=getNextDir(neighbours,to,true,G.DM.PATH);
 			currentNode = neighbours[lastDir];
 		}
@@ -785,7 +744,7 @@ public class G implements Game
 			{
 				case PATH: dist = getPathDistance(targets[i],from); break;
 				case EUCLID: dist = getEuclideanDistance(targets[i],from); break;
-				case MANHATTEN: dist = getManhattenDistance(targets[i],from); break;
+				case MANHATTEN: dist = getManhattanDistance(targets[i],from); break;
 			}
 					
 			if(nearest && dist < min)
@@ -804,8 +763,8 @@ public class G implements Game
 		return target;
 	}
 	
-	//Returns the target closes from the position of the ghost, considering that reversals are not allowed
-	public Node getGhostTarget(int whichGhost, Node[] targets, boolean nearest)
+	//Returns the target closes from the position of the enemy, considering that reversals are not allowed
+	public Node getEnemyTarget(int whichEnemy, Node[] targets, boolean nearest)
 	{
 		Node target = null;
 
@@ -814,7 +773,7 @@ public class G implements Game
 		
 		for(int i=0;i<targets.length;i++)
 		{				
-			double dist=getGhostPathDistance(whichGhost,targets[i]);
+			double dist= getEnemyPathDistance(whichEnemy,targets[i]);
 					
 			if(nearest && dist<min)
 			{
@@ -832,14 +791,14 @@ public class G implements Game
 		return target;
 	}
 	
-	//Returns the path distance for a particular ghost: takes into account the fact that ghosts may not reverse
-	public int getGhostPathDistance(int whichGhost, Node to)
+	//Returns the path distance for a particular enemy: takes into account the fact that enemies may not reverse
+	public int getEnemyPathDistance(int whichEnemy, Node to)
 	{
-		return getGhostPath(whichGhost, to).length;
+		return getEnemyPath(whichEnemy, to).length;
 	}
 	
 	//Returns the neighbours of a node with the one correspodining to the reverse of direction being deleted (i.e., =-1)
-	private Node[] getGhostNeighbours(Node node, int lastDirection)
+	private Node[] getEnemyNeighbors(Node node, int lastDirection)
 	{
 		Node[] neighbors=Arrays.copyOf(node.neighbors, node.neighbors.length);
 		neighbors[getReverse(lastDirection)] = null;
@@ -855,10 +814,13 @@ public class G implements Game
 	 */
 	protected final class Maze
 	{
-		protected int[] distances,pillIndices,powerPillIndices,junctionIndices;				//Information for the controllers
+		protected DualMap<Node, Node, Integer> distances;
+		protected Node[] pillNodes, powerPillNodes, junctionNodes;
 		protected Node[] graph;
+//		protected int[] distances, pillIndices, powerPillIndices, junctionIndices;				//Information for the controllers
+
 		//The actual maze, stored as a graph (set of nodes)
-		protected Node initialPacPosition, lairPosition, initialGhostsPosition;
+		protected Node initialHeroPosition, lairPosition, initialEnemiesPosition;
 		protected int width, height;	//Maze-specific information
 		protected String name;																//Name of the Maze
 					
@@ -906,14 +868,14 @@ public class G implements Game
 
                 // Load general map information
                 int[] preamble = nodeData.remove();
-				int initialPacIndex = preamble[0];
+				int initialHeroIndex = preamble[0];
 				int lairIndex = preamble[1];
-				int initialGhostsIndex = preamble[2];
+				int initialEnemiesIndex = preamble[2];
 
                 this.graph = new Node[preamble[3]];
-                this.pillIndices = new int[preamble[4]];
-                this.powerPillIndices = new int[preamble[5]];
-                this.junctionIndices = new int[preamble[6]];
+                this.pillNodes = new Node[preamble[4]];
+                this.powerPillNodes = new Node[preamble[5]];
+                this.junctionNodes = new Node[preamble[6]];
                 this.width = preamble[7];
                 this.height = preamble[8];
 
@@ -925,17 +887,17 @@ public class G implements Game
                 // Create the nodes.
                 for (int[] entry : nodeData)
                 {
-                    Node node = new Node(entry[0], entry[1], entry[2], entry[7], entry[8]);
+                    Node node = new Node(entry[1], entry[2], entry[7], entry[8]);
 
                     graph[nodeIndex++] = node;
 
                     if (node.getPillIndex() >= 0)
-                        pillIndices[pillIndex++] = node.getNodeIndex();
+                        pillNodes[pillIndex++] = node;
                     else if (node.getPowerPillIndex() >= 0)
-                        powerPillIndices[powerPillIndex++] = node.getNodeIndex();
+                        powerPillNodes[powerPillIndex++] = node;
 
                     if (node.getNumNeighbors() > 2)
-                        junctionIndices[junctionIndex++] = node.getNodeIndex();
+                        junctionNodes[junctionIndex++] = node;
                 }
 
                 // Connect the nodes.
@@ -951,9 +913,9 @@ public class G implements Game
                 }
 
                 // Set up the starting positions.
-				this.initialPacPosition = graph[initialPacIndex];
+				this.initialHeroPosition = graph[initialHeroIndex];
 				this.lairPosition = graph[lairIndex];
-				this.initialGhostsPosition = graph[initialGhostsIndex];
+				this.initialEnemiesPosition = graph[initialEnemiesIndex];
 	        }
 	        catch(IOException ioe)
 	        {
@@ -968,20 +930,24 @@ public class G implements Game
 		 */		
 		private void loadDistances(String fileName)
 		{
-			this.distances=new int[((graph.length*(graph.length-1))/2)+graph.length];
-			
+			distances = new DualMap<Node, Node, Integer>();
+
 	        try
 	        {	        	
 	        	BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(G.pathMazes+System.getProperty("file.separator")+fileName)));
-	            String input=br.readLine();
-	            
-	            int index=0;
-	            
-	            while(input!=null)
-	            {	
-                	distances[index++]=Integer.parseInt(input);
-	                input=br.readLine();
-	            }
+
+	            for (int end = 0; end < graph.length; end++)
+				{
+					for (int start = 0; start <= end; start++)
+					{
+						String input=br.readLine();
+						if (input == null)
+							break;
+
+						distances.put(graph[start], graph[end], Integer.parseInt(input));
+						distances.put(graph[end], graph[start], Integer.parseInt(input));
+					}
+				}
 	        }
 	        catch(IOException ioe)
 	        {

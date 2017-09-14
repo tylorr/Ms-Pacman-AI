@@ -1,7 +1,8 @@
 package game.core;
 
-import game.controllers.GhostController;
-import game.controllers.PacManController;
+import game.controllers.EnemyController;
+import game.controllers.HeroController;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -20,8 +21,8 @@ import java.util.ArrayList;
 @SuppressWarnings({"rawtypes","unchecked"})
 public class Replay
 {
-    private PacManController pacMan;
-    private GhostController ghosts;
+    private HeroController pacMan;
+    private EnemyController ghosts;
 
     private ArrayList<Integer> pacManActions;
     private ArrayList<int[]> ghostActions;
@@ -30,7 +31,7 @@ public class Replay
     {
         loadActions(fileName);
         this.pacMan=new ReplayMsPacman();
-        this.ghosts=new ReplayGhostTeam();
+        this.ghosts=new ReplayEnemyTeam();
     }
  
 	public void loadActions(String fileName)
@@ -59,12 +60,12 @@ public class Replay
         }
     }
     
-    public PacManController getPacMan()
+    public HeroController getPacMan()
     {
         return pacMan;
     }
 
-    public GhostController getGhosts()
+    public EnemyController getGhosts()
     {
         return ghosts;
     }
@@ -109,7 +110,7 @@ public class Replay
     }
         
 	//Simple controller that simply plays the next recorded action
-    class ReplayMsPacman implements PacManController
+    class ReplayMsPacman implements HeroController
     {
         public int getAction(Game game,long timeDue)
         {
@@ -118,7 +119,7 @@ public class Replay
     }
 
 	//Simple controller that simply plays the next recorded action
-    class ReplayGhostTeam implements GhostController
+    class ReplayEnemyTeam implements EnemyController
     {
         public int[] getActions(Game game,long timeDue)
         {

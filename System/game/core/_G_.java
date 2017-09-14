@@ -26,10 +26,10 @@ public class _G_ extends G
 		
 		curMaze=0;
 		
-		curGhostLocs = new Node[G.NUM_GHOSTS];
-		lastGhostDirs = new int[G.NUM_GHOSTS];
-		edibleTimes = new int[G.NUM_GHOSTS];
-		lairTimes = new int[G.NUM_GHOSTS];
+		curEnemyLocs = new Node[G.NUM_ENEMY];
+		lastHeroDirs = new int[G.NUM_ENEMY];
+		edibleTimes = new int[G.NUM_ENEMY];
+		lairTimes = new int[G.NUM_ENEMY];
 
 		pills=new BitSet(getNumberPills());
 		pills.set(0,getNumberPills());

@@ -13,7 +13,6 @@
  */
 package game.core;
 
-import game.core.G;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +28,7 @@ public final class GameView extends JComponent
 	private static String[] mazes={"maze-a.png","maze-b.png","maze-c.png","maze-d.png"};
 
 	private int MAG=2;
-	private int pacManDir=G.INITIAL_PAC_DIR;
+	private int pacManDir=G.INITIAL_HERO_DIR;
 	
     private final _G_ game;
     private final BufferedImage[][] pacmanImgs=new BufferedImage[4][3];
@@ -37,7 +36,7 @@ public final class GameView extends JComponent
     private final BufferedImage[] images;
     
     //for debugging/illustration purposes only: draw colors in the maze to check whether controller is working
-    //correctly or not; can draw squares and lines (see NearestPillPacManVS for demostration).
+    //correctly or not; can draw squares and lines (see NearestPillHeroVS for demostration).
     public static ArrayList<DebugPointer> debugPointers=new ArrayList<DebugPointer>();
     public static ArrayList<DebugLine> debugLines=new ArrayList<DebugLine>();
     
@@ -189,30 +188,30 @@ public final class GameView extends JComponent
 
     private void drawPills()
     {
-        int[] pillIndices=game.getPillIndices();
+        Node[] pillNodes = game.getPillNodes();
         
         bufferGraphics.setColor(Color.white);
         
-        for(int i=0;i<pillIndices.length;i++)
+        for(int i=0;i<pillNodes.length;i++)
         	if(game.checkPill(i))
-        		bufferGraphics.fillOval(game.getX(pillIndices[i])*MAG+4,game.getY(pillIndices[i])*MAG+8,3,3);
+        		bufferGraphics.fillOval(pillNodes[i].getX()*MAG+4,pillNodes[i].getY()*MAG+8,3,3);
     }
     
     private void drawPowerPills()
     {
-          int[] powerPillIndices=game.getPowerPillIndices();
+          Node[] powerPillNodes=game.getPowerPillNodes();
           
           bufferGraphics.setColor(Color.white);
           
-          for(int i=0;i<powerPillIndices.length;i++)
+          for(int i=0;i<powerPillNodes.length;i++)
           	if(game.checkPowerPill(i))
-          		bufferGraphics.fillOval(game.getX(powerPillIndices[i])*MAG+1,game.getY(powerPillIndices[i])*MAG+5,8,8);
+          		bufferGraphics.fillOval(powerPillNodes[i].getX()*MAG+1,powerPillNodes[i].getY()*MAG+5,8,8);
     }
     
     private void drawPacMan()
     {
-    	Node pacLoc = game.getCurPacManLoc();
-    	int pacDir=game.getCurPacManDir();
+    	Node pacLoc = game.getCurHeroLoc();
+    	int pacDir=game.getCurHeroDir();
         
     	if(pacDir>=0 && pacDir<4)
     		pacManDir=pacDir;
@@ -222,9 +221,9 @@ public final class GameView extends JComponent
 
     private void drawGhosts() 
     {
-    	for(int index=0;index<G.NUM_GHOSTS;index++)
+    	for(int index = 0; index<G.NUM_ENEMY; index++)
     	{
-	    	Node loc = game.getCurGhostLoc(index);
+	    	Node loc = game.getCurEnemyLoc(index);
 	    	int x = loc.getX();
 	    	int y = loc.getY();
 	    	
@@ -240,7 +239,7 @@ public final class GameView extends JComponent
 	    		if(game.getLairTime(index)>0) 		
 	    			bufferGraphics.drawImage(ghostsImgs[index][G.UP][(game.getTotalTime()%6)/3],x*MAG-1+(index*5),y*MAG+3,null);
 	    		else    		
-	    			bufferGraphics.drawImage(ghostsImgs[index][game.getCurGhostDir(index)][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
+	    			bufferGraphics.drawImage(ghostsImgs[index][game.getCurEnemyDir(index)][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	        }
     	}
     }

@@ -1,18 +1,19 @@
 package game.controllers.examples;
 
 import java.util.ArrayList;
-import game.controllers.PacManController;
+
+import game.controllers.HeroController;
 import game.core.G;
 import game.core.Game;
 import game.core.Node;
 
-public class NearestPillPacMan implements PacManController
+public class NearestPillHero implements HeroController
 {	
 	public int getAction(Game game,long timeDue)
 	{	
 		Node[] pills = game.getPillNodes();
 		Node[] powerPills=game.getPowerPillNodes();
-		Node current = game.getCurPacManLoc();
+		Node current = game.getCurHeroLoc();
 		
 		ArrayList<Node> targets=new ArrayList<Node>();
 		
@@ -30,6 +31,6 @@ public class NearestPillPacMan implements PacManController
 			targetsArray[i]=targets.get(i);
 		
 		//return the next direction once the closest target has been identified
-		return game.getNextPacManDir(game.getTarget(current, targetsArray,true,G.DM.PATH),true,Game.DM.PATH);
+		return game.getNextHeroDir(game.getTarget(current, targetsArray,true,G.DM.PATH),true,Game.DM.PATH);
 	}
 }
