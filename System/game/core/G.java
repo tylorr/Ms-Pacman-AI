@@ -133,7 +133,7 @@ public class G implements Game
 		
 		//This is primarily done for the replays as reset (as possibly called by feast()) sets the 
 		//last directions to the initial ones, not the ones taken
-		int[] actionsTakens={hero.getDirection(), lastEnemyDirs[0], lastEnemyDirs[1], lastEnemyDirs[2], lastEnemyDirs[3]};
+		int[] actionsTakens={hero.direction, lastEnemyDirs[0], lastEnemyDirs[1], lastEnemyDirs[2], lastEnemyDirs[3]};
 		
 		feast();							//enemies eat the hero or vice versa
 		
@@ -167,16 +167,16 @@ public class G implements Game
 	//Updates the location of the hero
 	protected void updateHero(int direction)
 	{
-		direction= checkHeroDir(direction);
-		hero.setDirection(direction);
-		hero.setLocation(getNeighbor(hero.getLocation(),direction));
+		direction = checkHeroDir(direction);
+		hero.direction = direction;
+		hero.location = getNeighbor(hero.location,direction);
 	}
 		
 	//Checks the direction supplied by the controller and substitutes for a legal one if necessary
 	protected int checkHeroDir(int direction)
 	{
-		Node[] neighbors = hero.getLocation().getNeighbors();
-		int oldDirection = hero.getDirection();
+		Node[] neighbors = hero.location.getNeighbors();
+		int oldDirection = hero.direction;
 				
 		if((direction>3 || direction<0 || neighbors[direction] == null) && (oldDirection > 3 || oldDirection < 0 || neighbors[oldDirection] == null))
 			return 4;
@@ -243,7 +243,7 @@ public class G implements Game
 	//Eats a pill
 	protected void eatPill()
 	{
-		int pillIndex = getPillIndex(hero.getLocation());
+		int pillIndex = getPillIndex(hero.location);
 
 		if(pillIndex>=0 && pills.get(pillIndex))
 		{
@@ -256,7 +256,7 @@ public class G implements Game
 	protected boolean eatPowerPill()
 	{
 		boolean reverse=false;
-		int powerPillIndex=getPowerPillIndex(hero.getLocation());
+		int powerPillIndex=getPowerPillIndex(hero.location);
 		
 		if(powerPillIndex>=0 && powerPills.get(powerPillIndex))
 		{
@@ -289,7 +289,7 @@ public class G implements Game
 	{		
 		for(int i = 0; i< curEnemyLocs.length; i++)
 		{
-			int distance=getPathDistance(hero.getLocation(), curEnemyLocs[i]);
+			int distance=getPathDistance(hero.location, curEnemyLocs[i]);
 			
 			if(distance<=G.EAT_DISTANCE && distance!=-1)
 			{
