@@ -8,7 +8,7 @@ public class TestAgent implements HeroController//, Constants
 {
 	public int getAction(Game game, long time)
 	{
-		int[] directions=game.getPossibleHeroDirs(true);		//set flag as true to include reversals
+		int[] directions=game.getHero().getPossibleDirs(false);		//set flag as true to include reversals
 		return directions[G.rnd.nextInt(directions.length)];
 	}
 }

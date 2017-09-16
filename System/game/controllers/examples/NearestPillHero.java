@@ -13,7 +13,7 @@ public class NearestPillHero implements HeroController
 	{	
 		Node[] pills = game.getPillNodes();
 		Node[] powerPills=game.getPowerPillNodes();
-		Node current = game.getCurHeroLoc();
+		Node current = game.getHero().getLocation();
 		
 		ArrayList<Node> targets=new ArrayList<Node>();
 		
@@ -31,6 +31,6 @@ public class NearestPillHero implements HeroController
 			targetsArray[i]=targets.get(i);
 		
 		//return the next direction once the closest target has been identified
-		return game.getNextHeroDir(game.getTarget(current, targetsArray,true,G.DM.PATH),true,Game.DM.PATH);
+		return game.getNextDir(game.getHero().getLocation().getNeighbors(), game.getTarget(current, targetsArray,true,G.DM.PATH),true,Game.DM.PATH);
 	}
 }

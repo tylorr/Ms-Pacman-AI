@@ -20,7 +20,7 @@ public final class NearestPillHeroVS implements HeroController
 	{		
 		Node[] pills = game.getPillNodes();
 		Node[] powerPills = game.getPowerPillNodes();
-		Node current = game.getCurHeroLoc();
+		Node current = game.getHero().getLocation();
 
 		ArrayList<Node> targets = new ArrayList<Node>();
 		
@@ -67,14 +67,7 @@ public final class NearestPillHeroVS implements HeroController
 					GameView.addLines(game, Color.GREEN, current, game.getCurEnemyLoc(i));
 				else
 					GameView.addLines(game, Color.RED, current, game.getCurEnemyLoc(i));
-		
-		//adds the paths the ghost would need to follow to reach Ms Pac-Man
-//		Color[] colors={Color.RED,Color.BLUE,Color.MAGENTA,Color.ORANGE};
-		
-//		for(int i=0;i<G.NUM_ENEMY;i++)
-//			if(game.getLairTime(i)==0)
-//				GameView.addPoints(game,colors[i],game.getEnemyPath(i,current));
-	
-		return game.getNextHeroDir(nearest,true,Game.DM.PATH);
+
+		return game.getNextDir(game.getHero().getLocation().getNeighbors(), nearest,true,Game.DM.PATH);
 	}
 }

@@ -14,7 +14,7 @@ public class Legacy implements EnemyController
 		
 		for(int i=0;i<directions.length-1;i++)
 			if(game.enemyRequiresAction(i))
-				directions[i]=game.getNextEnemyDir(i,game.getCurHeroLoc(),true,dms[i]);	//approach Ms Pac-Man using a different distance measure
+				directions[i]=game.getNextEnemyDir(i, game.getHero().getLocation(), true,dms[i]);	//approach Ms Pac-Man using a different distance measure
 																							//for each ghost; last ghost takes random action
 		directions[3]=G.rnd.nextInt(4);
 		

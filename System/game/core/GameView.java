@@ -210,8 +210,8 @@ public final class GameView extends JComponent
     
     private void drawPacMan()
     {
-    	Node pacLoc = game.getCurHeroLoc();
-    	int pacDir=game.getCurHeroDir();
+    	Node pacLoc = game.hero.getLocation();
+    	int pacDir=game.hero.getDirection();
         
     	if(pacDir>=0 && pacDir<4)
     		pacManDir=pacDir;

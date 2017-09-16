@@ -27,7 +27,7 @@ public class _G_ extends G
 		curMaze=0;
 		
 		curEnemyLocs = new Node[G.NUM_ENEMY];
-		lastHeroDirs = new int[G.NUM_ENEMY];
+		lastEnemyDirs = new int[G.NUM_ENEMY];
 		edibleTimes = new int[G.NUM_ENEMY];
 		lairTimes = new int[G.NUM_ENEMY];
 

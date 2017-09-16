@@ -1,5 +1,7 @@
 package game.core;
 
+import java.util.Arrays;
+
 public class Node
 {
     protected Node[] neighbors = null;
@@ -36,7 +38,7 @@ public class Node
         powerPillIndex = _powerPillIndex;
     }
 
-    public void setNeighbors(Node[] _neighbors)
+    protected void setNeighbors(Node[] _neighbors)
     {
         neighbors = _neighbors;
         numNeighbors = 0;
@@ -44,5 +46,10 @@ public class Node
         for (int index = 0; index < _neighbors.length; index++)
             if (_neighbors[index] != null)
                 numNeighbors++;
+    }
+
+    public Node[] getNeighbors()
+    {
+        return Arrays.copyOf(neighbors, neighbors.length);
     }
 }
