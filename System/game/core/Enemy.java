@@ -42,10 +42,25 @@ public class Enemy extends Actor
         return newLocations;
     }
 
-    /*		copy.curEnemyLocs =Arrays.copyOf(curEnemyLocs, curEnemyLocs.length);
-		copy.lastEnemyDirs =Arrays.copyOf(lastEnemyDirs, lastEnemyDirs.length);
-		copy.edibleTimes=Arrays.copyOf(edibleTimes,edibleTimes.length);
-		copy.lairTimes=Arrays.copyOf(lairTimes,lairTimes.length);*/
+    public int getEdibleTime()
+    {
+        return edibleTime;
+    }
+
+    public int getLairTime()
+    {
+        return lairTime;
+    }
+
+    public boolean isEdible()
+    {
+        return edibleTime > 0;
+    }
+
+    public boolean requiresAction()
+    {
+        return (location.isJunction() && edibleTime == 0 || edibleTime % G.ENEMY_SPEED_REDUCTION != 0);
+    }
 
     protected Enemy clone()
     {

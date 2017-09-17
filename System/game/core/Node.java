@@ -48,8 +48,24 @@ public class Node
                 numNeighbors++;
     }
 
+    //Checks of a node is a junction
+    public boolean isJunction()
+    {
+        return numNeighbors > 2;
+    }
+
     public Node[] getNeighbors()
     {
         return Arrays.copyOf(neighbors, neighbors.length);
     }
+
+    //Returns the neighbour of node index that corresponds to direction. In the case of neutral, the
+    //same node index is returned
+	public Node getNeighbor(int inDirection)
+	{
+		if(inDirection < 0 || inDirection > 3) //this takes care of "neutral"
+			return this;
+		else
+			return neighbors[inDirection];
+	}
 }

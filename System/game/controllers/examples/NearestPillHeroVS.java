@@ -7,6 +7,7 @@ import game.core.G;
 import game.core.Game;
 import game.core.GameView;
 import game.core.Node;
+import game.core.Enemy;
 
 /*
  * Same as NearestPillHero but does some visuals to illustrate what can be done.
@@ -62,11 +63,15 @@ public final class NearestPillHeroVS implements HeroController
 		
 		//add lines to the ghosts (if not in lair) - green if edible, red otherwise
 		for(int i = 0; i<G.NUM_ENEMY; i++)
-			if(game.getLairTime(i)==0)
-				if(game.isEdible(i))
-					GameView.addLines(game, Color.GREEN, current, game.getCurEnemyLoc(i));
+		{
+			Enemy enemy = game.getEnemy(i);
+			if(enemy.getLairTime() == 0)
+				if(enemy.isEdible())
+					GameView.addLines(game, Color.GREEN, current, enemy.getLocation());
 				else
-					GameView.addLines(game, Color.RED, current, game.getCurEnemyLoc(i));
+					GameView.addLines(game, Color.RED, current, enemy.getLocation());
+
+		}
 
 		return game.getNextDir(game.getHero().getLocation().getNeighbors(), nearest,true,Game.DM.PATH);
 	}

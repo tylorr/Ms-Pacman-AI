@@ -3,6 +3,7 @@ package game.controllers.examples;
 import game.controllers.EnemyController;
 import game.core.Game;
 import game.core.Node;
+import game.core.Enemy;
 
 public class Legacy2TheReckoning implements EnemyController
 {
@@ -23,13 +24,15 @@ public class Legacy2TheReckoning implements EnemyController
 
         for(int i=0;i<dirs.length;i++)
         {
-        	if(game.enemyRequiresAction(i))
+            Enemy enemy = game.getEnemy(i);
+
+        	if(enemy.requiresAction())
         	{
         		//if ghosts are all in close proximity and not near Ms Pac-Man, disperse
-        		if(isCrowded(game) && !closeToMsPacMan(game,game.getCurEnemyLoc(i)))
+        		if(isCrowded(game) && !closeToMsPacMan(game,enemy.getLocation()))
         			dirs[i]=getRetreatActions(game,i);                          				//go towards the power pill locations
         		//if edible or Ms Pac-Man is close to power pill, move away from Ms Pac-Man
-        		else if(game.getEdibleTime(i)>0 || closeToPower(game))
+        		else if(enemy.getEdibleTime() > 0 || closeToPower(game))
         			dirs[i] = game.getNextEnemyDir(i, pacmanLoc,false,Game.DM.PATH);      			//move away from ms pacman
         		//else go towards Ms Pac-Man
         		else        		
@@ -66,21 +69,16 @@ public class Legacy2TheReckoning implements EnemyController
 
         for (int i = 0; i<Game.NUM_ENEMY -1; i++)
             for(int j = i+1; j<Game.NUM_ENEMY; j++)
-                distance+=game.getPathDistance(game.getCurEnemyLoc(i),game.getCurEnemyLoc(j));
+                distance+=game.getPathDistance(game.getEnemy(i).getLocation(), game.getEnemy(j).getLocation());
         
         return (distance/6)<CROWDED_DISTANCE ? true : false;
     }
 
-        	/*//				return getNextDir(hero.getLocation().neighbors, to, closer,measure);
-//				return getNextDir(getEnemyNeighbors(whichEnemy),to,closer,measure);
-
-				if(G.rnd.nextFloat()<CONSISTENCY)	//approach/retreat from the current node that Ms Pac-Man is at
-					directions[i]=game.getNextDir(game.getCurEnemyLoc(i), game.getHero().getLocation(), attract, Game.DM.PATH);
-*/
-
     private int getRetreatActions(Game game,int index)
     {
-        if(game.getEdibleTime(index)==0 && game.getPathDistance(game.getCurEnemyLoc(index),game.getHero().getLocation()) < PACMAN_DISTANCE)
+        Enemy enemy = game.getEnemy(index);
+
+        if(enemy.getEdibleTime() == 0 && game.getPathDistance(enemy.getLocation(), game.getHero().getLocation()) < PACMAN_DISTANCE)
             return game.getNextEnemyDir(index, game.getHero().getLocation(), true, Game.DM.PATH);
         else
             return game.getNextEnemyDir(index, game.getPowerPillNodes()[index], true, Game.DM.PATH);

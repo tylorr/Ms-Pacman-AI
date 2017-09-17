@@ -223,23 +223,24 @@ public final class GameView extends JComponent
     {
     	for(int index = 0; index<G.NUM_ENEMY; index++)
     	{
-	    	Node loc = game.getCurEnemyLoc(index);
+    	    Enemy enemy = game.enemies[index];
+	    	Node loc = enemy.location;
 	    	int x = loc.getX();
 	    	int y = loc.getY();
 	    	
-	    	if(game.getEdibleTime(index)>0)
+	    	if(enemy.edibleTime > 0)
 	    	{
-	    		if(game.getEdibleTime(index)<_G_.EDIBLE_ALERT && ((game.getTotalTime()%6)/3)==0)
+	    		if(enemy.edibleTime < _G_.EDIBLE_ALERT && ((game.getTotalTime() % 6) / 3) ==0)
 	    			bufferGraphics.drawImage(ghostsImgs[5][0][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	            else
 	            	bufferGraphics.drawImage(ghostsImgs[4][0][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	    	}
 	    	else 
 	    	{
-	    		if(game.getLairTime(index)>0) 		
+	    		if(game.enemies[index].lairTime > 0)
 	    			bufferGraphics.drawImage(ghostsImgs[index][G.UP][(game.getTotalTime()%6)/3],x*MAG-1+(index*5),y*MAG+3,null);
 	    		else    		
-	    			bufferGraphics.drawImage(ghostsImgs[index][game.getCurEnemyDir(index)][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
+	    			bufferGraphics.drawImage(ghostsImgs[index][enemy.direction][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	        }
     	}
     }

@@ -57,25 +57,24 @@ public interface Game
 	public int getTotalTime();										//returns the time for which the game has been played (across all levels)
 	public int getReverse(int direction);							//returns the reverse of the direction supplied
 	public int getLivesRemaining();									//returns the number of lives remaining for the hero
-
-	public boolean checkPill(int pillIndex);						//checks if the pill specified is still available
-	public boolean checkPowerPill(int powerPillIndex);				//checks if the power pill specified is still available
 	public int getCurLevel();										//returns the current level
+
 	public String getName();										//returns the name of the maze
 	public int getCurMaze();										//returns the current maze
 	public int getNumberPills();									//returns the total number of pills in this maze (at the beginning of the level)
 	public int getNumberPowerPills();								//returns the total number of power pills in this maze (at the beginning of the level)
 	public int getNumberOfNodes();									//returns the total number of nodes in the graph (pills, power pills and empty)
-	public int getPillIndex(Node node);							//returns the pill index of the node specified (can be used with the bitset for the pills)
-	public int getPowerPillIndex(Node node);					//returns the power pill index of the node specified (can be used with the bitset for the power pills)
 	public Node[] getPillNodes();									//returns all nodes with pills
 	public Node[] getPowerPillNodes();								//returns all nodes with power pills
 	public Node[] getJunctionNodes();								//returns indices to all nodes that are junctions
-	public boolean isJunction(Node node);						//returns true if node is a junction (more than 2 neighbours)
-	public int getNumNeighbors(Node node);						//returns the number of neighbours of the node specified
-	public Node getNeighbor(Node startNode, int direction);			//returns the neighbour of the node specified for the direction supplied
 	public Node getInitialHeroPosition();								//returns the position where the hero starts at the beginning of the level
 	public Node getInitialEnemiesPosition();							//returns the position where the enemies starts at the beginning of the level, AFTER leaving the lair
+
+	public boolean checkPill(int pillIndex);						//checks if the pill specified is still available
+	public boolean checkPowerPill(int powerPillIndex);				//checks if the power pill specified is still available
+	public int getPillIndex(Node node);							//returns the pill index of the node specified (can be used with the bitset for the pills)
+	public int getPowerPillIndex(Node node);					//returns the power pill index of the node specified (can be used with the bitset for the power pills)
+
 	public int getNextDir(Node[] options, Node to, boolean closer, DM measure);//returns the direction the agent should take (among options provides) to approach/retreat from the node specified, using the distance measure specified
 	public int getNextEnemyDir(int whichEnemy, Node to, boolean closer, DM measure);
 	public Node[] getPath(Node from, Node to);							//returns the path from one node to another (e.g., [1,2,5,7,9] for 1 to 9)
@@ -89,12 +88,6 @@ public interface Game
 	public Hero getHero();
     public Enemy getEnemy(int whichEnemy);
 
-	public boolean enemyRequiresAction(int whichEnemy);				//returns true of enemy is at a junction and a direction is needed
-	public int getLairTime(int whichEnemy);							//returns the time remaining the enemy specified spends in the lair
-	public int getCurEnemyDir(int whichEnemy);						//returns the last direction taken by the enemy specified
-	public int getEdibleTime(int whichEnemy);						//returns the edible time (time left in which the enemy can be eaten) for the enemy specified
-	public boolean isEdible(int whichEnemy);						//returns true if the enemy is currently edible
-	public Node getCurEnemyLoc(int whichEnemy);						//returns the node index for the enemy specified
 	public Node[] getEnemyPath(int whichEnemy, Node to);				//returns the path from one node to another, taking into account that reversals are not possible
 	public Node getEnemyTarget(int whichEnemy, Node[] targets, boolean nearest);	//selects a target for an enemy (accounts for the fact that enemies may not reverse)
 	public int getEnemyPathDistance(int whichEnemy, Node to);			//returns the distance of a path for the enemy specified (accounts for the fact that enemies may not reverse)

@@ -170,7 +170,7 @@ public class G implements Game
 	{
 		direction = checkHeroDir(direction);
 		hero.direction = direction;
-		hero.location = getNeighbor(hero.location,direction);
+		hero.location = hero.location.getNeighbor(direction);
 	}
 		
 	//Checks the direction supplied by the controller and substitutes for a legal one if necessary
@@ -208,13 +208,13 @@ public class G implements Game
 			if(reverse && enemies[i].lairTime == 0)
 			{
 				enemies[i].direction = getReverse(enemies[i].direction);
-				enemies[i].location = getNeighbor(enemies[i].location, enemies[i].direction);
+				enemies[i].location = enemies[i].location.getNeighbor(enemies[i].direction);
 			}
 			else if(enemies[i].lairTime == 0 && (enemies[i].edibleTime == 0 || enemies[i].edibleTime % ENEMY_SPEED_REDUCTION !=0))
 			{
 				directions[i] = checkEnemyDir(i, directions[i]);
 				enemies[i].direction = directions[i];
-				enemies[i].location = getNeighbor(enemies[i].location, directions[i]);
+				enemies[i].location = enemies[i].location.getNeighbor(directions[i]);
 			}
 		}		
 	}
@@ -396,30 +396,6 @@ public class G implements Game
 	{
 		return livesRemaining;
 	}
-	
-	//Current node at which the specified enemy resides
-	public Node getCurEnemyLoc(int whichEnemy)
-	{
-		return enemies[whichEnemy].location;
-	}
-
-	//Current direction of the specified enemy
-	public int getCurEnemyDir(int whichEnemy)
-	{
-		return enemies[whichEnemy].direction;
-	}
-	
-	//Returns the edible time for the specified enemy
-	public int getEdibleTime(int whichEnemy)
-	{
-		return enemies[whichEnemy].edibleTime;
-	}
-	
-	//Simpler check to see if a enemy is edible
-	public boolean isEdible(int whichEnemy)
-	{
-		return enemies[whichEnemy].edibleTime > 0;
-	}
 
 	//Returns the score of the game
 	public int getScore()
@@ -450,19 +426,7 @@ public class G implements Game
 	{
 		return mazes[curMaze].powerPillNodes.length;
 	}
-	
-	//Time left that the specified enemy will spend in the lair
-	public int getLairTime(int whichEnemy)
-	{
-		return enemies[whichEnemy].lairTime;
-	}
-	
-	//If in lair (getLairTime(-)>0) or if not at junction
-	public boolean enemyRequiresAction(int whichEnemy)
-	{
-		return (isJunction(enemies[whichEnemy].location) && (enemies[whichEnemy].edibleTime == 0 || enemies[whichEnemy].edibleTime % ENEMY_SPEED_REDUCTION != 0));
-	}
-	
+
 	//Returns name of maze: A, B, C, D
 	public String getName()
 	{
@@ -500,17 +464,7 @@ public class G implements Game
 	{
 		return node.getPowerPillIndex();
 	}
-	
-	//Returns the neighbour of node index that corresponds to direction. In the case of neutral, the 
-	//same node index is returned
-	public Node getNeighbor(Node startNode, int direction)
-	{
-		if(direction<0 || direction>3)//this takes care of "neutral"
-			return startNode;
-		else
-			return startNode.neighbors[direction];
-	}
-		
+
 	//Returns the indices to all the nodes that have pills
 	public Node[] getPillNodes()
 	{
@@ -529,18 +483,6 @@ public class G implements Game
 		return Arrays.copyOf(mazes[curMaze].junctionNodes, mazes[curMaze].junctionNodes.length);
 	}
 
-	//Checks of a node is a junction
-	public boolean isJunction(Node node)
-	{
-		return node.getNumNeighbors() > 2;
-	}
-	
-	//Returns the number of neighbours of a node: 2, 3 or 4. Exception: lair, which has no neighbours
-	public int getNumNeighbors(Node node)
-	{
-		return node.getNumNeighbors();
-	}
-	
 	//This method returns the direction to take given some options (usually corresponding to the
 	//neighbours of the node in question), moving either towards or away (closer in {true, false})
 	//using one of the three distance measures.
@@ -586,8 +528,8 @@ public class G implements Game
 	//measure. Reversals are filtered.
 	public int getNextEnemyDir(int whichEnemy, Node to, boolean closer, Game.DM measure)
 	{
-		Node[] enemyDirections = getCurEnemyLoc(whichEnemy).getNeighbors();
-		enemyDirections[getCurEnemyDir(whichEnemy)] = null;
+		Node[] enemyDirections = enemies[whichEnemy].location.getNeighbors();
+		enemyDirections[enemies[whichEnemy].direction] = null;
 
 		return getNextDir(enemyDirections, to, closer, measure);
 	}
