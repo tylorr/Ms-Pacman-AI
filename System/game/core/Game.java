@@ -87,9 +87,8 @@ public interface Game
 	public int getManhattanDistance(Node from, Node to);				//returns the Manhattan distance between two nodes
 
 	public Hero getHero();
+    public Enemy getEnemy(int whichEnemy);
 
-	public Node[] getEnemyNeighbors(int whichEnemy);				//returns an array of size 4, indicating neighbouring nodes for the current position of the enemy specified. Replaces the direction corresponding to the opposite previous direction with -1
-	public int[] getPossibleEnemyDirs(int whichEnemy);				//returns the set of possible directions for the enemy specified (excludes the opposite of the previous direction)
 	public boolean enemyRequiresAction(int whichEnemy);				//returns true of enemy is at a junction and a direction is needed
 	public int getLairTime(int whichEnemy);							//returns the time remaining the enemy specified spends in the lair
 	public int getCurEnemyDir(int whichEnemy);						//returns the last direction taken by the enemy specified

@@ -45,17 +45,14 @@ public class G implements Game
 	//level-specific
 	protected int curMaze,totLevel,levelTime,totalTime,score, enemyEatMultiplier;
 	protected boolean gameOver;
-	//hero-specific
-	Hero hero;
-//	protected Node curHeroLoc;
-//	protected int lastHeroDir,livesRemaining;
+
+	// Actors
+	protected Hero hero;
+	protected Enemy[] enemies;
+
 	protected int livesRemaining;
 	protected boolean extraLife;
 
-	//enemy-specific
-	protected Node[] curEnemyLocs;
-	protected int[] lastEnemyDirs,edibleTimes,lairTimes;
-	
 	/////////////////////////////////////////////////////////////////////////////
 	/////////////////  Constructors and Initialisers   //////////////////////////
 	/////////////////////////////////////////////////////////////////////////////
@@ -87,11 +84,11 @@ public class G implements Game
 		copy.hero = hero.clone();
 		copy.livesRemaining=livesRemaining;
 		copy.extraLife=extraLife;
-		copy.curEnemyLocs =Arrays.copyOf(curEnemyLocs, curEnemyLocs.length);
-		copy.lastEnemyDirs =Arrays.copyOf(lastEnemyDirs, lastEnemyDirs.length);
-		copy.edibleTimes=Arrays.copyOf(edibleTimes,edibleTimes.length);
-		copy.lairTimes=Arrays.copyOf(lairTimes,lairTimes.length);
-		
+		copy.enemies = new Enemy[enemies.length];
+
+		for (int index = 0; index < enemies.length; index++)
+			copy.enemies[index] = enemies[index].clone();
+
 		return copy;
 	}
 	
@@ -109,14 +106,12 @@ public class G implements Game
 
 		hero = new Hero(getInitialHeroPosition(), G.INITIAL_HERO_DIR);
 
-		Arrays.fill(curEnemyLocs,mazes[curMaze].lairPosition);
-		lastEnemyDirs =Arrays.copyOf(G.INITIAL_ENEMY_DIRS,G.INITIAL_ENEMY_DIRS.length);
-	
-		Arrays.fill(edibleTimes,0);		
-		enemyEatMultiplier =1;
-		
-		for(int i=0;i<lairTimes.length;i++)
-			lairTimes[i]=(int)(G.LAIR_TIMES[i]*(Math.pow(LAIR_REDUCTION,totLevel)));
+		for (int index = 0; index < enemies.length; index++)
+		{
+			enemies[index] = new Enemy(mazes[curMaze].lairPosition, G.INITIAL_ENEMY_DIRS[index], (int)(G.LAIR_TIMES[index]*(Math.pow(LAIR_REDUCTION,totLevel))));
+		}
+
+		enemyEatMultiplier = 1;
 	}
 		
 	/////////////////////////////////////////////////////////////////////////////
@@ -133,19 +128,21 @@ public class G implements Game
 		
 		//This is primarily done for the replays as reset (as possibly called by feast()) sets the 
 		//last directions to the initial ones, not the ones taken
-		int[] actionsTakens={hero.direction, lastEnemyDirs[0], lastEnemyDirs[1], lastEnemyDirs[2], lastEnemyDirs[3]};
+		int[] actionsTakens = { hero.direction, enemies[0].direction, enemies[1].direction, enemies[2].direction, enemies[3].direction };
 		
 		feast();							//enemies eat the hero or vice versa
 		
-		for(int i=0;i<lairTimes.length;i++)
-			if(lairTimes[i]>0)
+		for(int i = 0; i < enemies.length; i++)
+		{
+			if (enemies[i].lairTime > 0)
 			{
-				lairTimes[i]--;
-			
-				if(lairTimes[i]==0)
-					curEnemyLocs[i] = mazes[curMaze].initialEnemiesPosition;
+				enemies[i].lairTime--;
+
+				if (enemies[i].lairTime == 0)
+					enemies[i].location = mazes[curMaze].initialEnemiesPosition;
 			}
-				
+		}
+
 		if(!extraLife && score>=EXTRA_LIFE_SCORE)	//award 1 extra life at 10000 points
 		{
 			extraLife=true;
@@ -161,7 +158,11 @@ public class G implements Game
 
 	public Hero getHero()
 	{
-		return hero;
+		return hero.clone();
+	}
+	public Enemy getEnemy(int whichEnemy)
+	{
+		return enemies[whichEnemy].clone();
 	}
 
 	//Updates the location of the hero
@@ -199,21 +200,21 @@ public class G implements Game
 	//Updates the locations of the enemies
 	protected void updateEnemies(int[] directions, boolean reverse)
 	{
-		if(directions==null)
-			directions=Arrays.copyOf(lastEnemyDirs, lastEnemyDirs.length);
+//		if(directions==null)
+//			directions=Arrays.copyOf(lastEnemyDirs, lastEnemyDirs.length);
 		
-		for(int i=0;i<directions.length;i++)
+		for(int i = 0; i < enemies.length; i++)
 		{											
-			if(reverse && lairTimes[i]==0)
+			if(reverse && enemies[i].lairTime == 0)
 			{
-				lastEnemyDirs[i]=getReverse(lastEnemyDirs[i]);
-				curEnemyLocs[i]=getNeighbor(curEnemyLocs[i], lastEnemyDirs[i]);
+				enemies[i].direction = getReverse(enemies[i].direction);
+				enemies[i].location = getNeighbor(enemies[i].location, enemies[i].direction);
 			}
-			else if(lairTimes[i]==0 && (edibleTimes[i]==0 || edibleTimes[i]% ENEMY_SPEED_REDUCTION !=0))
+			else if(enemies[i].lairTime == 0 && (enemies[i].edibleTime == 0 || enemies[i].edibleTime % ENEMY_SPEED_REDUCTION !=0))
 			{
-				directions[i]= checkEnemyDir(i,directions[i]);
-				lastEnemyDirs[i]=directions[i];
-				curEnemyLocs[i]=getNeighbor(curEnemyLocs[i],directions[i]);
+				directions[i] = checkEnemyDir(i, directions[i]);
+				enemies[i].direction = directions[i];
+				enemies[i].location = getNeighbor(enemies[i].location, directions[i]);
 			}
 		}		
 	}
@@ -221,18 +222,18 @@ public class G implements Game
 	//Checks the directions supplied by the controller and substitutes for a legal ones if necessary
 	protected int checkEnemyDir(int whichEnemy, int direction)
 	{
-		if(direction<0 || direction>3)
-			direction= lastEnemyDirs[whichEnemy];
+		if(direction < 0 || direction > 3)
+			direction = enemies[whichEnemy].direction;
 			
-		Node[] neighbors= getEnemyNeighbors(whichEnemy);
+		Node[] neighbors = enemies[whichEnemy].getPossibleLocations();
 			
 		if(neighbors[direction] == null)
 		{
-			if(neighbors[lastEnemyDirs[whichEnemy]] != null)
-				direction= lastEnemyDirs[whichEnemy];
+			if(neighbors[enemies[whichEnemy].direction] != null)
+				direction = enemies[whichEnemy].direction;
 			else
 			{
-				int[] options= getPossibleEnemyDirs(whichEnemy);
+				int[] options = enemies[whichEnemy].getPossibleDirs();
 				direction=options[G.rnd.nextInt(options.length)];
 			}
 		}
@@ -268,10 +269,10 @@ public class G implements Game
 			int newEdibleTime=(int)(G.EDIBLE_TIME*(Math.pow(G.EDIBLE_TIME_REDUCTION,totLevel)));
 			
 			for(int i = 0; i< NUM_ENEMY; i++)
-				if(lairTimes[i]==0)
-					edibleTimes[i]=newEdibleTime;
+				if(enemies[i].lairTime == 0)
+					enemies[i].edibleTime = newEdibleTime;
 				else
-					edibleTimes[i]=0;
+					enemies[i].edibleTime = 0;
 			
 			//This turns all enemies edible, independent on whether they are in the lair or not
 //			Arrays.fill(edibleTimes,(int)(G.EDIBLE_TIME*(Math.pow(G.EDIBLE_TIME_REDUCTION,totLevel))));						
@@ -287,20 +288,20 @@ public class G implements Game
 	//This is where the characters of the game eat one another if possible
 	protected void feast()
 	{		
-		for(int i = 0; i< curEnemyLocs.length; i++)
+		for(int i = 0; i < enemies.length; i++)
 		{
-			int distance=getPathDistance(hero.location, curEnemyLocs[i]);
+			int distance=getPathDistance(hero.location, enemies[i].location);
 			
-			if(distance<=G.EAT_DISTANCE && distance!=-1)
+			if(distance <= G.EAT_DISTANCE && distance != -1)
 			{
-				if(edibleTimes[i]>0)									//hero eats enemy
+				if(enemies[i].edibleTime > 0)									//hero eats enemy
 				{
 					score+=G.ENEMY_EAT_SCORE * enemyEatMultiplier;
 					enemyEatMultiplier *=2;
-					edibleTimes[i]=0;					
-					lairTimes[i]=(int)(G.COMMON_LAIR_TIME*(Math.pow(G.LAIR_REDUCTION,totLevel)));					
-					curEnemyLocs[i] = mazes[curMaze].lairPosition;
-					lastEnemyDirs[i] = G.INITIAL_ENEMY_DIRS[i];
+					enemies[i].edibleTime = 0;
+					enemies[i].lairTime = (int)(G.COMMON_LAIR_TIME*(Math.pow(G.LAIR_REDUCTION,totLevel)));
+					enemies[i].location = mazes[curMaze].lairPosition;
+					enemies[i].direction = G.INITIAL_ENEMY_DIRS[i];
 				}
 				else													//enemy eats hero
 				{
@@ -317,9 +318,9 @@ public class G implements Game
 			}
 		}
 		
-		for(int i=0;i<edibleTimes.length;i++)
-			if(edibleTimes[i]>0)
-				edibleTimes[i]--;
+		for(int i = 0; i < enemies.length;i++)
+			if(enemies[i].edibleTime > 0)
+				enemies[i].edibleTime--;
 	}
 	
 	//Checks the state of the level/game and advances to the next level or terminates the game
@@ -378,16 +379,6 @@ public class G implements Game
 		return powerPills.get(nodeIndex);
 	}
 
-	//Returns the neighbours of the node at which the specified enemy currently resides. NOTE: since enemies are not allowed to reverse, that
-	//neighbour is filtered out. Alternatively use: getNeighbour(), given curEnemyLoc[-] for all directions
-	public Node[] getEnemyNeighbors(int whichEnemy)
-	{
-		Node[] neighbors=Arrays.copyOf(curEnemyLocs[whichEnemy].neighbors, curEnemyLocs[whichEnemy].neighbors.length);
-		neighbors[getReverse(lastEnemyDirs[whichEnemy])] = null;
-		
-		return neighbors;
-	}
-	
 	//The current level
 	public int getCurLevel()
 	{
@@ -409,25 +400,25 @@ public class G implements Game
 	//Current node at which the specified enemy resides
 	public Node getCurEnemyLoc(int whichEnemy)
 	{
-		return curEnemyLocs[whichEnemy];
+		return enemies[whichEnemy].location;
 	}
 
 	//Current direction of the specified enemy
 	public int getCurEnemyDir(int whichEnemy)
 	{
-		return lastEnemyDirs[whichEnemy];
+		return enemies[whichEnemy].direction;
 	}
 	
 	//Returns the edible time for the specified enemy
 	public int getEdibleTime(int whichEnemy)
 	{
-		return edibleTimes[whichEnemy];
+		return enemies[whichEnemy].edibleTime;
 	}
 	
 	//Simpler check to see if a enemy is edible
 	public boolean isEdible(int whichEnemy)
 	{
-		return edibleTimes[whichEnemy]>0;
+		return enemies[whichEnemy].edibleTime > 0;
 	}
 
 	//Returns the score of the game
@@ -463,13 +454,13 @@ public class G implements Game
 	//Time left that the specified enemy will spend in the lair
 	public int getLairTime(int whichEnemy)
 	{
-		return lairTimes[whichEnemy];
+		return enemies[whichEnemy].lairTime;
 	}
 	
 	//If in lair (getLairTime(-)>0) or if not at junction
 	public boolean enemyRequiresAction(int whichEnemy)
 	{
-		return (isJunction(curEnemyLocs[whichEnemy]) && (edibleTimes[whichEnemy]==0 || edibleTimes[whichEnemy]% ENEMY_SPEED_REDUCTION !=0));
+		return (isJunction(enemies[whichEnemy].location) && (enemies[whichEnemy].edibleTime == 0 || enemies[whichEnemy].edibleTime % ENEMY_SPEED_REDUCTION != 0));
 	}
 	
 	//Returns name of maze: A, B, C, D
@@ -550,42 +541,6 @@ public class G implements Game
 		return node.getNumNeighbors();
 	}
 	
-	//Returns the actual directions the specified enemy can take
-	public int[] getPossibleEnemyDirs(int whichEnemy)
-	{
-		return getPossibleDirs(curEnemyLocs[whichEnemy], lastEnemyDirs[whichEnemy],false);
-	}
-	
-	//Computes the directions to be taken given the current location
-	private int[] getPossibleDirs(Node curLoc, int curDir, boolean includeReverse)
-	{
-		int numNeighbors = curLoc.getNumNeighbors();
-
-		if(numNeighbors == 0)
-			return new int[0];
-		
-		Node[] nodes = curLoc.neighbors;
-		int[] directions;
-		
-		if(includeReverse || (curDir < 0 || curDir > 3))
-			directions=new int[numNeighbors];
-		else
-			directions=new int[numNeighbors - 1];
-		
-		int index = 0;
-		
-		for(int i = 0; i < nodes.length; i++)
-			if(nodes[i] != null)
-			{
-				if(includeReverse || (curDir < 0 || curDir > 3))
-					directions[index++] = i;
-				else if(i != getReverse(curDir))
-					directions[index++] = i;
-			}
-
-		return directions;
-	}
-
 	//This method returns the direction to take given some options (usually corresponding to the
 	//neighbours of the node in question), moving either towards or away (closer in {true, false})
 	//using one of the three distance measures.
@@ -682,12 +637,12 @@ public class G implements Game
 	//may be significantly longer than the shortest available path
 	public Node[] getEnemyPath(int whichEnemy, Node to)
 	{
-		if(curEnemyLocs[whichEnemy].getNumNeighbors()==0)
+		if(enemies[whichEnemy].location.getNumNeighbors()==0)
 			return new Node[0];
 
-		Node currentNode = curEnemyLocs[whichEnemy];
+		Node currentNode = enemies[whichEnemy].location;
 		ArrayList<Node> path=new ArrayList<Node>();
-		int lastDir= lastEnemyDirs[whichEnemy];
+		int lastDir= enemies[whichEnemy].direction;
 
 		while(currentNode != to)
 		{

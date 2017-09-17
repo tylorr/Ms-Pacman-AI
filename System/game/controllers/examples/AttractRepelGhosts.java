@@ -21,14 +21,11 @@ public final class AttractRepelGhosts implements EnemyController
 		for(int i=0;i<directions.length;i++)	//for each ghost
 			if(game.enemyRequiresAction(i))		//if it requires an action
 			{
-//				return getNextDir(hero.getLocation().neighbors, to, closer,measure);
-//				return getNextDir(getEnemyNeighbors(whichEnemy),to,closer,measure);
-
 				if(G.rnd.nextFloat()<CONSISTENCY)	//approach/retreat from the current node that Ms Pac-Man is at
 					directions[i]=game.getNextEnemyDir(i, game.getHero().getLocation(), attract, Game.DM.PATH);
 				else									//else take a random action
 				{					
-					int[] possibleDirs=game.getPossibleEnemyDirs(i);	//takes a random LEGAL action. Could also just return any random number
+					int[] possibleDirs=game.getEnemy(i).getPossibleDirs();	//takes a random LEGAL action. Could also just return any random number
 					directions[i]=possibleDirs[G.rnd.nextInt(possibleDirs.length)];
 				}
 			}

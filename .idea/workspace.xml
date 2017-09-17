@@ -20,13 +20,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Game.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/System/game/core/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-760">
-              <caret line="39" column="50" lean-forward="false" selection-start-line="39" selection-start-column="50" selection-end-line="39" selection-end-column="50" />
+            <state relative-caret-position="676">
+              <caret line="91" column="0" lean-forward="false" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
               <folding>
-                <element signature="e#0#8995#0" expanded="true" />
+                <element signature="e#0#8626#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -35,11 +35,17 @@
       <file leaf-file-name="G.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/System/game/core/G.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="291" column="54" lean-forward="false" selection-start-line="291" selection-start-column="54" selection-end-line="291" selection-end-column="54" />
+            <state relative-caret-position="517">
+              <caret line="46" column="23" lean-forward="false" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
               <folding>
-                <element signature="e#18374#18380#0" expanded="true" />
-                <element signature="e#19119#19125#0" expanded="true" />
+                <element signature="e#11343#11344#0" expanded="true" />
+                <element signature="e#11387#11388#0" expanded="true" />
+                <element signature="e#11478#11479#0" expanded="true" />
+                <element signature="e#11526#11527#0" expanded="true" />
+                <element signature="e#12226#12227#0" expanded="true" />
+                <element signature="e#12268#12269#0" expanded="true" />
+                <element signature="e#17012#17018#0" expanded="true" />
+                <element signature="e#17765#17771#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -48,8 +54,8 @@
       <file leaf-file-name="AttractRepelGhosts.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/AttractRepelGhosts.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="27" column="92" lean-forward="false" selection-start-line="27" selection-start-column="92" selection-end-line="27" selection-end-column="92" />
+            <state relative-caret-position="999">
+              <caret line="29" column="17" lean-forward="true" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -58,8 +64,28 @@
       <file leaf-file-name="GameView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/System/game/core/GameView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="213" column="30" lean-forward="false" selection-start-line="213" selection-start-column="30" selection-end-line="213" selection-end-column="30" />
+            <state relative-caret-position="522">
+              <caret line="213" column="39" lean-forward="false" selection-start-line="213" selection-start-column="39" selection-end-line="213" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_G_.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/System/game/core/_G_.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="518">
+              <caret line="26" column="18" lean-forward="true" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RandomGhosts.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/RandomGhosts.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-33">
+              <caret line="0" column="34" lean-forward="true" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -68,14 +94,9 @@
       <file leaf-file-name="Actor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/System/game/core/Actor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding>
-                <element signature="e#155#156#0" expanded="true" />
-                <element signature="e#186#187#0" expanded="true" />
-                <element signature="e#223#224#0" expanded="true" />
-                <element signature="e#255#256#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="703">
+              <caret line="25" column="11" lean-forward="true" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -83,21 +104,31 @@
       <file leaf-file-name="Hero.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/System/game/core/Hero.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="1406">
+              <caret line="41" column="5" lean-forward="false" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
               <folding>
-                <element signature="e#107#108#0" expanded="true" />
-                <element signature="e#149#150#0" expanded="true" />
+                <element signature="e#996#997#0" expanded="true" />
+                <element signature="e#1038#1039#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Enemy.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Enemy.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/System/game/core/Enemy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1110">
-              <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state relative-caret-position="1259">
+              <caret line="40" column="51" lean-forward="true" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Node.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/System/game/core/Node.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1111">
+              <caret line="47" column="31" lean-forward="true" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -114,10 +145,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getPower</find>
-      <find>getPowerPillIndic</find>
-      <find>getGhost</find>
-      <find>getPowerPillIndex</find>
       <find>getGhostT</find>
       <find>getGho</find>
       <find>initialGhostP</find>
@@ -144,6 +171,10 @@
       <find>getPossibleEne</find>
       <find>getReverse</find>
       <find>getPossibleH</find>
+      <find>getEnem</find>
+      <find>getPoss</find>
+      <find>lairTimes</find>
+      <find>INITIAL_ENEMY_DIRS</find>
     </findStrings>
     <replaceStrings>
       <replace>.getX()</replace>
@@ -172,7 +203,6 @@
       <list>
         <option value="$PROJECT_DIR$/Student Agent/fs_student/MsPacManAgent.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/NearestPillPacMan.java" />
-        <option value="$PROJECT_DIR$/System/game/core/_G_.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/NearestPillPacManVS.java" />
         <option value="$PROJECT_DIR$/exec/lib/afi.MsPacManAFI.jar!/afi/MsPacManAFI.class" />
         <option value="$PROJECT_DIR$/System/game/Exec.java" />
@@ -186,18 +216,20 @@
         <option value="$PROJECT_DIR$/System/game/core/Node.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/NearestPillHeroVS.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/Legacy.java" />
-        <option value="$PROJECT_DIR$/System/game/controllers/examples/AttractRepelGhosts.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/Legacy2TheReckoning.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/NearestPillHero.java" />
         <option value="$PROJECT_DIR$/src/pakku/agent/TestAgent.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/RandomNonRevHero.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/RandomHero.java" />
-        <option value="$PROJECT_DIR$/System/game/core/Game.java" />
-        <option value="$PROJECT_DIR$/System/game/core/Hero.java" />
         <option value="$PROJECT_DIR$/System/game/core/GameView.java" />
-        <option value="$PROJECT_DIR$/System/game/core/G.java" />
         <option value="$PROJECT_DIR$/System/game/core/Actor.java" />
+        <option value="$PROJECT_DIR$/System/game/core/Hero.java" />
         <option value="$PROJECT_DIR$/System/game/core/Enemy.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/AttractRepelGhosts.java" />
+        <option value="$PROJECT_DIR$/System/game/core/_G_.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/RandomGhosts.java" />
+        <option value="$PROJECT_DIR$/System/game/core/G.java" />
+        <option value="$PROJECT_DIR$/System/game/core/Game.java" />
       </list>
     </option>
   </component>
@@ -208,9 +240,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="295" />
-    <option name="y" value="86" />
-    <option name="width" value="3085" />
+    <option name="x" value="901" />
+    <option name="y" value="85" />
+    <option name="width" value="2798" />
     <option name="height" value="1890" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -230,8 +262,8 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="AndroidView" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -746,15 +778,18 @@
       <workItem from="1505425133843" duration="1318000" />
       <workItem from="1505520534805" duration="3104000" />
       <workItem from="1505523997725" duration="1018000" />
-      <workItem from="1505525044291" duration="5031000" />
+      <workItem from="1505525044291" duration="5072000" />
+      <workItem from="1505598673233" duration="29000" />
+      <workItem from="1505609115360" duration="1402000" />
+      <workItem from="1505610599603" duration="923000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35818000" />
+    <option name="totallyTimeSpent" value="38213000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="295" y="86" width="3085" height="1890" extended-state="0" />
+    <frame x="901" y="85" width="2798" height="1890" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -770,9 +805,8 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21031345" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24477611" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3265306" sideWeight="0.49353796" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -786,6 +820,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3265306" sideWeight="0.49353796" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -860,17 +895,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/System/game/core/G.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17682">
-          <caret line="955" column="71" lean-forward="false" selection-start-line="955" selection-start-column="71" selection-end-line="955" selection-end-column="71" />
-          <folding>
-            <element signature="e#18374#18380#0" expanded="true" />
-            <element signature="e#19119#19125#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/System/game/core/_G_.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -883,10 +907,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#1020#1021#0" expanded="true" />
-            <element signature="e#1085#1086#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -895,7 +916,7 @@
         <state relative-caret-position="903">
           <caret line="55" column="44" lean-forward="true" selection-start-line="55" selection-start-column="44" selection-end-line="55" selection-end-column="44" />
           <folding>
-            <element signature="e#0#8995#0" expanded="true" />
+            <element signature="e#0#8626#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -920,7 +941,7 @@
         <state relative-caret-position="1764">
           <caret line="96" column="72" lean-forward="false" selection-start-line="96" selection-start-column="72" selection-end-line="96" selection-end-column="72" />
           <folding>
-            <element signature="e#0#8995#0" expanded="true" />
+            <element signature="e#0#8626#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -929,10 +950,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="693">
           <caret line="33" column="2" lean-forward="false" selection-start-line="33" selection-start-column="2" selection-end-line="33" selection-end-column="2" />
-          <folding>
-            <element signature="e#1020#1021#0" expanded="true" />
-            <element signature="e#1085#1086#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -941,8 +959,14 @@
         <state relative-caret-position="630">
           <caret line="30" column="7" lean-forward="false" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
           <folding>
-            <element signature="e#18374#18380#0" expanded="true" />
-            <element signature="e#19119#19125#0" expanded="true" />
+            <element signature="e#11343#11344#0" expanded="true" />
+            <element signature="e#11387#11388#0" expanded="true" />
+            <element signature="e#11478#11479#0" expanded="true" />
+            <element signature="e#11526#11527#0" expanded="true" />
+            <element signature="e#12226#12227#0" expanded="true" />
+            <element signature="e#12268#12269#0" expanded="true" />
+            <element signature="e#17012#17018#0" expanded="true" />
+            <element signature="e#17765#17771#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -967,7 +991,7 @@
         <state relative-caret-position="903">
           <caret line="55" column="17" lean-forward="true" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
           <folding>
-            <element signature="e#0#8995#0" expanded="true" />
+            <element signature="e#0#8626#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -976,10 +1000,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="693">
           <caret line="33" column="2" lean-forward="false" selection-start-line="33" selection-start-column="2" selection-end-line="33" selection-end-column="2" />
-          <folding>
-            <element signature="e#1020#1021#0" expanded="true" />
-            <element signature="e#1085#1086#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -988,8 +1009,14 @@
         <state relative-caret-position="14889">
           <caret line="709" column="0" lean-forward="true" selection-start-line="709" selection-start-column="0" selection-end-line="709" selection-end-column="0" />
           <folding>
-            <element signature="e#18374#18380#0" expanded="true" />
-            <element signature="e#19119#19125#0" expanded="true" />
+            <element signature="e#11343#11344#0" expanded="true" />
+            <element signature="e#11387#11388#0" expanded="true" />
+            <element signature="e#11478#11479#0" expanded="true" />
+            <element signature="e#11526#11527#0" expanded="true" />
+            <element signature="e#12226#12227#0" expanded="true" />
+            <element signature="e#12268#12269#0" expanded="true" />
+            <element signature="e#17012#17018#0" expanded="true" />
+            <element signature="e#17765#17771#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1014,7 +1041,7 @@
         <state relative-caret-position="1449">
           <caret line="81" column="20" lean-forward="true" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
           <folding>
-            <element signature="e#0#8995#0" expanded="true" />
+            <element signature="e#0#8626#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1024,8 +1051,14 @@
         <state relative-caret-position="17010">
           <caret line="920" column="50" lean-forward="false" selection-start-line="920" selection-start-column="50" selection-end-line="920" selection-end-column="50" />
           <folding>
-            <element signature="e#18374#18380#0" expanded="true" />
-            <element signature="e#19119#19125#0" expanded="true" />
+            <element signature="e#11343#11344#0" expanded="true" />
+            <element signature="e#11387#11388#0" expanded="true" />
+            <element signature="e#11478#11479#0" expanded="true" />
+            <element signature="e#11526#11527#0" expanded="true" />
+            <element signature="e#12226#12227#0" expanded="true" />
+            <element signature="e#12268#12269#0" expanded="true" />
+            <element signature="e#17012#17018#0" expanded="true" />
+            <element signature="e#17765#17771#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1034,10 +1067,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="17" column="5" lean-forward="false" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
-          <folding>
-            <element signature="e#1020#1021#0" expanded="true" />
-            <element signature="e#1085#1086#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1071,14 +1101,6 @@
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/exec/lib/afi.MsPacManAFI.jar!/afi/MsPacManAFI.class" />
-    <entry file="file://$PROJECT_DIR$/System/game/core/_G_.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/System/ai/behaviortree/Selector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
@@ -1125,22 +1147,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/core/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="46" column="42" lean-forward="true" selection-start-line="46" selection-start-column="42" selection-end-line="46" selection-end-column="42" />
-          <folding>
-            <element signature="e#1020#1021#0" expanded="true" />
-            <element signature="e#1085#1086#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/NearestPillHeroVS.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="649">
           <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1148,7 +1158,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="518">
           <caret line="17" column="64" lean-forward="true" selection-start-line="17" selection-start-column="64" selection-end-line="17" selection-end-column="64" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1156,7 +1165,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
           <caret line="137" column="13" lean-forward="true" selection-start-line="137" selection-start-column="13" selection-end-line="137" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1164,7 +1172,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="898">
           <caret line="77" column="47" lean-forward="true" selection-start-line="77" selection-start-column="47" selection-end-line="77" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1172,7 +1179,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1036">
           <caret line="33" column="74" lean-forward="false" selection-start-line="33" selection-start-column="74" selection-end-line="33" selection-end-column="74" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1180,7 +1186,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="211" column="28" lean-forward="false" selection-start-line="211" selection-start-column="28" selection-end-line="211" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1208,72 +1213,97 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/core/Game.java">
+    <entry file="file://$PROJECT_DIR$/System/game/core/Hero.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-760">
-          <caret line="39" column="50" lean-forward="false" selection-start-line="39" selection-start-column="50" selection-end-line="39" selection-end-column="50" />
+        <state relative-caret-position="1406">
+          <caret line="41" column="5" lean-forward="false" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
           <folding>
-            <element signature="e#0#8995#0" expanded="true" />
+            <element signature="e#996#997#0" expanded="true" />
+            <element signature="e#1038#1039#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/core/GameView.java">
+    <entry file="file://$PROJECT_DIR$/System/game/core/Actor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="213" column="30" lean-forward="false" selection-start-line="213" selection-start-column="30" selection-end-line="213" selection-end-column="30" />
+        <state relative-caret-position="703">
+          <caret line="25" column="11" lean-forward="true" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/core/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1111">
+          <caret line="47" column="31" lean-forward="true" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/core/Enemy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1259">
+          <caret line="40" column="51" lean-forward="true" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/AttractRepelGhosts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="999">
+          <caret line="29" column="17" lean-forward="true" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/core/_G_.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="518">
+          <caret line="26" column="18" lean-forward="true" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/RandomGhosts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-33">
+          <caret line="0" column="34" lean-forward="true" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/System/game/core/G.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="291" column="54" lean-forward="false" selection-start-line="291" selection-start-column="54" selection-end-line="291" selection-end-column="54" />
+        <state relative-caret-position="517">
+          <caret line="46" column="23" lean-forward="false" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
           <folding>
-            <element signature="e#18374#18380#0" expanded="true" />
-            <element signature="e#19119#19125#0" expanded="true" />
+            <element signature="e#11343#11344#0" expanded="true" />
+            <element signature="e#11387#11388#0" expanded="true" />
+            <element signature="e#11478#11479#0" expanded="true" />
+            <element signature="e#11526#11527#0" expanded="true" />
+            <element signature="e#12226#12227#0" expanded="true" />
+            <element signature="e#12268#12269#0" expanded="true" />
+            <element signature="e#17012#17018#0" expanded="true" />
+            <element signature="e#17765#17771#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/AttractRepelGhosts.java">
+    <entry file="file://$PROJECT_DIR$/System/game/core/GameView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="27" column="92" lean-forward="false" selection-start-line="27" selection-start-column="92" selection-end-line="27" selection-end-column="92" />
+        <state relative-caret-position="522">
+          <caret line="213" column="39" lean-forward="false" selection-start-line="213" selection-start-column="39" selection-end-line="213" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/core/Actor.java">
+    <entry file="file://$PROJECT_DIR$/System/game/core/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        <state relative-caret-position="676">
+          <caret line="91" column="0" lean-forward="false" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
           <folding>
-            <element signature="e#155#156#0" expanded="true" />
-            <element signature="e#186#187#0" expanded="true" />
-            <element signature="e#223#224#0" expanded="true" />
-            <element signature="e#255#256#0" expanded="true" />
+            <element signature="e#0#8626#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/core/Hero.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="e#107#108#0" expanded="true" />
-            <element signature="e#149#150#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/core/Enemy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1110">
-          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>

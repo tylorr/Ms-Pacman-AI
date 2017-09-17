@@ -2,9 +2,13 @@ package game.core;
 
 public class Enemy extends Actor
 {
-    protected Enemy(Node location, int direction)
+    protected int edibleTime, lairTime;
+
+    protected Enemy(Node location, int direction, int _lairTime)
     {
         super(location, direction);
+        edibleTime = 0;
+        lairTime = _lairTime;
     }
 
     public int[] getPossibleDirs()
@@ -29,5 +33,22 @@ public class Enemy extends Actor
             }
 
         return directions;
+    }
+
+    public Node[] getPossibleLocations()
+    {
+        Node[] newLocations = location.getNeighbors();
+        newLocations[getReverse(direction)] = null;
+        return newLocations;
+    }
+
+    /*		copy.curEnemyLocs =Arrays.copyOf(curEnemyLocs, curEnemyLocs.length);
+		copy.lastEnemyDirs =Arrays.copyOf(lastEnemyDirs, lastEnemyDirs.length);
+		copy.edibleTimes=Arrays.copyOf(edibleTimes,edibleTimes.length);
+		copy.lairTimes=Arrays.copyOf(lairTimes,lairTimes.length);*/
+
+    protected Enemy clone()
+    {
+        return (Enemy)super.clone();
     }
 }

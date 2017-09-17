@@ -15,7 +15,7 @@ public final class RandomGhosts implements EnemyController
 		for(int i=0;i<directions.length;i++)
 			if(game.enemyRequiresAction(i))
 			{			
-				int[] possibleDirs=game.getPossibleEnemyDirs(i);
+				int[] possibleDirs=game.getEnemy(i).getPossibleDirs();
 				directions[i]=possibleDirs[G.rnd.nextInt(possibleDirs.length)];
 			}
 		

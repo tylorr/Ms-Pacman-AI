@@ -21,11 +21,11 @@ public class Actor implements Cloneable
         direction = _direction;
     }
 
-    protected Hero clone()
+    protected Actor clone()
     {
         try
         {
-            return (Hero)super.clone();
+            return (Actor)super.clone();
         }
         catch (CloneNotSupportedException e)
         {

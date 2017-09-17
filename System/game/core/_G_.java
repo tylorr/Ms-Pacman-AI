@@ -25,11 +25,8 @@ public class _G_ extends G
 		init();		//load mazes if not yet loaded
 		
 		curMaze=0;
-		
-		curEnemyLocs = new Node[G.NUM_ENEMY];
-		lastEnemyDirs = new int[G.NUM_ENEMY];
-		edibleTimes = new int[G.NUM_ENEMY];
-		lairTimes = new int[G.NUM_ENEMY];
+
+		enemies = new Enemy[G.NUM_ENEMY];
 
 		pills=new BitSet(getNumberPills());
 		pills.set(0,getNumberPills());

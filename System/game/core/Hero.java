@@ -35,4 +35,9 @@ public class Hero extends Actor
 
         return directions;
     }
+
+    protected Hero clone()
+    {
+        return (Hero)super.clone();
+    }
 }
