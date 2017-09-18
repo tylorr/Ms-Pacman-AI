@@ -73,6 +73,6 @@ public final class NearestPillHeroVS implements HeroController
 
 		}
 
-		return game.getNextDir(game.getHero().getLocation().getNeighbors(), nearest,true,Game.DM.PATH);
+		return game.getHero().getNextDir(nearest, true);
 	}
 }

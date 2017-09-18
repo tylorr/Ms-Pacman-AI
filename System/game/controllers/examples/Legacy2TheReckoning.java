@@ -33,10 +33,10 @@ public class Legacy2TheReckoning implements EnemyController
         			dirs[i]=getRetreatActions(game,i);                          				//go towards the power pill locations
         		//if edible or Ms Pac-Man is close to power pill, move away from Ms Pac-Man
         		else if(enemy.getEdibleTime() > 0 || closeToPower(game))
-        			dirs[i] = game.getNextEnemyDir(i, pacmanLoc,false,Game.DM.PATH);      			//move away from ms pacman
+        			dirs[i] = game.getEnemy(i).getNextDir(pacmanLoc, false);      			//move away from ms pacman
         		//else go towards Ms Pac-Man
-        		else        		
-        			dirs[i] = game.getNextEnemyDir(i,pacmanLoc,true,Game.DM.PATH);       			//go towards ms pacman
+        		else
+                    dirs[i] = game.getEnemy(i).getNextDir(pacmanLoc, true);      			//go towards ms pacman
         	}
         }
         
@@ -49,7 +49,7 @@ public class Legacy2TheReckoning implements EnemyController
     	Node[] powerPills = game.getPowerPillNodes();
     	
     	for(int i=0;i<powerPills.length;i++)
-    		if(game.checkPowerPill(i) && game.getPathDistance(powerPills[i], pacmanLoc) < PILL_PROXIMITY)
+    		if(game.checkPowerPill(i) && powerPills[i].getPathDistance(pacmanLoc) < PILL_PROXIMITY)
     			return true;
 
         return false;
@@ -57,7 +57,7 @@ public class Legacy2TheReckoning implements EnemyController
 
     private boolean closeToMsPacMan(Game game, Node location)
     {
-    	if(game.getPathDistance(game.getHero().getLocation(), location) < PACMAN_DISTANCE)
+    	if(game.getHero().getLocation().getPathDistance(location) < PACMAN_DISTANCE)
     		return true;
 
     	return false;
@@ -69,7 +69,7 @@ public class Legacy2TheReckoning implements EnemyController
 
         for (int i = 0; i<Game.NUM_ENEMY -1; i++)
             for(int j = i+1; j<Game.NUM_ENEMY; j++)
-                distance+=game.getPathDistance(game.getEnemy(i).getLocation(), game.getEnemy(j).getLocation());
+                distance+=game.getEnemy(i).getLocation().getPathDistance(game.getEnemy(j).getLocation());
         
         return (distance/6)<CROWDED_DISTANCE ? true : false;
     }
@@ -78,9 +78,9 @@ public class Legacy2TheReckoning implements EnemyController
     {
         Enemy enemy = game.getEnemy(index);
 
-        if(enemy.getEdibleTime() == 0 && game.getPathDistance(enemy.getLocation(), game.getHero().getLocation()) < PACMAN_DISTANCE)
-            return game.getNextEnemyDir(index, game.getHero().getLocation(), true, Game.DM.PATH);
+        if(enemy.getEdibleTime() == 0 && enemy.getLocation().getPathDistance(game.getHero().getLocation()) < PACMAN_DISTANCE)
+            return enemy.getNextDir(game.getHero().getLocation(), true);
         else
-            return game.getNextEnemyDir(index, game.getPowerPillNodes()[index], true, Game.DM.PATH);
+            return enemy.getNextDir(game.getPowerPillNodes()[index], true);
     }
 }

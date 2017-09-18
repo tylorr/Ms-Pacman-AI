@@ -46,4 +46,39 @@ public class Actor implements Cloneable
 
         return 4;
     }
+
+    //This method returns the direction to take given some options (usually corresponding to the
+    //neighbours of the node in question), moving either towards or away (closer in {true, false})
+    //using one of the three distance measures.
+    protected int getDirFromOptions(Node[] options, Node to, boolean closer)
+    {
+
+        int dir=-1;
+
+        double min = Integer.MAX_VALUE;
+        double max = -Integer.MAX_VALUE;
+
+        for(int i = 0; i < options.length; i++)
+        {
+            if(options[i] != null)
+            {
+                double dist = 0;
+                dist = options[i].getPathDistance(to);
+
+                if(closer && dist < min)
+                {
+                    min = dist;
+                    dir = i;
+                }
+
+                if(!closer && dist > max)
+                {
+                    max = dist;
+                    dir = i;
+                }
+            }
+        }
+
+        return dir;
+    }
 }

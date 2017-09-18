@@ -58,9 +58,11 @@ public interface Game
 	public int getReverse(int direction);							//returns the reverse of the direction supplied
 	public int getLivesRemaining();									//returns the number of lives remaining for the hero
 	public int getCurLevel();										//returns the current level
+	public boolean checkPill(int pillIndex);						//checks if the pill specified is still available
+	public boolean checkPowerPill(int powerPillIndex);				//checks if the power pill specified is still available
+	public int getCurMaze();										//returns the current maze
 
 	public String getName();										//returns the name of the maze
-	public int getCurMaze();										//returns the current maze
 	public int getNumberPills();									//returns the total number of pills in this maze (at the beginning of the level)
 	public int getNumberPowerPills();								//returns the total number of power pills in this maze (at the beginning of the level)
 	public int getNumberOfNodes();									//returns the total number of nodes in the graph (pills, power pills and empty)
@@ -69,21 +71,13 @@ public interface Game
 	public Node[] getJunctionNodes();								//returns indices to all nodes that are junctions
 	public Node getInitialHeroPosition();								//returns the position where the hero starts at the beginning of the level
 	public Node getInitialEnemiesPosition();							//returns the position where the enemies starts at the beginning of the level, AFTER leaving the lair
-
-	public boolean checkPill(int pillIndex);						//checks if the pill specified is still available
-	public boolean checkPowerPill(int powerPillIndex);				//checks if the power pill specified is still available
 	public int getPillIndex(Node node);							//returns the pill index of the node specified (can be used with the bitset for the pills)
 	public int getPowerPillIndex(Node node);					//returns the power pill index of the node specified (can be used with the bitset for the power pills)
 
-	public int getNextDir(Node[] options, Node to, boolean closer, DM measure);//returns the direction the agent should take (among options provides) to approach/retreat from the node specified, using the distance measure specified
-	public int getNextEnemyDir(int whichEnemy, Node to, boolean closer, DM measure);
 	public Node[] getPath(Node from, Node to);							//returns the path from one node to another (e.g., [1,2,5,7,9] for 1 to 9)
 	public Node getTarget(Node from, Node[] targets, boolean nearest, DM measure);	//selects a target from 'targets' given current position ('from'), a distance measure and whether it should be the point closest or farthest
 
 	public enum DM{PATH,EUCLID,MANHATTEN};				 			//simple enumeration for use with the direction methods (below)
-	public int getPathDistance(Node from, Node to);					//returns the shortest path distance (Dijkstra) from one node to another
-	public double getEuclideanDistance(Node from, Node to);			//returns the Euclidean distance between two nodes
-	public int getManhattanDistance(Node from, Node to);				//returns the Manhattan distance between two nodes
 
 	public Hero getHero();
     public Enemy getEnemy(int whichEnemy);

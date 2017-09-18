@@ -66,4 +66,14 @@ public class Enemy extends Actor
     {
         return (Enemy)super.clone();
     }
+
+    //Returns the direction the enemy should take to approach/retreat a target (to) given some distance
+    //measure. Reversals are filtered.
+    public int getNextDir(Node to, boolean closer)
+    {
+        Node[] adjacents = location.getNeighbors();
+        adjacents[direction] = null;
+
+        return getDirFromOptions(adjacents, to, closer);
+    }
 }

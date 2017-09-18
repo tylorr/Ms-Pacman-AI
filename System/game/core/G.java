@@ -290,7 +290,7 @@ public class G implements Game
 	{		
 		for(int i = 0; i < enemies.length; i++)
 		{
-			int distance=getPathDistance(hero.location, enemies[i].location);
+			int distance=hero.location.getPathDistance(enemies[i].location);
 			
 			if(distance <= G.EAT_DISTANCE && distance != -1)
 			{
@@ -483,75 +483,6 @@ public class G implements Game
 		return Arrays.copyOf(mazes[curMaze].junctionNodes, mazes[curMaze].junctionNodes.length);
 	}
 
-	//This method returns the direction to take given some options (usually corresponding to the
-	//neighbours of the node in question), moving either towards or away (closer in {true, false})
-	//using one of the three distance measures.
-	public int getNextDir(Node[] options, Node to, boolean closer, Game.DM measure)
-	{
-		int dir=-1;
-
-		double min = Integer.MAX_VALUE;
-		double max = -Integer.MAX_VALUE;
-
-		for(int i = 0; i < options.length; i++)
-		{
-			if(options[i] != null)
-			{
-				double dist = 0;
-					
-				switch(measure)
-				{
-					case PATH: dist = getPathDistance(options[i], to); break;
-					case EUCLID: dist = getEuclideanDistance(options[i] ,to); break;
-					case MANHATTEN: dist = getManhattanDistance(options[i], to); break;
-				}
-					
-				if(closer && dist < min)
-				{
-					min = dist;
-					dir = i;
-				}
-				
-				if(!closer && dist > max)
-				{
-					max = dist;
-					dir = i;
-				}
-			}
-		}
-		
-		return dir;
-	}
-
-
-	//Returns the direction the enemy should take to approach/retreat a target (to) given some distance
-	//measure. Reversals are filtered.
-	public int getNextEnemyDir(int whichEnemy, Node to, boolean closer, Game.DM measure)
-	{
-		Node[] enemyDirections = enemies[whichEnemy].location.getNeighbors();
-		enemyDirections[enemies[whichEnemy].direction] = null;
-
-		return getNextDir(enemyDirections, to, closer, measure);
-	}
-
-	//Returns the PATH distance from any node to any other node
-	public int getPathDistance(Node from, Node to)
-	{
-		return mazes[curMaze].distances.get(from, to);
-	}
-	
-	//Returns the EUCLEDIAN distance between two nodes in the current maze.
-	public double getEuclideanDistance(Node from, Node to)
-	{
-		return Math.sqrt(Math.pow(from.getX() - to.getX(), 2) + Math.pow(from.getY() - to.getY(), 2));
-	}
-	
-	//Returns the MANHATTEN distance between two nodes in the current maze.
-	public int getManhattanDistance(Node from, Node to)
-	{
-		return (int)(Math.abs(from.getX() - to.getX()) + Math.abs(from.getY() - to.getY()));
-	}
-	
 	//Returns the path of adjacent nodes from one node to another, including these nodes
 	//E.g., path from a to c might be [a,f,r,t,c]
 	public Node[] getPath(Node from, Node to)
@@ -563,7 +494,7 @@ public class G implements Game
 		while(currentNode != to)
 		{
 			path.add(currentNode);
-			lastDir = getNextDir(currentNode.neighbors, to, true, G.DM.PATH);
+			lastDir = hero.getDirFromOptions(currentNode.neighbors, to, true);
 			currentNode = currentNode.neighbors[lastDir];
 		}
 
@@ -592,7 +523,7 @@ public class G implements Game
 			Node[] neighbors=Arrays.copyOf(currentNode.neighbors, currentNode.neighbors.length);
 			neighbors[getReverse(lastDir)] = null;
 
-			lastDir=getNextDir(neighbors,to,true,G.DM.PATH);
+			lastDir=hero.getDirFromOptions(neighbors,to,true);
 			currentNode = neighbors[lastDir];
 		}
 
@@ -618,9 +549,9 @@ public class G implements Game
 			
 			switch(measure)
 			{
-				case PATH: dist = getPathDistance(targets[i],from); break;
-				case EUCLID: dist = getEuclideanDistance(targets[i],from); break;
-				case MANHATTEN: dist = getManhattanDistance(targets[i],from); break;
+				case PATH: dist = targets[i].getPathDistance(targets[i]); break;
+				case EUCLID: dist = targets[i].getEuclideanDistance(targets[i]); break;
+				case MANHATTEN: dist = targets[i].getManhattanDistance(targets[i]); break;
 			}
 					
 			if(nearest && dist < min)
@@ -754,7 +685,7 @@ public class G implements Game
                 // Create the nodes.
                 for (int[] entry : nodeData)
                 {
-                    Node node = new Node(entry[1], entry[2], entry[7], entry[8]);
+                    Node node = new Node(entry[1], entry[2], entry[7], entry[8], this);
 
                     graph[nodeIndex++] = node;
 

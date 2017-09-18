@@ -31,6 +31,6 @@ public class NearestPillHero implements HeroController
 			targetsArray[i]=targets.get(i);
 		
 		//return the next direction once the closest target has been identified
-		return game.getNextDir(game.getHero().getLocation().getNeighbors(), game.getTarget(current, targetsArray,true,G.DM.PATH),true,Game.DM.PATH);
+		return game.getHero().getNextDir(game.getTarget(current, targetsArray,true,G.DM.PATH), true);
 	}
 }

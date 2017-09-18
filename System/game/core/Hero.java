@@ -40,4 +40,9 @@ public class Hero extends Actor
     {
         return (Hero)super.clone();
     }
+
+    public int getNextDir(Node to, boolean closer)
+    {
+        return getDirFromOptions(location.neighbors, to, closer);
+    }
 }

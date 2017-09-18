@@ -8,6 +8,7 @@ public class Node
     private int x, y;
     private int pillIndex, powerPillIndex;
     private int numNeighbors = 0;
+    private G.Maze maze;
 
     public int getX()
     {
@@ -30,12 +31,13 @@ public class Node
         return numNeighbors;
     }
 
-    protected Node(int _x, int _y, int _pillIndex, int _powerPillIndex)
+    protected Node(int _x, int _y, int _pillIndex, int _powerPillIndex, G.Maze _maze)
     {
         x = _x;
         y = _y;
         pillIndex = _pillIndex;
         powerPillIndex = _powerPillIndex;
+        maze = _maze;
     }
 
     protected void setNeighbors(Node[] _neighbors)
@@ -68,4 +70,23 @@ public class Node
 		else
 			return neighbors[inDirection];
 	}
+
+    public int getPathDistance(Node to)
+    {
+        return maze.distances.get(this, to);
+    }
+
+    //Returns the EUCLEDIAN distance between two nodes in the current maze.
+    public double getEuclideanDistance(Node to)
+    {
+        int dx = x - to.x;
+        int dy = y - to.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    //Returns the MANHATTAN distance between two nodes in the current maze.
+    public int getManhattanDistance(Node to)
+    {
+        return (int)(Math.abs(x - to.x) + Math.abs(y - to.y));
+    }
 }
