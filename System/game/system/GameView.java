@@ -11,7 +11,11 @@
  * needs to be included in all distributions. Deviations from the original should be 
  * clearly documented. We welcome any comments and suggestions regarding the code.
  */
-package game.core;
+package game.system;
+
+import game.models.Game;
+import game.models.Node;
+import game.models.Enemy;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,6 +24,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public final class GameView extends JComponent 
@@ -27,10 +32,10 @@ public final class GameView extends JComponent
 	public static String pathImages="images";
 	private static String[] mazes={"maze-a.png","maze-b.png","maze-c.png","maze-d.png"};
 
-	private int MAG=2;
-	private int pacManDir=G.INITIAL_HERO_DIR;
+	private int MAG = 2;
+	private int pacManDir = Game.INITIAL_HERO_DIR;
 	
-    private final _G_ game;
+    private final _Game_ game;
     private final BufferedImage[][] pacmanImgs=new BufferedImage[4][3];
     private final BufferedImage[][][] ghostsImgs=new BufferedImage[6][4][2];
     private final BufferedImage[] images;
@@ -44,59 +49,59 @@ public final class GameView extends JComponent
     private Graphics bufferGraphics; 
     private Image offscreen; 
     
-    public GameView(_G_ game)
+    public GameView(_Game_ game)
     {
         this.game=game;
         images=loadImages();
         
-        pacmanImgs[G.UP][0]=getImage("mspacman-up-normal.png");
-        pacmanImgs[G.UP][1]=getImage("mspacman-up-open.png");
-        pacmanImgs[G.UP][2]=getImage("mspacman-up-closed.png");
-        pacmanImgs[G.RIGHT][0]=getImage("mspacman-right-normal.png");
-        pacmanImgs[G.RIGHT][1]=getImage("mspacman-right-open.png");
-        pacmanImgs[G.RIGHT][2]=getImage("mspacman-right-closed.png");
-        pacmanImgs[G.DOWN][0]=getImage("mspacman-down-normal.png");
-        pacmanImgs[G.DOWN][1]=getImage("mspacman-down-open.png");
-        pacmanImgs[G.DOWN][2]=getImage("mspacman-down-closed.png");
-        pacmanImgs[G.LEFT][0]=getImage("mspacman-left-normal.png");
-        pacmanImgs[G.LEFT][1]=getImage("mspacman-left-open.png");
-        pacmanImgs[G.LEFT][2]=getImage("mspacman-left-closed.png");
+        pacmanImgs[Game.Direction.UP][0]=getImage("mspacman-up-normal.png");
+        pacmanImgs[Game.Direction.UP][1]=getImage("mspacman-up-open.png");
+        pacmanImgs[Game.Direction.UP][2]=getImage("mspacman-up-closed.png");
+        pacmanImgs[Game.Direction.RIGHT][0]=getImage("mspacman-right-normal.png");
+        pacmanImgs[Game.Direction.RIGHT][1]=getImage("mspacman-right-open.png");
+        pacmanImgs[Game.Direction.RIGHT][2]=getImage("mspacman-right-closed.png");
+        pacmanImgs[Game.Direction.DOWN][0]=getImage("mspacman-down-normal.png");
+        pacmanImgs[Game.Direction.DOWN][1]=getImage("mspacman-down-open.png");
+        pacmanImgs[Game.Direction.DOWN][2]=getImage("mspacman-down-closed.png");
+        pacmanImgs[Game.Direction.LEFT][0]=getImage("mspacman-left-normal.png");
+        pacmanImgs[Game.Direction.LEFT][1]=getImage("mspacman-left-open.png");
+        pacmanImgs[Game.Direction.LEFT][2]=getImage("mspacman-left-closed.png");
         
-        ghostsImgs[0][G.UP][0]=getImage("blinky-up-1.png");
-        ghostsImgs[0][G.UP][1]=getImage("blinky-up-2.png");
-        ghostsImgs[0][G.RIGHT][0]=getImage("blinky-right-1.png");
-        ghostsImgs[0][G.RIGHT][1]=getImage("blinky-right-2.png");
-        ghostsImgs[0][G.DOWN][0]=getImage("blinky-down-1.png");
-        ghostsImgs[0][G.DOWN][1]=getImage("blinky-down-2.png");
-        ghostsImgs[0][G.LEFT][0]=getImage("blinky-left-1.png");
-        ghostsImgs[0][G.LEFT][1]=getImage("blinky-left-2.png");
+        ghostsImgs[0][Game.Direction.UP][0]=getImage("blinky-up-1.png");
+        ghostsImgs[0][Game.Direction.UP][1]=getImage("blinky-up-2.png");
+        ghostsImgs[0][Game.Direction.RIGHT][0]=getImage("blinky-right-1.png");
+        ghostsImgs[0][Game.Direction.RIGHT][1]=getImage("blinky-right-2.png");
+        ghostsImgs[0][Game.Direction.DOWN][0]=getImage("blinky-down-1.png");
+        ghostsImgs[0][Game.Direction.DOWN][1]=getImage("blinky-down-2.png");
+        ghostsImgs[0][Game.Direction.LEFT][0]=getImage("blinky-left-1.png");
+        ghostsImgs[0][Game.Direction.LEFT][1]=getImage("blinky-left-2.png");
         
-        ghostsImgs[1][G.UP][0]=getImage("pinky-up-1.png");
-        ghostsImgs[1][G.UP][1]=getImage("pinky-up-2.png");
-        ghostsImgs[1][G.RIGHT][0]=getImage("pinky-right-1.png");
-        ghostsImgs[1][G.RIGHT][1]=getImage("pinky-right-2.png");
-        ghostsImgs[1][G.DOWN][0]=getImage("pinky-down-1.png");
-        ghostsImgs[1][G.DOWN][1]=getImage("pinky-down-2.png");
-        ghostsImgs[1][G.LEFT][0]=getImage("pinky-left-1.png");
-        ghostsImgs[1][G.LEFT][1]=getImage("pinky-left-2.png");
+        ghostsImgs[1][Game.Direction.UP][0]=getImage("pinky-up-1.png");
+        ghostsImgs[1][Game.Direction.UP][1]=getImage("pinky-up-2.png");
+        ghostsImgs[1][Game.Direction.RIGHT][0]=getImage("pinky-right-1.png");
+        ghostsImgs[1][Game.Direction.RIGHT][1]=getImage("pinky-right-2.png");
+        ghostsImgs[1][Game.Direction.DOWN][0]=getImage("pinky-down-1.png");
+        ghostsImgs[1][Game.Direction.DOWN][1]=getImage("pinky-down-2.png");
+        ghostsImgs[1][Game.Direction.LEFT][0]=getImage("pinky-left-1.png");
+        ghostsImgs[1][Game.Direction.LEFT][1]=getImage("pinky-left-2.png");
         
-        ghostsImgs[2][G.UP][0]=getImage("inky-up-1.png");
-        ghostsImgs[2][G.UP][1]=getImage("inky-up-2.png");
-        ghostsImgs[2][G.RIGHT][0]=getImage("inky-right-1.png");
-        ghostsImgs[2][G.RIGHT][1]=getImage("inky-right-2.png");
-        ghostsImgs[2][G.DOWN][0]=getImage("inky-down-1.png");
-        ghostsImgs[2][G.DOWN][1]=getImage("inky-down-2.png");
-        ghostsImgs[2][G.LEFT][0]=getImage("inky-left-1.png");
-        ghostsImgs[2][G.LEFT][1]=getImage("inky-left-2.png");
+        ghostsImgs[2][Game.Direction.UP][0]=getImage("inky-up-1.png");
+        ghostsImgs[2][Game.Direction.UP][1]=getImage("inky-up-2.png");
+        ghostsImgs[2][Game.Direction.RIGHT][0]=getImage("inky-right-1.png");
+        ghostsImgs[2][Game.Direction.RIGHT][1]=getImage("inky-right-2.png");
+        ghostsImgs[2][Game.Direction.DOWN][0]=getImage("inky-down-1.png");
+        ghostsImgs[2][Game.Direction.DOWN][1]=getImage("inky-down-2.png");
+        ghostsImgs[2][Game.Direction.LEFT][0]=getImage("inky-left-1.png");
+        ghostsImgs[2][Game.Direction.LEFT][1]=getImage("inky-left-2.png");
         
-        ghostsImgs[3][G.UP][0]=getImage("sue-up-1.png");
-        ghostsImgs[3][G.UP][1]=getImage("sue-up-2.png");
-        ghostsImgs[3][G.RIGHT][0]=getImage("sue-right-1.png");
-        ghostsImgs[3][G.RIGHT][1]=getImage("sue-right-2.png");
-        ghostsImgs[3][G.DOWN][0]=getImage("sue-down-1.png");
-        ghostsImgs[3][G.DOWN][1]=getImage("sue-down-2.png");
-        ghostsImgs[3][G.LEFT][0]=getImage("sue-left-1.png");
-        ghostsImgs[3][G.LEFT][1]=getImage("sue-left-2.png");
+        ghostsImgs[3][Game.Direction.UP][0]=getImage("sue-up-1.png");
+        ghostsImgs[3][Game.Direction.UP][1]=getImage("sue-up-2.png");
+        ghostsImgs[3][Game.Direction.RIGHT][0]=getImage("sue-right-1.png");
+        ghostsImgs[3][Game.Direction.RIGHT][1]=getImage("sue-right-2.png");
+        ghostsImgs[3][Game.Direction.DOWN][0]=getImage("sue-down-1.png");
+        ghostsImgs[3][Game.Direction.DOWN][1]=getImage("sue-down-2.png");
+        ghostsImgs[3][Game.Direction.LEFT][0]=getImage("sue-left-1.png");
+        ghostsImgs[3][Game.Direction.LEFT][1]=getImage("sue-left-2.png");
         
         ghostsImgs[4][0][0]=getImage("edible-ghost-1.png");
         ghostsImgs[4][0][1]=getImage("edible-ghost-2.png");
@@ -110,10 +115,10 @@ public final class GameView extends JComponent
     
     //Adds a node to be highlighted using the color specified
     //NOTE: This won't do anything in the competition but your code will still work
-    public synchronized static void addPoints(Game game,Color color, Node... nodeIndices)
+    public synchronized static void addPoints(Game game, Color color, List<Node> nodes)
     {
-    	for(int i=0;i<nodeIndices.length;i++)
-    		debugPointers.add(new DebugPointer(nodeIndices[i].getX(),nodeIndices[i].getY(),color));
+        for (Node point : nodes)
+    		debugPointers.add(new DebugPointer(point.getX(),point.getY(),color));
     }
     
     //Adds a set of lines to be drawn using the color specified (fromNnodeIndices.length must be equals toNodeIndices.length)
@@ -126,7 +131,7 @@ public final class GameView extends JComponent
     
     //Adds a line to be drawn using the color specified
     //NOTE: This won't do anything in the competition but your code will still work
-    public synchronized static void addLines(Game game,Color color, Node fromNode, Node toNode)
+    public synchronized static void addLines(Game game, Color color, Node fromNode, Node toNode)
     {
     	debugLines.add(new DebugLine(fromNode.getX(), fromNode.getY(), toNode.getX(), toNode.getY(), color));
     }
@@ -182,30 +187,30 @@ public final class GameView extends JComponent
     	bufferGraphics.setColor(Color.BLACK);
     	bufferGraphics.fillRect(0,0,game.getWidth()*MAG,game.getHeight()*MAG+20);
         
-        if(images[game.getCurMaze()]!=null) 
-        	bufferGraphics.drawImage(images[game.getCurMaze()],2,6,null);
+        if(images[game.getCurMazeNum()]!=null)
+        	bufferGraphics.drawImage(images[game.getCurMazeNum()],2,6,null);
     }
 
     private void drawPills()
     {
-        Node[] pillNodes = game.getPillNodes();
+        List<Node> pillNodes = game.getCurMaze().getPillNodes();
         
         bufferGraphics.setColor(Color.white);
-        
-        for(int i=0;i<pillNodes.length;i++)
-        	if(game.checkPill(i))
-        		bufferGraphics.fillOval(pillNodes[i].getX()*MAG+4,pillNodes[i].getY()*MAG+8,3,3);
+
+        for (Node pill : pillNodes)
+        	if (game.checkPill(pill))
+        		bufferGraphics.fillOval(pill.getX()*MAG+4,pill.getY()*MAG+8,3,3);
     }
     
     private void drawPowerPills()
     {
-          Node[] powerPillNodes=game.getPowerPillNodes();
+          List<Node> powerPillNodes = game.getCurMaze().getPowerPillNodes();
           
           bufferGraphics.setColor(Color.white);
-          
-          for(int i=0;i<powerPillNodes.length;i++)
-          	if(game.checkPowerPill(i))
-          		bufferGraphics.fillOval(powerPillNodes[i].getX()*MAG+1,powerPillNodes[i].getY()*MAG+5,8,8);
+
+          for (Node pill : powerPillNodes)
+          	if(game.checkPowerPill(pill))
+          		bufferGraphics.fillOval(pill.getX()*MAG+1,pill.getY()*MAG+5,8,8);
     }
     
     private void drawPacMan()
@@ -221,16 +226,16 @@ public final class GameView extends JComponent
 
     private void drawGhosts() 
     {
-    	for(int index = 0; index<G.NUM_ENEMY; index++)
+    	for(int index = 0; index< _Game.NUM_ENEMY; index++)
     	{
-    	    Enemy enemy = game.enemies[index];
+    	    _Enemy enemy = game.enemies[index];
 	    	Node loc = enemy.location;
 	    	int x = loc.getX();
 	    	int y = loc.getY();
 	    	
 	    	if(enemy.edibleTime > 0)
 	    	{
-	    		if(enemy.edibleTime < _G_.EDIBLE_ALERT && ((game.getTotalTime() % 6) / 3) ==0)
+	    		if(enemy.edibleTime < _Game_.EDIBLE_ALERT && ((game.getTotalTime() % 6) / 3) ==0)
 	    			bufferGraphics.drawImage(ghostsImgs[5][0][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	            else
 	            	bufferGraphics.drawImage(ghostsImgs[4][0][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
@@ -238,7 +243,7 @@ public final class GameView extends JComponent
 	    	else 
 	    	{
 	    		if(game.enemies[index].lairTime > 0)
-	    			bufferGraphics.drawImage(ghostsImgs[index][G.UP][(game.getTotalTime()%6)/3],x*MAG-1+(index*5),y*MAG+3,null);
+	    			bufferGraphics.drawImage(ghostsImgs[index][Game.Direction.UP][(game.getTotalTime()%6)/3],x*MAG-1+(index*5),y*MAG+3,null);
 	    		else    		
 	    			bufferGraphics.drawImage(ghostsImgs[index][enemy.direction][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	        }
@@ -248,7 +253,7 @@ public final class GameView extends JComponent
     private void drawLives()
     {
     	for(int i=0;i<game.getLivesRemaining()-1;i++) //-1 as lives remaining includes the current life
-    		bufferGraphics.drawImage(pacmanImgs[G.RIGHT][0],210-(30*i)/2,260,null);
+    		bufferGraphics.drawImage(pacmanImgs[Game.Direction.RIGHT][0],210-(30*i)/2,260,null);
     }
     
     private void drawGameInfo()

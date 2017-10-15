@@ -1,6 +1,6 @@
 package game.controllers;
 
-import game.core.Game;
+import game.models.Game;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 

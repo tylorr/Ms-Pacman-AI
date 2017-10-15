@@ -11,11 +11,11 @@
  * needs to be included in all distributions. Deviations from the original should be 
  * clearly documented. We welcome any comments and suggestions regarding the code.
  */
-package game.core;
+package game.system;
 
-import java.util.BitSet;
+import java.util.HashSet;
 
-public class _G_ extends G
+public class _Game_ extends _Game
 {
 	public static final int EDIBLE_ALERT=30;	//for display only (ghosts turning blue)
 		
@@ -26,30 +26,28 @@ public class _G_ extends G
 		
 		curMaze=0;
 
-		enemies = new Enemy[G.NUM_ENEMY];
+		enemies = new _Enemy[_Game.NUM_ENEMY];
 
-		pills=new BitSet(getNumberPills());
-		pills.set(0,getNumberPills());
-		powerPills=new BitSet(getNumberPowerPills());
-		powerPills.set(0,getNumberPowerPills());
+		pills = new HashSet(mazes[curMaze].getPillNodes());
+		powerPills=new HashSet(mazes[curMaze].getPowerPillNodes());
 		score=0;
 		levelTime=0;
 		totalTime=0;
 		totLevel=0;
-		livesRemaining=G.NUM_LIVES;
+		livesRemaining= _Game.NUM_LIVES;
 		extraLife=false;
 		gameOver=false;
 		
 		reset(false);
 	}
 	
-	//Size of the Maze (for display only)
+	//Size of the _Maze (for display only)
 	public int getWidth()
 	{
 		return mazes[curMaze].width;
 	}
 	
-	//Size of the Maze (for display only)
+	//Size of the _Maze (for display only)
 	public int getHeight()
 	{
 		return mazes[curMaze].height;

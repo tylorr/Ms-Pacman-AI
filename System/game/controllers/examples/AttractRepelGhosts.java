@@ -1,9 +1,9 @@
 package game.controllers.examples;
 
 import game.controllers.EnemyController;
-import game.core.G;
-import game.core.Game;
-import game.core.Enemy;
+import game.system._Game;
+import game.models.Game;
+import game.models.Enemy;
 
 public final class AttractRepelGhosts implements EnemyController
 {	
@@ -24,12 +24,12 @@ public final class AttractRepelGhosts implements EnemyController
 			Enemy enemy = game.getEnemy(i);
 			if (enemy.requiresAction())        //if it requires an action
 			{
-				if (G.rnd.nextFloat() < CONSISTENCY)    //approach/retreat from the current node that Ms Pac-Man is at
+				if (Game.rng.nextFloat() < CONSISTENCY)    //approach/retreat from the current node that Ms Pac-Man is at
 					directions[i] = game.getEnemy(i).getNextDir(game.getHero().getLocation(), attract);
 				else                                    //else take a random action
 				{
 					int[] possibleDirs = enemy.getPossibleDirs();    //takes a random LEGAL action. Could also just return any random number
-					directions[i] = possibleDirs[G.rnd.nextInt(possibleDirs.length)];
+					directions[i] = possibleDirs[Game.rng.nextInt(possibleDirs.length)];
 				}
 			}
 		}

@@ -1,9 +1,10 @@
 package game.controllers.examples;
 
+import java.util.List;
 import game.controllers.EnemyController;
-import game.core.Game;
-import game.core.Node;
-import game.core.Enemy;
+import game.models.Game;
+import game.models.Node;
+import game.models.Enemy;
 
 public class Legacy2TheReckoning implements EnemyController
 {
@@ -46,10 +47,10 @@ public class Legacy2TheReckoning implements EnemyController
     private boolean closeToPower(Game game)
     {
     	Node pacmanLoc = game.getHero().getLocation();
-    	Node[] powerPills = game.getPowerPillNodes();
-    	
-    	for(int i=0;i<powerPills.length;i++)
-    		if(game.checkPowerPill(i) && powerPills[i].getPathDistance(pacmanLoc) < PILL_PROXIMITY)
+    	List<Node> powerPills = game.getCurMaze().getPowerPillNodes();
+
+    	for (Node pill : powerPills)
+    		if(game.checkPowerPill(pill) && pill.getPathDistance(pacmanLoc) < PILL_PROXIMITY)
     			return true;
 
         return false;
@@ -81,6 +82,6 @@ public class Legacy2TheReckoning implements EnemyController
         if(enemy.getEdibleTime() == 0 && enemy.getLocation().getPathDistance(game.getHero().getLocation()) < PACMAN_DISTANCE)
             return enemy.getNextDir(game.getHero().getLocation(), true);
         else
-            return enemy.getNextDir(game.getPowerPillNodes()[index], true);
+            return enemy.getNextDir(game.getCurMaze().getPowerPillNodes().get(index), true);
     }
 }

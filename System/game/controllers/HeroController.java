@@ -1,6 +1,6 @@
 package game.controllers;
 
-import game.core.Game;
+import game.models.Game;
 
 /*
  * Interface that the hero controllers must implement. The only method that is

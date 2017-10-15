@@ -1,7 +1,8 @@
-package game.core;
+package game.system;
 
 import game.controllers.EnemyController;
 import game.controllers.HeroController;
+import game.models.Game;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 /*
  * This class allows one to record games to replay them later. This may be done in the Exec class.
  * It simply records all the directions taken by the controllers AFTER directions were corrected and/or
- * random ghost reversals. The game must be replayed using _RG_ which does not have random reversal events
+ * random ghost reversals. The game must be replayed using _ReplayGame_ which does not have random reversal events
  * and allows ghosts to reverse (to mirror random ghost reversals that took place during the original
  * game play).
  */
@@ -112,7 +113,7 @@ public class Replay
 	//Simple controller that simply plays the next recorded action
     class ReplayMsPacman implements HeroController
     {
-        public int getAction(Game game,long timeDue)
+        public int getAction(Game game, long timeDue)
         {
             return pacManActions.get(game.getTotalTime());
         }

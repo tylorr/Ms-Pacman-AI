@@ -1,10 +1,10 @@
 package game.controllers.examples;
 
 import game.controllers.EnemyController;
-import game.core.Game.DM;
-import game.core.Game;
-import game.core.G;
-import game.core.Enemy;
+import game.models.Game.DM;
+import game.models.Game;
+import game.system._Game;
+import game.models.Enemy;
 
 public class Legacy implements EnemyController
 {
@@ -20,7 +20,7 @@ public class Legacy implements EnemyController
 				directions[i] = game.getEnemy(i).getNextDir(game.getHero().getLocation(), true);
 			//for each ghost; last ghost takes random action
 		}
-		directions[3]=G.rnd.nextInt(4);
+		directions[3]= Game.rng.nextInt(4);
 		
 		return directions;
 	}

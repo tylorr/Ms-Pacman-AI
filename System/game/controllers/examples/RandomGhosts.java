@@ -1,9 +1,9 @@
 package game.controllers.examples;
 
 import game.controllers.EnemyController;
-import game.core.G;
-import game.core.Game;
-import game.core.Enemy;
+import game.system._Game;
+import game.models.Game;
+import game.models.Enemy;
 
 public final class RandomGhosts implements EnemyController
 {	
@@ -19,7 +19,7 @@ public final class RandomGhosts implements EnemyController
 			if(enemy.requiresAction())
 			{
 				int[] possibleDirs = enemy.getPossibleDirs();
-				directions[i]=possibleDirs[G.rnd.nextInt(possibleDirs.length)];
+				directions[i]=possibleDirs[Game.rng.nextInt(possibleDirs.length)];
 			}
 
 		}

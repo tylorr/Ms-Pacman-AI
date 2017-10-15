@@ -4,11 +4,8 @@ import game.controllers.EnemyController;
 import game.controllers.Human;
 import game.controllers.HeroController;
 import game.controllers.examples.*;
-import game.core.G;
-import game.core.GameView;
-import game.core._G_;
-import game.core.Replay;
-import game.core._RG_;
+import game.system.*;
+import game.system._Game_;
 import pakku.agent.TestAgent;
 
 /*
@@ -37,19 +34,19 @@ public class Exec
 			else if (args[0].toLowerCase().equals("-teststudent"))
 				exec.runExperiment(studentPacMan, ghosts, 100);
 			else if (args[0].toLowerCase().equals("-visualexample"))
-//				exec.runGame(examplePacMan, ghosts, true, G.DELAY);
-				exec.runGame(studentPacMan, ghosts, true, G.DELAY);
+//				exec.runGame(examplePacMan, ghosts, true, _Game.DELAY);
+				exec.runGame(studentPacMan, ghosts, true, _Game.DELAY);
 			else
-				exec.runGame(studentPacMan, ghosts, true, G.DELAY);
+				exec.runGame(studentPacMan, ghosts, true, _Game.DELAY);
 		}
 		else
-			exec.runGame(studentPacMan, ghosts, true, G.DELAY);
+			exec.runGame(studentPacMan, ghosts, true, _Game.DELAY);
 		
 		//this can be used for numerical testing (non-visual, no delays)
 //		exec.runExperiment(new RandomHero(),new AttractRepelGhosts(true),100);
 		
 		//run game without time limits (un-comment if required)
-//		exec.runGame(new RandomHero(),new RandomGhosts(),true,G.DELAY);
+//		exec.runGame(new RandomHero(),new RandomGhosts(),true,_Game.DELAY);
 		
 		//run game with time limits (un-comment if required)
 //		exec.runGameTimed(new Human(),new AttractRepelGhosts(true),true);
@@ -66,7 +63,7 @@ public class Exec
 	
     protected int pacDir;
     protected int[] ghostDirs;
-    protected _G_ game;
+    protected _Game_ game;
     protected PacMan pacMan;
     protected Ghosts ghosts;
     protected boolean pacmanPlayed,ghostsPlayed;
@@ -81,7 +78,7 @@ public class Exec
     {
     	double avgScore=0;
     	
-		game=new _G_();
+		game=new _Game_();
 		
 		for(int i=0;i<trials;i++)
 		{
@@ -89,7 +86,7 @@ public class Exec
 			
 			while(!game.gameOver())
 			{
-				long due=System.currentTimeMillis()+G.DELAY;
+				long due=System.currentTimeMillis()+ _Game.DELAY;
 		        game.advanceGame(heroController.getAction(game.copy(),due), enemyController.getActions(game.copy(),due));
 			}
 			
@@ -108,9 +105,9 @@ public class Exec
      */
 	public void runGame(HeroController heroController, EnemyController enemyController, boolean visual, int delay)
 	{
-		G.rnd = new java.util.Random();
+//		Game.rng = new java.util.Random();
 		
-		game=new _G_();
+		game=new _Game_();
 		game.newGame();
 
 		GameView gv=null;
@@ -120,7 +117,7 @@ public class Exec
 		
 		while(!game.gameOver())
 		{
-			long due=System.currentTimeMillis()+G.DELAY;
+			long due=System.currentTimeMillis()+ _Game.DELAY;
 	        game.advanceGame(heroController.getAction(game.copy(),due), enemyController.getActions(game.copy(),due));
 	        
 	        try{Thread.sleep(delay);}catch(Exception e){}
@@ -136,7 +133,7 @@ public class Exec
      */
 	public void runGameTimed(HeroController heroController, EnemyController enemyController, boolean visual)
 	{
-		game=new _G_();
+		game=new _Game_();
 		game.newGame();
 		pacMan=new PacMan(heroController);
 		ghosts=new Ghosts(enemyController);
@@ -158,7 +155,7 @@ public class Exec
 
 			try
 			{
-				Thread.sleep(G.DELAY);
+				Thread.sleep(_Game.DELAY);
 			}
 			catch(InterruptedException e)
 			{
@@ -185,7 +182,7 @@ public class Exec
 		int lastLevel=0;
 		boolean firstWrite=false;	//this makes sure the content of any existing files is overwritten
 		
-		game=new _G_();
+		game=new _Game_();
 		game.newGame();
 		pacMan=new PacMan(heroController);
 		ghosts=new Ghosts(enemyController);
@@ -207,7 +204,7 @@ public class Exec
 
 			try
 			{
-				Thread.sleep(G.DELAY);
+				Thread.sleep(_Game.DELAY);
 			}
 			catch(InterruptedException e)
 			{
@@ -243,7 +240,7 @@ public class Exec
 	 */
 	public void replayGame(String fileName)
 	{
-		_RG_ game=new _RG_();
+		_ReplayGame_ game=new _ReplayGame_();
 		game.newGame();
 
 		Replay replay=new Replay(fileName);
@@ -258,7 +255,7 @@ public class Exec
 	        
 	        gv.repaint();
 	        
-	        try{Thread.sleep(G.DELAY);}catch(Exception e){}
+	        try{Thread.sleep(_Game.DELAY);}catch(Exception e){}
 		}
 	}
 	
@@ -266,7 +263,7 @@ public class Exec
     {
     	history+=(game.getTotalTime()-1)+"\t"+actionsTaken[0]+"\t";
 
-        for (int i = 0; i<G.NUM_ENEMY; i++)
+        for (int i = 0; i< _Game.NUM_ENEMY; i++)
         	history+=actionsTaken[i+1]+"\t";
 
         history+="\n";
@@ -326,7 +323,7 @@ public class Exec
 	        			wait();
 	                }
 	                
-	        		setPacDir(pacMan.getAction(game.copy(),System.currentTimeMillis()+G.DELAY));
+	        		setPacDir(pacMan.getAction(game.copy(),System.currentTimeMillis()+ _Game.DELAY));
 	            } 
 	        	catch(InterruptedException e) 
 	        	{
@@ -374,7 +371,7 @@ public class Exec
 	        			wait();
 	                }
 	                
-	        		setGhostDirs(ghosts.getActions(game.copy(),System.currentTimeMillis()+G.DELAY));
+	        		setGhostDirs(ghosts.getActions(game.copy(),System.currentTimeMillis()+ _Game.DELAY));
 	            } 
 	        	catch(InterruptedException e) 
 	        	{
