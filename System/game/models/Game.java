@@ -13,6 +13,7 @@
  */
 package game.models;
 import java.util.Random;
+import java.util.List;
 
 /*
  * This interface defines the contract between the game engine and the controllers. It provides all
@@ -21,23 +22,28 @@ import java.util.Random;
  */
 public interface Game
 {
-	public int getScore();											//returns the score of the game
-	public int getCurLevel();										//returns the current level
-	public int getLevelTime();										//returns the time for which the CURRENT level has been played
-	public int getTotalTime();										//returns the time for which the game has been played (across all levels)
-	public int getLivesRemaining();									//returns the number of lives remaining for the hero
+	public int getScore();											// Returns the score of the game
+	public int getCurLevel();										// Returns the current level
+	public int getLevelTime();										// Returns the time for which the CURRENT level has been played
+	public int getTotalTime();										// Returns the time for which the game has been played (across all levels)
+	public int getLivesRemaining();									// Returns the number of lives remaining for the hero
 
-	public boolean checkPill(Node location);						//checks if the pill specified is still available
-	public boolean checkPowerPill(Node location);					//checks if the power pill specified is still available
+	public List<Node> getPillList();								// Get a list of all available pills in the current level
+	public List<Node> getPowerPillList();							// Get a list of all available power pills in the current level
 
-	public Game copy();												//returns an exact copy of the game (forward model)
+	public boolean checkPill(Node location);						// Checks if the location specified is a pill / is still available
+	public boolean checkPowerPill(Node location);					// Checks if the location specified is a power pill / is still available
+
 	public Hero getHero();											// Returns a copy of the hero object
-	public Enemy getEnemy(int whichEnemy);							// Returns a copy of the enemy array
-	public Maze getCurMaze();										//returns the current maze information
+	public Enemy getEnemy(int whichEnemy);							// Returns a copy of a specific enemy number
+	public List<Enemy> getEnemies();								// Returns a copy of the enemy array
+
+	public Game copy();												// Returns an exact copy of the game (forward model)
+	public Maze getCurMaze();										// Returns the current maze information
 	public static Random rng = new Random(0);					// Random number generator with fixed seed
 
-	public int[] advanceGame(int heroDir, int[] enemyDirs);			//advances the game using the actions (directions) supplied; returns all directions played [Hero, Enemy1, Enemy2, Enemy3, Enemy4]
-	public boolean gameOver();										//returns true if the hero has lost all her lives or if MAX_LEVELS has been reached
+	public int[] advanceGame(int heroDir, int[] enemyDirs);			// Advances the game using the actions (directions) supplied; returns all directions played [Hero, Enemy1, Enemy2, Enemy3, Enemy4]
+	public boolean gameOver();										// Returns true if the hero has lost all her lives or if MAX_LEVELS has been reached
 
 	//These constants specify the exact nature of the game
 	public class Direction { public static final int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3, EMPTY = -1; }	//directions

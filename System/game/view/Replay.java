@@ -1,4 +1,4 @@
-package game.system;
+package game.view;
 
 import game.controllers.EnemyController;
 import game.controllers.HeroController;
@@ -113,18 +113,27 @@ public class Replay
 	//Simple controller that simply plays the next recorded action
     class ReplayMsPacman implements HeroController
     {
-        public int getAction(Game game, long timeDue)
+        private int action;
+        public int getAction() { return action; }
+        public void init() { }
+        public void shutdown() { }
+
+        public void update(Game game, long timeDue)
         {
-            return pacManActions.get(game.getTotalTime());
+            action = pacManActions.get(game.getTotalTime());
         }
     }
 
 	//Simple controller that simply plays the next recorded action
     class ReplayEnemyTeam implements EnemyController
     {
-        public int[] getActions(Game game,long timeDue)
+        private int[] actions;
+        public int[] getActions() { return actions; }
+        public void init() { }
+        public void shutdown() { }
+        public void update(Game game,long timeDue)
         {
-            return ghostActions.get(game.getTotalTime());
+            actions = ghostActions.get(game.getTotalTime());
         }
     }
 }

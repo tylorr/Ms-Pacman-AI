@@ -9,9 +9,13 @@ import game.models.Hero;
 import java.util.List;
 
 public class NearestPillHero implements HeroController
-{	
-	public int getAction(Game game,long timeDue)
-	{	
+{
+	private int action;
+	public int getAction() { return action; }
+	public void init() { }
+	public void shutdown() { }
+	public void update(Game game,long timeDue)
+	{
 		List<Node> pills = game.getCurMaze().getPillNodes();
 		List<Node> powerPills=game.getCurMaze().getPowerPillNodes();
 		Hero hero = game.getHero();
@@ -26,12 +30,7 @@ public class NearestPillHero implements HeroController
 			if(game.checkPowerPill(pill))
 				targets.add(pill);
 		
-		Node[] targetsArray=new Node[targets.size()];		//convert from ArrayList to array
-		
-		for(int i = 0;i < targetsArray.length; i++)
-			targetsArray[i] = targets.get(i);
-		
 		//return the next direction once the closest target has been identified
-		return game.getHero().getNextDir(hero.getTarget(targetsArray,true), true);
+		action = game.getHero().getNextDir(hero.getTarget(targets,true), true);
 	}
 }

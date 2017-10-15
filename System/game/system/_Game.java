@@ -10,15 +10,12 @@
  * clearly documented. We welcome any comments and suggestions regarding the code.
  */
 package game.system;
-
-import game.models.Game;
-import game.models.Node;
-import game.models.Hero;
-import game.models.Enemy;
+import game.models.*;
 
 import java.util.Random;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
 
 /*
  * Simple implementation of the game. The class Game contains all code relating to the
@@ -153,13 +150,17 @@ public class _Game implements Game
 		return actionsTakens;
 	}
 
-	public Hero getHero()
+	public Hero getHero() { return hero.clone(); }
+	public Enemy getEnemy(int whichEnemy) { return enemies[whichEnemy].clone(); }
+
+	public List<Enemy> getEnemies()
 	{
-		return hero.clone();
-	}
-	public Enemy getEnemy(int whichEnemy)
-	{
-		return enemies[whichEnemy].clone();
+		ArrayList<Enemy> result = new ArrayList<Enemy>();
+
+		for (_Enemy enemy : enemies)
+			result.add(enemy.clone());
+
+		return result;
 	}
 
 	//Updates the location of the hero
@@ -187,8 +188,8 @@ public class _Game implements Game
 				direction = oldDirection;
 			else
 			{
-				int[] options = hero.getPossibleDirs(true);
-				direction = options[Game.rng.nextInt(options.length)];
+				List<Integer> options = hero.getPossibleDirs(true);
+				direction = options.get(Game.rng.nextInt(options.size()));
 			}
 
 		return direction;		
@@ -230,8 +231,8 @@ public class _Game implements Game
 				direction = enemies[whichEnemy].direction;
 			else
 			{
-				int[] options = enemies[whichEnemy].getPossibleDirs();
-				direction=options[Game.rng.nextInt(options.length)];
+				List<Integer> options = enemies[whichEnemy].getPossibleDirs();
+				direction = options.get(Game.rng.nextInt(options.size()));
 			}
 		}
 
@@ -359,6 +360,9 @@ public class _Game implements Game
 		return powerPills.contains(location);
 	}
 
+	public List<Node> getPillList() { return new ArrayList<Node>(pills); }
+	public List<Node> getPowerPillList() { return new ArrayList<Node>(powerPills); }
+
 	//The current level
 	public int getCurLevel()
 	{
@@ -372,7 +376,7 @@ public class _Game implements Game
 	}
 
 	//The current maze object
-	public _Maze getCurMaze()
+	public Maze getCurMaze()
 	{
 		return mazes[curMaze];
 	}

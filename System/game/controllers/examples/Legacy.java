@@ -8,20 +8,24 @@ import game.models.Enemy;
 
 public class Legacy implements EnemyController
 {
-	public int[] getActions(Game game,long timeDue)
+	private int[] actions;
+	public int[] getActions() { return actions; }
+	public void init() { }
+	public void shutdown() { }
+	public void update(Game game,long timeDue)
 	{
-		int[] directions=new int[Game.NUM_ENEMY];
+		actions=new int[Game.NUM_ENEMY];
 		DM[] dms=Game.DM.values();
-		
-		for(int i=0;i<directions.length-1;i++)
+
+		Enemy[] enemies = (Enemy[]) game.getEnemies().toArray();
+
+		for(int i=0;i<actions.length-1;i++)
 		{
-			Enemy enemy = game.getEnemy(i);
+			Enemy enemy = enemies[i];
 			if (enemy.requiresAction())
-				directions[i] = game.getEnemy(i).getNextDir(game.getHero().getLocation(), true);
+				actions[i] = enemy.getNextDir(game.getHero().getLocation(), true);
 			//for each ghost; last ghost takes random action
 		}
-		directions[3]= Game.rng.nextInt(4);
-		
-		return directions;
+		actions[3]= Game.rng.nextInt(4);
 	}
 }

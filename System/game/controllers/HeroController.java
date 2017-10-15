@@ -10,5 +10,9 @@ import game.models.Game;
  */
 public interface HeroController
 {
-	public int getAction(Game game,long timeDue);
+	public void init();
+	public void update(Game game, long timeDue);
+	public void shutdown();
+
+	public int getAction();
 }

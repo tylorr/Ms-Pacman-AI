@@ -10,22 +10,30 @@ import java.awt.event.KeyEvent;
 public final class Human extends KeyAdapter implements HeroController
 {
     private int key;
+    private int action;
 
-    public int getAction(Game game,long dueTime)
+    public void init() { }
+
+    public void update(Game game,long dueTime)
     {
     	if (key == KeyEvent.VK_UP)
-            return 0;
-    	if (key == KeyEvent.VK_RIGHT)
-            return 1;    	
-        if (key == KeyEvent.VK_DOWN)
-            return 2;
-        if (key == KeyEvent.VK_LEFT)
-            return 3;
-
-        return 4;
+            action = 0;
+    	else if (key == KeyEvent.VK_RIGHT)
+            action = 1;
+        else if (key == KeyEvent.VK_DOWN)
+            action = 2;
+        else if (key == KeyEvent.VK_LEFT)
+            action = 3;
     }
 
-    public void keyPressed(KeyEvent e) 
+    public void shutdown() { }
+
+    public int getAction()
+    {
+        return action;
+    }
+
+    public void keyPressed(KeyEvent e)
     {
         key=e.getKeyCode();
     }

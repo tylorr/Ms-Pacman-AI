@@ -12,18 +12,21 @@ public class Legacy2TheReckoning implements EnemyController
 	public static final int PACMAN_DISTANCE=10;
     public static final int PILL_PROXIMITY=15;
 
-    private final int[] dirs;
+    private int[] actions;
     
     public Legacy2TheReckoning()
     {
-        dirs=new int[Game.NUM_ENEMY];
+        actions =new int[Game.NUM_ENEMY];
     }
 
-    public int[] getActions(Game game,long timeDue)
+    public int[] getActions() { return actions; }
+    public void init() { }
+    public void shutdown() { }
+    public void update(Game game,long timeDue)
     {
     	Node pacmanLoc = game.getHero().getLocation();
 
-        for(int i=0;i<dirs.length;i++)
+        for(int i = 0; i< actions.length; i++)
         {
             Enemy enemy = game.getEnemy(i);
 
@@ -31,17 +34,15 @@ public class Legacy2TheReckoning implements EnemyController
         	{
         		//if ghosts are all in close proximity and not near Ms Pac-Man, disperse
         		if(isCrowded(game) && !closeToMsPacMan(game,enemy.getLocation()))
-        			dirs[i]=getRetreatActions(game,i);                          				//go towards the power pill locations
+        			actions[i]=getRetreatActions(game,i);                          				//go towards the power pill locations
         		//if edible or Ms Pac-Man is close to power pill, move away from Ms Pac-Man
         		else if(enemy.getEdibleTime() > 0 || closeToPower(game))
-        			dirs[i] = game.getEnemy(i).getNextDir(pacmanLoc, false);      			//move away from ms pacman
+        			actions[i] = game.getEnemy(i).getNextDir(pacmanLoc, false);      			//move away from ms pacman
         		//else go towards Ms Pac-Man
         		else
-                    dirs[i] = game.getEnemy(i).getNextDir(pacmanLoc, true);      			//go towards ms pacman
+                    actions[i] = game.getEnemy(i).getNextDir(pacmanLoc, true);      			//go towards ms pacman
         	}
         }
-        
-        return dirs;
     }
 
     private boolean closeToPower(Game game)

@@ -11,11 +11,7 @@
  * needs to be included in all distributions. Deviations from the original should be 
  * clearly documented. We welcome any comments and suggestions regarding the code.
  */
-package game.system;
-
-import game.models.Game;
-import game.models.Node;
-import game.models.Enemy;
+package game.view;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -26,29 +22,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import game.models.*;
+import game.system._Game_;
+import game.models.Pair;
+
+
 @SuppressWarnings("serial")
 public final class GameView extends JComponent 
 {
-	public static String pathImages="images";
-	private static String[] mazes={"maze-a.png","maze-b.png","maze-c.png","maze-d.png"};
+	public static final String pathImages="images";
 
-	private int MAG = 2;
-	private int pacManDir = Game.INITIAL_HERO_DIR;
-	
-    private final _Game_ game;
-    private final BufferedImage[][] pacmanImgs=new BufferedImage[4][3];
-    private final BufferedImage[][][] ghostsImgs=new BufferedImage[6][4][2];
-    private final BufferedImage[] images;
-    
     //for debugging/illustration purposes only: draw colors in the maze to check whether controller is working
     //correctly or not; can draw squares and lines (see NearestPillHeroVS for demostration).
     public static ArrayList<DebugPointer> debugPointers=new ArrayList<DebugPointer>();
     public static ArrayList<DebugLine> debugLines=new ArrayList<DebugLine>();
-    
-    private GameFrame frame;    
-    private Graphics bufferGraphics; 
-    private Image offscreen; 
-    
+
     public GameView(_Game_ game)
     {
         this.game=game;
@@ -113,29 +101,104 @@ public final class GameView extends JComponent
     ////// Visual aids for debugging ///////
     ////////////////////////////////////////
     
-    //Adds a node to be highlighted using the color specified
-    //NOTE: This won't do anything in the competition but your code will still work
+    // Adds a node to be highlighted using the color specified
+    // NOTE: This won't do anything in the competition but your code will still work
     public synchronized static void addPoints(Game game, Color color, List<Node> nodes)
     {
         for (Node point : nodes)
     		debugPointers.add(new DebugPointer(point.getX(),point.getY(),color));
     }
     
-    //Adds a set of lines to be drawn using the color specified (fromNnodeIndices.length must be equals toNodeIndices.length)
-    //NOTE: This won't do anything in the competition but your code will still work
-    public synchronized static void addLines(Game game, Color color, Node[] fromNodes, Node[] toNodes)
+    // Adds a set of lines to be drawn using the color specified (fromNnodeIndices.length must be equals toNodeIndices.length)
+    // NOTE: This won't do anything in the competition but your code will still work
+    public synchronized static void addLines(Game game, Color color, List<Pair<Node, Node>> pairs)
     {
-    	for(int i = 0; i < fromNodes.length; i++)
-    		debugLines.add(new DebugLine(fromNodes[i].getX(), fromNodes[i].getY(), toNodes[i].getX(), toNodes[i].getY(), color));
+        for (Pair<Node,Node> pair : pairs)
+            debugLines.add(new DebugLine(pair.first().getX(), pair.first().getY(), pair.second().getX(), pair.second().getY(), color));
     }
-    
+
+    // Adds a set of lines to be drawn using the color specified
+    // NOTE: This won't do anything in the competition but your code will still work
+    public synchronized static void addLines(Game game, Color color, List<Node> fromNodes, List<Node> toNodes)
+    {
+        int size = Math.min(fromNodes.size(), toNodes.size());
+        for (int index = 0; index < size; index++)
+        {
+            Node from = fromNodes.get(index);
+            Node to = toNodes.get(index);
+            debugLines.add(new DebugLine(from.getX(), from.getY(), to.getX(), to.getY(), color));
+        }
+    }
+
     //Adds a line to be drawn using the color specified
     //NOTE: This won't do anything in the competition but your code will still work
     public synchronized static void addLines(Game game, Color color, Node fromNode, Node toNode)
     {
     	debugLines.add(new DebugLine(fromNode.getX(), fromNode.getY(), toNode.getX(), toNode.getY(), color));
     }
-        
+
+    ////////////////////////////////////////
+    ////// Visual aids for debugging ///////
+    ////////////////////////////////////////
+
+    public void paintComponent(Graphics g)
+    {
+        if(offscreen==null)
+        {
+            offscreen=createImage(this.getPreferredSize().width,this.getPreferredSize().height);
+            bufferGraphics=offscreen.getGraphics();
+        }
+
+        drawMaze();
+        drawDebugInfo();	//this will be used during testing only and will be disabled in the competition itself
+        drawPills();
+        drawPowerPills();
+        drawPacMan();
+        drawGhosts();
+        drawLives();
+        drawGameInfo();
+
+        if(game.gameOver())
+            drawGameOver();
+
+        g.drawImage(offscreen,0,0,this);
+    }
+
+    public Dimension getPreferredSize()
+    {
+        return new Dimension(game.getWidth()*MAG,game.getHeight()*MAG+20);
+    }
+
+    public GameView showGame()
+    {
+        this.frame=new GameFrame(this);
+
+        //just wait for a bit for player to be ready
+        try{Thread.sleep(2000);}catch(Exception e){}
+
+        return this;
+    }
+
+    public GameFrame getFrame()
+    {
+        return frame;
+    }
+
+    public class GameFrame extends JFrame
+    {
+        public GameFrame(JComponent comp)
+        {
+            getContentPane().add(BorderLayout.CENTER,comp);
+            pack();
+            Dimension screen=Toolkit.getDefaultToolkit().getScreenSize();
+            this.setLocation((int)(screen.getWidth()*3/8),(int)(screen.getHeight()*3/8));
+            this.setVisible(true);
+            this.setResizable(false);
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            repaint();
+        }
+    }
+
     private void drawDebugInfo()
     {
     	for(int i=0;i<debugPointers.size();i++)
@@ -155,33 +218,7 @@ public final class GameView extends JComponent
     	debugPointers.clear();
     	debugLines.clear();
     }
-    ////////////////////////////////////////
-    ////// Visual aids for debugging ///////
-    ////////////////////////////////////////
-    
-    public void paintComponent(Graphics g) 
-    {
-    	if(offscreen==null)
-    	{
-    		offscreen=createImage(this.getPreferredSize().width,this.getPreferredSize().height); 
-    		bufferGraphics=offscreen.getGraphics();
-    	}   	
-    	
-        drawMaze();        
-        drawDebugInfo();	//this will be used during testing only and will be disabled in the competition itself        
-        drawPills();
-        drawPowerPills();
-        drawPacMan();
-        drawGhosts();
-        drawLives();
-        drawGameInfo();
-        
-        if(game.gameOver())
-        	drawGameOver();
-        
-        g.drawImage(offscreen,0,0,this);
-    }
-    
+
     private void drawMaze()
     {
     	bufferGraphics.setColor(Color.BLACK);
@@ -215,37 +252,38 @@ public final class GameView extends JComponent
     
     private void drawPacMan()
     {
-    	Node pacLoc = game.hero.location;
-    	int pacDir = game.hero.direction;
+        Hero hero = game.getHero();
+    	Node heroLoc = hero.getLocation();
+    	int pacDir = hero.getDirection();
         
     	if(pacDir>=0 && pacDir<4)
     		pacManDir=pacDir;
     	
-    	bufferGraphics.drawImage(pacmanImgs[pacManDir][(game.getTotalTime()%6)/2],pacLoc.getX()*MAG-1,pacLoc.getY()*MAG+3,null);
+    	bufferGraphics.drawImage(pacmanImgs[pacManDir][(game.getTotalTime()%6)/2],heroLoc.getX()*MAG-1,heroLoc.getY()*MAG+3,null);
     }
 
     private void drawGhosts() 
     {
-    	for(int index = 0; index< _Game.NUM_ENEMY; index++)
+    	for(int index = 0; index< Game.NUM_ENEMY; index++)
     	{
-    	    _Enemy enemy = game.enemies[index];
-	    	Node loc = enemy.location;
+    	    Enemy enemy = game.getEnemy(index);
+	    	Node loc = enemy.getLocation();
 	    	int x = loc.getX();
 	    	int y = loc.getY();
 	    	
-	    	if(enemy.edibleTime > 0)
+	    	if(enemy.getEdibleTime() > 0)
 	    	{
-	    		if(enemy.edibleTime < _Game_.EDIBLE_ALERT && ((game.getTotalTime() % 6) / 3) ==0)
+	    		if(enemy.getEdibleTime() < _Game_.EDIBLE_ALERT && ((game.getTotalTime() % 6) / 3) ==0)
 	    			bufferGraphics.drawImage(ghostsImgs[5][0][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	            else
 	            	bufferGraphics.drawImage(ghostsImgs[4][0][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	    	}
 	    	else 
 	    	{
-	    		if(game.enemies[index].lairTime > 0)
+	    		if(enemy.getLairTime() > 0)
 	    			bufferGraphics.drawImage(ghostsImgs[index][Game.Direction.UP][(game.getTotalTime()%6)/3],x*MAG-1+(index*5),y*MAG+3,null);
 	    		else    		
-	    			bufferGraphics.drawImage(ghostsImgs[index][enemy.direction][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
+	    			bufferGraphics.drawImage(ghostsImgs[index][enemy.getDirection()][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	        }
     	}
     }
@@ -273,12 +311,7 @@ public final class GameView extends JComponent
     	bufferGraphics.drawString("Game Over",80,150);
     }
     
-    public Dimension getPreferredSize()
-    {
-        return new Dimension(game.getWidth()*MAG,game.getHeight()*MAG+20);
-    }
-    
-    private BufferedImage[] loadImages() 
+    private BufferedImage[] loadImages()
     {
         BufferedImage[] images=new BufferedImage[4];
         
@@ -303,37 +336,20 @@ public final class GameView extends JComponent
         
         return image;
     }
-    
-    public GameView showGame()
-    {
-        this.frame=new GameFrame(this);
-              
-        //just wait for a bit for player to be ready
-        try{Thread.sleep(2000);}catch(Exception e){}
-        
-        return this;
-    }
-    
-    public GameFrame getFrame()
-    {
-    	return frame;
-    }
-    
-    public class GameFrame extends JFrame
-    {
-        public GameFrame(JComponent comp)
-        {
-            getContentPane().add(BorderLayout.CENTER,comp);
-            pack();
-            Dimension screen=Toolkit.getDefaultToolkit().getScreenSize();
-            this.setLocation((int)(screen.getWidth()*3/8),(int)(screen.getHeight()*3/8));            
-            this.setVisible(true);
-            this.setResizable(false);
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
-            repaint();            
-        }
-    }
-    
+
+    private static final String[] mazes={"maze-a.png","maze-b.png","maze-c.png","maze-d.png"};
+    private int MAG = 2;
+    private int pacManDir = Game.INITIAL_HERO_DIR;
+
+    private final _Game_ game;
+    private final BufferedImage[][] pacmanImgs=new BufferedImage[4][3];
+    private final BufferedImage[][][] ghostsImgs=new BufferedImage[6][4][2];
+    private final BufferedImage[] images;
+
+    private GameFrame frame;
+    private Graphics bufferGraphics;
+    private Image offscreen;
+
     private static class DebugPointer
     {
     	public int x,y;

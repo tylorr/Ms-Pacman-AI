@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+import game.models.DuoMap;
 import game.models.Node;
 import game.models.Maze;
 
@@ -22,7 +24,7 @@ public final class _Maze implements Maze
     public List<Node> getPowerPillNodes() { return Arrays.asList(Arrays.copyOf(powerPillNodes, powerPillNodes.length)); }
     public List<Node> getJunctionNodes() { return Arrays.asList(Arrays.copyOf(junctionNodes, junctionNodes.length)); }
 
-    protected DualMap<Node, Node, Integer> distances;
+    protected DuoMap<Node, Node, Integer> distances;
     protected Node[] pillNodes, powerPillNodes, junctionNodes;
     protected Node[] graph;
 
@@ -138,7 +140,7 @@ public final class _Maze implements Maze
      */
     private void loadDistances(String fileName)
     {
-        distances = new DualMap<Node, Node, Integer>();
+        distances = new DuoMap<Node, Node, Integer>();
 
         try
         {

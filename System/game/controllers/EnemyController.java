@@ -10,5 +10,9 @@ import game.models.Game;
  */
 public interface EnemyController
 {
-	public int[] getActions(Game game,long timeDue);
+	public void init();
+	public void update(Game game, long timeDue);
+	public void shutdown();
+
+	public int[] getActions();//Game game, long timeDue);
 }

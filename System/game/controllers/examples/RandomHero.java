@@ -1,14 +1,18 @@
 package game.controllers.examples;
 
+import java.util.List;
 import game.controllers.HeroController;
-import game.system._Game;
 import game.models.Game;
 
 public final class RandomHero implements HeroController
 {
-	public int getAction(Game game, long timeDue)
+	private int action;
+	public int getAction() { return action; }
+	public void init() { }
+	public void shutdown() { }
+	public void update(Game game,long timeDue)
 	{
-		int[] directions=game.getHero().getPossibleDirs(true);		//set flag as true to include reversals
-		return directions[Game.rng.nextInt(directions.length)];
+		List<Integer> directions=game.getHero().getPossibleDirs(true);		//set flag as true to include reversals
+		action = directions.get(Game.rng.nextInt(directions.size()));
 	}
 }

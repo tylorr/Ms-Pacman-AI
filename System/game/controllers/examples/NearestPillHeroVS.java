@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import game.controllers.HeroController;
 import game.models.Game;
-import game.models.Game;
-import game.system.GameView;
+import game.view.GameView;
 import game.models.Node;
 import game.models.Enemy;
 import game.models.Hero;
@@ -18,9 +17,13 @@ import game.models.Hero;
  * Comment/un-comment code below as desired (drawing all visuals would probably be too much).
  */
 public final class NearestPillHeroVS implements HeroController
-{	
-	public int getAction(Game game,long timeDue)
-	{		
+{
+	private int action;
+	public int getAction() { return action; }
+	public void init() { }
+	public void shutdown() { }
+	public void update(Game game,long timeDue)
+	{
 		List<Node> pills = game.getCurMaze().getPillNodes();
 		List<Node> powerPills = game.getCurMaze().getPowerPillNodes();
 		Hero hero = game.getHero();
@@ -35,12 +38,7 @@ public final class NearestPillHeroVS implements HeroController
 			if(game.checkPowerPill(pill))
 				targets.add(pill);
 
-		Node[] targetsArray=new Node[targets.size()];
-		
-		for(int i=0;i<targetsArray.length;i++)
-			targetsArray[i] = targets.get(i);
-		
-		Node nearest = hero.getTarget(targetsArray,true);
+		Node nearest = hero.getTarget(targets,true);
 		
 		//add the path that Ms Pac-Man is following
 //		GameView.addPoints(game,Color.GREEN,game.getPath(current,nearest));
@@ -75,6 +73,6 @@ public final class NearestPillHeroVS implements HeroController
 
 		}
 
-		return game.getHero().getNextDir(nearest, true);
+		action = game.getHero().getNextDir(nearest, true);
 	}
 }

@@ -20,30 +20,25 @@ public class _Actor implements Actor
 
     protected List<Node> getPath(Node to, boolean canReverse) { return location.getPath(to, canReverse, direction); }
 
-    protected int[] getPossibleDirs(boolean canReverse)
+    protected List<Integer> getPossibleDirs(boolean canReverse)
     {
+        ArrayList<Integer> directions = new ArrayList<Integer>();
         int numNeighbors = location.getNumNeighbors();
 
         if (numNeighbors == 0)
-            return new int[0];
+            return directions;
 
         List<Node> nodes = location.getNeighbors();
-        int[] directions;
-
-        if (canReverse || (direction < 0 || direction > 3))
-            directions = new int[numNeighbors];
-        else
-            directions = new int[numNeighbors - 1];
-
-        int index = 0;
 
         for (int i = 0; i < nodes.size(); i++)
-        if (nodes.get(i) != null)
         {
-            if (canReverse || (direction < 0 || direction > 3))
-                directions[index++] = i;
-            else if (i != Node.getReverse(direction))
-                directions[index++] = i;
+            if (nodes.get(i) != null)
+            {
+                if (canReverse || (direction < 0 || direction > 3))
+                    directions.add(i);
+                else if (i != Node.getReverse(direction))
+                    directions.add(i);
+            }
         }
 
         return directions;
@@ -59,31 +54,31 @@ public class _Actor implements Actor
     }
 
     //Returns the target closest from this actor's position
-    protected Node getTarget(Node[] targets, boolean nearest, boolean canReverse)
+    protected Node getTarget(List<Node> targets, boolean nearest, boolean canReverse)
     {
-        Node target = null;
+        Node result = null;
 
         double min=Integer.MAX_VALUE;
         double max=-Integer.MAX_VALUE;
 
-        for(int i=0;i<targets.length;i++)
+        for (Node target : targets)
         {
-            double dist = getPath(targets[i], canReverse).size();
+            double dist = getPath(target, canReverse).size();
 
             if(nearest && dist<min)
             {
                 min = dist;
-                target = targets[i];
+                result = target;
             }
 
             if(!nearest && dist > max)
             {
                 max = dist;
-                target = targets[i];
+                result = target;
             }
         }
 
-        return target;
+        return result;
     }
 
 

@@ -18,11 +18,11 @@ public class _Enemy extends _Actor implements Enemy
         return edibleTime > 0;
     }
 
-    public int[] getPossibleDirs() { return getPossibleDirs(false); }
+    public List<Integer> getPossibleDirs() { return getPossibleDirs(false); }
     public int getNextDir(Node to, boolean approach) { return location.getNextDir(to, approach, false, direction); }
     public List<Node> getPath(Node to) { return getPath(to, false); }
     public List<Node> getPossibleLocations() { return getPossibleLocations(false); }
-    public Node getTarget(Node[] targets, boolean nearest) { return getTarget(targets, nearest, false); }
+    public Node getTarget(List<Node> targets, boolean nearest) { return getTarget(targets, nearest, false); }
 
     public boolean requiresAction()
     {
