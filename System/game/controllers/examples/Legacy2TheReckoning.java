@@ -14,16 +14,15 @@ public class Legacy2TheReckoning implements DefenderController
     public static final int PILL_PROXIMITY=15;
 
     private int[] actions;
-    
+
     public Legacy2TheReckoning()
     {
         actions =new int[Game.NUM_DEFENDER];
     }
 
-    public int[] getActions() { return actions; }
-    public void init() { }
-    public void shutdown() { }
-    public void update(Game game,long timeDue)
+    public void init(Game game) { }
+    public void shutdown(Game game) { }
+    public int[] update(Game game,long timeDue)
     {
     	Node pacmanLoc = game.getAttacker().getLocation();
 
@@ -44,6 +43,8 @@ public class Legacy2TheReckoning implements DefenderController
                     actions[i] = game.getDefender(i).getNextDir(pacmanLoc, true);      			//go towards ms pacman
         	}
         }
+
+        return actions;
     }
 
     private boolean closeToPower(Game game)

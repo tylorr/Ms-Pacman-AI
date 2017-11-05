@@ -18,11 +18,9 @@ import game.models.Defender;
  */
 public final class NearestPillAttackerVS implements AttackerController
 {
-	private int action;
-	public int getAction() { return action; }
-	public void init() { }
-	public void shutdown() { }
-	public void update(Game game,long timeDue)
+	public void init(Game game) { }
+	public void shutdown(Game game) { }
+	public int update(Game game,long timeDue)
 	{
 		List<Node> pills = game.getCurMaze().getPillNodes();
 		List<Node> powerPills = game.getCurMaze().getPowerPillNodes();
@@ -73,6 +71,6 @@ public final class NearestPillAttackerVS implements AttackerController
 
 		}
 
-		action = game.getAttacker().getNextDir(nearest, true);
+		return game.getAttacker().getNextDir(nearest, true);
 	}
 }

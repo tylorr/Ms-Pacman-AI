@@ -15,13 +15,11 @@ public final class AttractRepelGhosts implements DefenderController
 		this.attract=attract;	//approach or retreat from Ms Pac-Man
 	}
 
-	private int[] actions;
-    public int[] getActions() { return actions; }
-	public void init() { }
-	public void shutdown() { }
-	public void update(Game game,long timeDue)
+	public void init(Game game) { }
+	public void shutdown(Game game) { }
+	public int[] update(Game game, long timeDue)
 	{		
-		actions = new int[Game.NUM_DEFENDER];
+		int[] actions = new int[Game.NUM_DEFENDER];
 
 		Defender[] enemies = (Defender[]) game.getDefenders().toArray();
 		for(int i=0;i<actions.length;i++)	//for each ghost
@@ -38,5 +36,7 @@ public final class AttractRepelGhosts implements DefenderController
 				}
 			}
 		}
+
+		return actions;
 	}
 }

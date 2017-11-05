@@ -10,28 +10,24 @@ import java.awt.event.KeyEvent;
 public final class Human extends KeyAdapter implements AttackerController
 {
     private int key;
-    private int action;
 
-    public void init() { }
+    public void init(Game game) { }
 
-    public void update(Game game,long dueTime)
+    public int update(Game game,long dueTime)
     {
     	if (key == KeyEvent.VK_UP)
-            action = 0;
+            return 0;
     	else if (key == KeyEvent.VK_RIGHT)
-            action = 1;
+            return 1;
         else if (key == KeyEvent.VK_DOWN)
-            action = 2;
+            return 2;
         else if (key == KeyEvent.VK_LEFT)
-            action = 3;
+            return 3;
+
+        return -1;
     }
 
-    public void shutdown() { }
-
-    public int getAction()
-    {
-        return action;
-    }
+    public void shutdown(Game game) { }
 
     public void keyPressed(KeyEvent e)
     {

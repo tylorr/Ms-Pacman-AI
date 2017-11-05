@@ -7,13 +7,11 @@ import game.models.Defender;
 
 public class Legacy implements DefenderController
 {
-	private int[] actions;
-	public int[] getActions() { return actions; }
-	public void init() { }
-	public void shutdown() { }
-	public void update(Game game,long timeDue)
+	public void init(Game game) { }
+	public void shutdown(Game game) { }
+	public int[] update(Game game,long timeDue)
 	{
-		actions=new int[Game.NUM_DEFENDER];
+		int[] actions=new int[Game.NUM_DEFENDER];
 		DM[] dms=Game.DM.values();
 
 		Defender[] enemies = (Defender[]) game.getDefenders().toArray();
@@ -25,6 +23,8 @@ public class Legacy implements DefenderController
 				actions[i] = defender.getNextDir(game.getAttacker().getLocation(), true);
 			//for each ghost; last ghost takes random action
 		}
-		actions[3]= Game.rng.nextInt(4);
+		actions[3] = Game.rng.nextInt(4);
+
+		return actions;
 	}
 }

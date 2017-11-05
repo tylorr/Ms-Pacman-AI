@@ -2,38 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f93a5615-1996-447b-b12e-b95e14866fc7" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/pakku/agent/TestAgent.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/controllers/EnemyController.java" afterPath="$PROJECT_DIR$/System/game/controllers/DefenderController.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/controllers/HeroController.java" afterPath="$PROJECT_DIR$/System/game/controllers/AttackerController.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/controllers/examples/NearestPillHero.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttacker.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/controllers/examples/NearestPillHeroVS.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttackerVS.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/controllers/examples/OriginalGhosts.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/OriginalDefenders.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/controllers/examples/RandomGhosts.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/RandomDefenders.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/controllers/examples/RandomHero.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/RandomAttacker.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/controllers/examples/RandomNonRevHero.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/RandomNonRevAttacker.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/models/DuoMap.java" afterPath="$PROJECT_DIR$/System/game/system/DuoMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/models/Enemy.java" afterPath="$PROJECT_DIR$/System/game/models/Defender.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/models/Hero.java" afterPath="$PROJECT_DIR$/System/game/models/Attacker.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/models/Pair.java" afterPath="$PROJECT_DIR$/System/game/system/Pair.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/system/_Enemy.java" afterPath="$PROJECT_DIR$/System/game/system/_Defender.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/System/game/system/_Hero.java" afterPath="$PROJECT_DIR$/System/game/system/_Attacker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/Exec.java" afterPath="$PROJECT_DIR$/System/game/Exec.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/AttackerController.java" afterPath="$PROJECT_DIR$/System/game/controllers/AttackerController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/DefenderController.java" afterPath="$PROJECT_DIR$/System/game/controllers/DefenderController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/Human.java" afterPath="$PROJECT_DIR$/System/game/controllers/Human.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/examples/AttractRepelGhosts.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/AttractRepelGhosts.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/examples/Devastator.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/Devastator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/examples/Legacy.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/Legacy.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/examples/Legacy2TheReckoning.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/Legacy2TheReckoning.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/models/Actor.java" afterPath="$PROJECT_DIR$/System/game/models/Actor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/models/Game.java" afterPath="$PROJECT_DIR$/System/game/models/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/models/Maze.java" afterPath="$PROJECT_DIR$/System/game/models/Maze.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/models/Node.java" afterPath="$PROJECT_DIR$/System/game/models/Node.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/system/_Actor.java" afterPath="$PROJECT_DIR$/System/game/system/_Actor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/system/_Game.java" afterPath="$PROJECT_DIR$/System/game/system/_Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/system/_Game_.java" afterPath="$PROJECT_DIR$/System/game/system/_Game_.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/system/_Maze.java" afterPath="$PROJECT_DIR$/System/game/system/_Maze.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/system/_Node.java" afterPath="$PROJECT_DIR$/System/game/system/_Node.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/view/GameView.java" afterPath="$PROJECT_DIR$/System/game/view/GameView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttacker.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttacker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttackerVS.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttackerVS.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/examples/OriginalDefenders.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/OriginalDefenders.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/examples/RandomAttacker.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/RandomAttacker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/examples/RandomDefenders.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/RandomDefenders.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/controllers/examples/RandomNonRevAttacker.java" afterPath="$PROJECT_DIR$/System/game/controllers/examples/RandomNonRevAttacker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/System/game/view/Replay.java" afterPath="$PROJECT_DIR$/System/game/view/Replay.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ufl/cs1/controllers/StudentController.java" afterPath="$PROJECT_DIR$/src/ufl/cs1/controllers/StudentController.java" />
     </list>
     <ignored path="Ms. Pac-Man.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,11 +35,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="StudentController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="StudentController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ufl/cs1/controllers/StudentController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="18" column="8" lean-forward="true" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+            <state relative-caret-position="525">
+              <caret line="29" column="9" lean-forward="true" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OriginalDefenders.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/OriginalDefenders.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="84">
+              <caret line="20" column="4" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Devastator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/Devastator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="379">
+              <caret line="431" column="14" lean-forward="false" selection-start-line="431" selection-start-column="14" selection-end-line="431" selection-end-column="14" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Replay.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/System/game/view/Replay.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1995">
+              <caret line="111" column="8" lean-forward="true" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -63,11 +80,41 @@
       <file leaf-file-name="Exec.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/System/game/Exec.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-629">
-              <caret line="34" column="44" lean-forward="false" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
+            <state relative-caret-position="199">
+              <caret line="135" column="5" lean-forward="true" selection-start-line="135" selection-start-column="5" selection-end-line="135" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Human.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/System/game/controllers/Human.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="546">
+              <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AttackerController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/System/game/controllers/AttackerController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DefenderController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/System/game/controllers/DefenderController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -84,7 +131,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>get</find>
       <find>getNeighbor</find>
       <find>getNext</find>
       <find>Maze</find>
@@ -114,6 +160,7 @@
       <find>getPillList</find>
       <find>CURmaze</find>
       <find>totLel</find>
+      <find>state</find>
     </findStrings>
     <replaceStrings>
       <replace>.getX()</replace>
@@ -143,13 +190,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/System/game/core/G.java" />
-        <option value="$PROJECT_DIR$/System/game/system/G.java" />
-        <option value="$PROJECT_DIR$/System/game/system/Actor.java" />
-        <option value="$PROJECT_DIR$/System/game/system/Maze.java" />
-        <option value="$PROJECT_DIR$/System/game/models/EnumValue.java" />
-        <option value="$PROJECT_DIR$/System/game/system/_Game_.java" />
-        <option value="$PROJECT_DIR$/System/game/system/_Enemy.java" />
         <option value="$PROJECT_DIR$/System/game/system/_Hero.java" />
         <option value="$PROJECT_DIR$/System/game/models/Hero.java" />
         <option value="$PROJECT_DIR$/System/game/system/GameView.java" />
@@ -159,21 +199,15 @@
         <option value="$PROJECT_DIR$/System/game/models/DuoMap.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/EnemyController.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/HeroController.java" />
-        <option value="$PROJECT_DIR$/System/game/controllers/Human.java" />
-        <option value="$PROJECT_DIR$/System/game/controllers/examples/AttractRepelGhosts.java" />
-        <option value="$PROJECT_DIR$/System/game/controllers/examples/Legacy.java" />
-        <option value="$PROJECT_DIR$/System/game/controllers/examples/Legacy2TheReckoning.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/RandomGhosts.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/NearestPillHeroVS.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/RandomHero.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/RandomNonRevHero.java" />
-        <option value="$PROJECT_DIR$/System/game/view/Replay.java" />
         <option value="$PROJECT_DIR$/src/pakku/agent/TestAgent.java" />
         <option value="$PROJECT_DIR$/System/game/system/Pair.java" />
         <option value="$PROJECT_DIR$/System/game/models/Enemy.java" />
         <option value="$PROJECT_DIR$/System/game/view/GameView.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/NearestPillHero.java" />
-        <option value="$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttacker.java" />
         <option value="$PROJECT_DIR$/System/game/models/Game.java" />
         <option value="$PROJECT_DIR$/System/game/models/Maze.java" />
         <option value="$PROJECT_DIR$/System/game/models/Node.java" />
@@ -184,16 +218,29 @@
         <option value="$PROJECT_DIR$/System/game/models/Defender.java" />
         <option value="$PROJECT_DIR$/System/game/system/_Defender.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/MsPacManAFI.java" />
-        <option value="$PROJECT_DIR$/System/game/controllers/examples/Devastator.java" />
         <option value="$PROJECT_DIR$/System/game/controllers/examples/OriginalGhosts.java" />
-        <option value="$PROJECT_DIR$/System/game/controllers/examples/OriginalDefenders.java" />
         <option value="$PROJECT_DIR$/src/pakupaku/agent/TestController.java" />
         <option value="$PROJECT_DIR$/src/ufl/cs1/controllers/TestController.java" />
         <option value="$PROJECT_DIR$/System/game/system/DuoMap.java" />
         <option value="$PROJECT_DIR$/System/game/system/_Node.java" />
         <option value="$PROJECT_DIR$/System/game/system/_Maze.java" />
         <option value="$PROJECT_DIR$/System/game/system/_Game.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/DefenderController.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/AttackerController.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/Human.java" />
         <option value="$PROJECT_DIR$/System/game/Exec.java" />
+        <option value="$PROJECT_DIR$/src/ufl/cs1/controllers/StudentController.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/OriginalDefenders.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/RandomAttacker.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttacker.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/AttractRepelGhosts.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttackerVS.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/Legacy.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/RandomNonRevAttacker.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/Legacy2TheReckoning.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/Devastator.java" />
+        <option value="$PROJECT_DIR$/System/game/controllers/examples/RandomDefenders.java" />
+        <option value="$PROJECT_DIR$/System/game/view/Replay.java" />
       </list>
     </option>
   </component>
@@ -203,11 +250,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="-2" />
     <option name="y" value="4" />
-    <option name="width" value="1210" />
-    <option name="height" value="892" />
+    <option name="width" value="1839" />
+    <option name="height" value="1111" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -225,6 +272,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -266,14 +317,6 @@
               <item name="pakupaku" type="462c0819:PsiDirectoryNode" />
               <item name="System" type="462c0819:PsiDirectoryNode" />
               <item name="game" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PakuPaku" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pakupaku" type="462c0819:PsiDirectoryNode" />
-              <item name="System" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -292,10 +335,6 @@
         </subPane>
         <option name="show-excluded-files" value="false" />
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -793,29 +832,31 @@
       <workItem from="1509734170406" duration="13880000" />
       <workItem from="1509756216082" duration="4087000" />
       <workItem from="1509813610645" duration="984000" />
+      <workItem from="1509914199765" duration="1489000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="100519000" />
+    <option name="totallyTimeSpent" value="102008000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2" y="4" width="1210" height="892" extended-state="1" />
+    <frame x="-2" y="4" width="1839" height="1111" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33896515" sideWeight="0.43629086" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.503367" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="1.0" sideWeight="0.496633" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2840549" sideWeight="0.496633" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5343915" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18604651" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -829,7 +870,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33936653" sideWeight="0.43629086" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.56558365" sideWeight="0.49353796" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -948,65 +988,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/RandomNonRevAttacker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="11" column="18" lean-forward="false" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/AttractRepelGhosts.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="18" column="26" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/view/Replay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1023">
-          <caret line="125" column="0" lean-forward="true" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
-          <folding>
-            <element signature="e#3471#3472#0" expanded="false" />
-            <element signature="e#3542#3543#0" expanded="false" />
-            <element signature="e#3890#3891#0" expanded="false" />
-            <element signature="e#3961#3962#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/AttackerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" column="3" lean-forward="true" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/DefenderController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="14" column="21" lean-forward="false" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/Human.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-171">
-          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/System/game/view/GameView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1">
           <caret line="248" column="10" lean-forward="false" selection-start-line="248" selection-start-column="10" selection-end-line="248" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#14156#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1014,7 +999,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1022,7 +1006,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="483">
           <caret line="23" column="38" lean-forward="false" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1030,10 +1013,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="630">
           <caret line="54" column="0" lean-forward="true" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#4714#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1041,7 +1020,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="246">
           <caret line="54" column="0" lean-forward="true" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1049,7 +1027,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
           <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1057,7 +1034,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1065,7 +1041,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="31" column="43" lean-forward="true" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1073,69 +1048,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
           <caret line="7" column="16" lean-forward="true" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/Legacy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="23" column="33" lean-forward="false" selection-start-line="23" selection-start-column="33" selection-end-line="23" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/Legacy2TheReckoning.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="610">
-          <caret line="40" column="32" lean-forward="true" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttackerVS.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="40" column="23" lean-forward="false" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttacker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/RandomDefenders.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="24" column="12" lean-forward="false" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/RandomAttacker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="10" column="16" lean-forward="true" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pakupaku/agent/TestAgent.java" />
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/OriginalDefenders.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="402" column="32" lean-forward="true" selection-start-line="402" selection-start-column="32" selection-end-line="402" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/jre/lib/rt.jar!/sun/launcher/LauncherHelper.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
@@ -1154,7 +1070,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="213">
           <caret line="156" column="0" lean-forward="false" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1162,7 +1077,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
           <caret line="105" column="11" lean-forward="false" selection-start-line="105" selection-start-column="11" selection-end-line="105" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1170,9 +1084,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="e#264#265#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1180,10 +1091,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
           <caret line="25" column="25" lean-forward="false" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
-          <folding>
-            <element signature="e#336#337#0" expanded="false" />
-            <element signature="e#395#396#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1205,17 +1112,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="8" column="54" lean-forward="false" selection-start-line="8" selection-start-column="54" selection-end-line="8" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/Devastator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="505" column="50" lean-forward="true" selection-start-line="505" selection-start-column="50" selection-end-line="505" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1223,16 +1119,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1764">
           <caret line="98" column="0" lean-forward="false" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
-          <folding>
-            <element signature="e#4993#5003#0" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/DefenderController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/AttackerController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/Human.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/System/game/Exec.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-629">
-          <caret line="34" column="44" lean-forward="false" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
+        <state relative-caret-position="199">
+          <caret line="135" column="5" lean-forward="true" selection-start-line="135" selection-start-column="5" selection-end-line="135" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1241,8 +1158,98 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ufl/cs1/controllers/StudentController.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="29" column="9" lean-forward="true" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/AttractRepelGhosts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="29" column="24" lean-forward="true" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttackerVS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="67" column="52" lean-forward="false" selection-start-line="67" selection-start-column="52" selection-end-line="67" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/NearestPillAttacker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="31" column="14" lean-forward="false" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/RandomAttacker.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
-          <caret line="18" column="8" lean-forward="true" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+          <caret line="17" column="1" lean-forward="true" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/Legacy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="22" column="44" lean-forward="false" selection-start-line="22" selection-start-column="44" selection-end-line="22" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/RandomNonRevAttacker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="14" column="14" lean-forward="false" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/Legacy2TheReckoning.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="46" column="23" lean-forward="false" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/OriginalDefenders.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="20" column="4" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/RandomDefenders.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="22" column="13" lean-forward="true" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/controllers/examples/Devastator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="431" column="14" lean-forward="false" selection-start-line="431" selection-start-column="14" selection-end-line="431" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/game/view/Replay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1995">
+          <caret line="111" column="8" lean-forward="true" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="8" />
           <folding />
         </state>
       </provider>

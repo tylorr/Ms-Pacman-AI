@@ -10,9 +10,7 @@ import game.models.Game;
  */
 public interface DefenderController
 {
-	public void init();
-	public void update(Game game, long timeDue);
-	public void shutdown();
-
-	public int[] getActions();//Game game, long timeDue);
+	public void init(Game game);
+	public int[] update(Game game, long timeDue);
+	public void shutdown(Game game);
 }

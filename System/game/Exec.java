@@ -81,21 +81,18 @@ public class Exec
 		for(int i=0;i<trials;i++)
 		{
 			game.newGame();
-			attackerController.init();
-			defenderController.init();
+			attackerController.init(game.copy());
+			defenderController.init(game.copy());
 
 			while(!game.gameOver())
 			{
 				long due=System.currentTimeMillis()+ _Game.DELAY;
-				Game state = game.copy();
-				defenderController.update(state, due);
-				attackerController.update(state, due);
-		        game.advanceGame(attackerController.getAction(), defenderController.getActions());
+		        game.advanceGame(attackerController.update(game.copy(), due), defenderController.update(game.copy(), due));
 			}
 			
 			avgScore+=game.getScore();
-			attackerController.shutdown();
-			defenderController.shutdown();
+			attackerController.shutdown(game.copy());
+			defenderController.shutdown(game.copy());
 			System.out.println("Trial #" + i + " complete. Score: " + game.getScore());
 		}
 		
@@ -120,16 +117,13 @@ public class Exec
 		if(visual)
 			gv=new GameView(game).showGame();
 
-		attackerController.init();
-		defenderController.init();
+		attackerController.init(game.copy());
+		defenderController.init(game.copy());
 
 		while(!game.gameOver())
 		{
 			long due=System.currentTimeMillis()+ Game.DELAY;
-			Game state = game.copy();
-			defenderController.update(state, due);
-			attackerController.update(state, due);
-			game.advanceGame(attackerController.getAction(), defenderController.getActions());
+			game.advanceGame(attackerController.update(game.copy(), due), defenderController.update(game.copy(), due));
 
 	        try{Thread.sleep(delay);}catch(Exception e){}
 	        
@@ -137,8 +131,8 @@ public class Exec
 	        	gv.repaint();
 		}
 
-		attackerController.init();
-		defenderController.init();
+		attackerController.shutdown(game.copy());
+		defenderController.shutdown(game.copy());
 	}
 	
     /*
@@ -162,8 +156,8 @@ public class Exec
 				gv.getFrame().addKeyListener((Human) attackerController);
 		}
 
-		attackerController.init();
-		defenderController.init();
+		attackerController.init(game.copy());
+		defenderController.init(game.copy());
 
 		while(!game.gameOver())
 		{
@@ -184,7 +178,7 @@ public class Exec
 	        if(visual)
 	        	gv.repaint();
 		}
-		
+
 		pacMan.kill();
 		ghosts.kill();
 	}
@@ -214,8 +208,8 @@ public class Exec
 				gv.getFrame().addKeyListener((Human) attackerController);
 		}
 
-		attackerController.init();
-		defenderController.init();
+		attackerController.init(game.copy());
+		defenderController.init(game.copy());
 
 		while(!game.gameOver())
 		{
@@ -247,8 +241,8 @@ public class Exec
         	}	   
 		}
 
-		attackerController.shutdown();
-		defenderController.shutdown();
+		attackerController.shutdown(game.copy());
+		defenderController.shutdown(game.copy());
 
 		//save the final actions
 		Replay.saveActions(history,fileName,firstWrite);
@@ -270,25 +264,21 @@ public class Exec
 		AttackerController attackerController = replay.getPacMan();
 		DefenderController defenderController = replay.getGhosts();
 
-		attackerController.init();
-		defenderController.init();
+		attackerController.init(game.copy());
+		defenderController.init(game.copy());
 
 		GameView gv=new GameView(game).showGame();
 		
 		while(!game.gameOver())
 		{
-			Game state = game.copy();
-			defenderController.update(state, 0);
-			attackerController.update(state, 0);
-	        game.advanceGame(attackerController.getAction(), defenderController.getActions());
-	        
+	        game.advanceGame(attackerController.update(game.copy(), 0), defenderController.update(game.copy(), 0));
 	        gv.repaint();
 	        
 	        try{Thread.sleep(_Game.DELAY);}catch(Exception e){}
 		}
 
-		attackerController.shutdown();
-		defenderController.shutdown();
+		attackerController.shutdown(game.copy());
+		defenderController.shutdown(game.copy());
 	}
 	
     private String addActionsToString(String history,int[] actionsTaken)
@@ -355,9 +345,7 @@ public class Exec
 	        			wait();
 	                }
 
-					Game state = game.copy();
-					pacMan.update(state, System.currentTimeMillis() + Game.DELAY);
-	        		setPacDir(pacMan.getAction());
+	        		setPacDir(pacMan.update(game.copy(), System.currentTimeMillis() + Game.DELAY));
 	            } 
 	        	catch(InterruptedException e) 
 	        	{
@@ -405,9 +393,7 @@ public class Exec
 	        			wait();
 	                }
 
-					Game state = game.copy();
-					ghosts.update(state, System.currentTimeMillis()+ Game.DELAY);
-	        		setGhostDirs(ghosts.getActions());
+	        		setGhostDirs(ghosts.update(game.copy(), System.currentTimeMillis()+ Game.DELAY));
 	            } 
 	        	catch(InterruptedException e) 
 	        	{
