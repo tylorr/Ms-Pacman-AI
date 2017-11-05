@@ -4,7 +4,7 @@ import game.models.Node;
 import java.util.List;
 import java.util.ArrayList;
 
-public class _Actor implements Actor
+public abstract class _Actor implements Actor
 {
     Node location;
     int direction;
@@ -18,7 +18,7 @@ public class _Actor implements Actor
         return direction;
     }
 
-    protected List<Node> getPath(Node to, boolean canReverse) { return location.getPath(to, canReverse, direction); }
+    protected List<Node> getPathTo(Node to, boolean canReverse) { return location.getPathTo(to, canReverse, direction); }
 
     protected List<Integer> getPossibleDirs(boolean canReverse)
     {
@@ -63,7 +63,7 @@ public class _Actor implements Actor
 
         for (Node target : targets)
         {
-            double dist = getPath(target, canReverse).size();
+            double dist = getPathTo(target, canReverse).size();
 
             if(nearest && dist<min)
             {

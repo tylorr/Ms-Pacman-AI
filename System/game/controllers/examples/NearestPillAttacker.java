@@ -2,13 +2,13 @@ package game.controllers.examples;
 
 import java.util.ArrayList;
 
-import game.controllers.HeroController;
+import game.controllers.AttackerController;
 import game.models.Game;
 import game.models.Node;
-import game.models.Hero;
+import game.models.Attacker;
 import java.util.List;
 
-public class NearestPillHero implements HeroController
+public class NearestPillAttacker implements AttackerController
 {
 	private int action;
 	public int getAction() { return action; }
@@ -18,7 +18,7 @@ public class NearestPillHero implements HeroController
 	{
 		List<Node> pills = game.getCurMaze().getPillNodes();
 		List<Node> powerPills=game.getCurMaze().getPowerPillNodes();
-		Hero hero = game.getHero();
+		Attacker attacker = game.getAttacker();
 		
 		ArrayList<Node> targets=new ArrayList<Node>();
 
@@ -31,6 +31,6 @@ public class NearestPillHero implements HeroController
 				targets.add(pill);
 		
 		//return the next direction once the closest target has been identified
-		action = game.getHero().getNextDir(hero.getTarget(targets,true), true);
+		action = game.getAttacker().getNextDir(attacker.getTarget(targets,true), true);
 	}
 }

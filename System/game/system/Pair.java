@@ -1,4 +1,4 @@
-package game.models;
+package game.system;
 
 public class Pair<F, S>
 {

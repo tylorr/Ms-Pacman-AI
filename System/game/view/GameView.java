@@ -24,7 +24,7 @@ import java.util.List;
 
 import game.models.*;
 import game.system._Game_;
-import game.models.Pair;
+import game.system.Pair;
 
 
 @SuppressWarnings("serial")
@@ -33,7 +33,7 @@ public final class GameView extends JComponent
 	public static final String pathImages="images";
 
     //for debugging/illustration purposes only: draw colors in the maze to check whether controller is working
-    //correctly or not; can draw squares and lines (see NearestPillHeroVS for demostration).
+    //correctly or not; can draw squares and lines (see NearestPillAttackerVS for demostration).
     public static ArrayList<DebugPointer> debugPointers=new ArrayList<DebugPointer>();
     public static ArrayList<DebugLine> debugLines=new ArrayList<DebugLine>();
 
@@ -252,38 +252,38 @@ public final class GameView extends JComponent
     
     private void drawPacMan()
     {
-        Hero hero = game.getHero();
-    	Node heroLoc = hero.getLocation();
-    	int pacDir = hero.getDirection();
+        Attacker attacker = game.getAttacker();
+    	Node attackerLoc = attacker.getLocation();
+    	int currentDir = attacker.getDirection();
         
-    	if(pacDir>=0 && pacDir<4)
-    		pacManDir=pacDir;
+    	if(currentDir>=0 && currentDir<4)
+    		attackerDir =currentDir;
     	
-    	bufferGraphics.drawImage(pacmanImgs[pacManDir][(game.getTotalTime()%6)/2],heroLoc.getX()*MAG-1,heroLoc.getY()*MAG+3,null);
+    	bufferGraphics.drawImage(pacmanImgs[attackerDir][(game.getTotalTime()%6)/2],attackerLoc.getX()*MAG-1,attackerLoc.getY()*MAG+3,null);
     }
 
     private void drawGhosts() 
     {
-    	for(int index = 0; index< Game.NUM_ENEMY; index++)
+    	for(int index = 0; index< Game.NUM_DEFENDER; index++)
     	{
-    	    Enemy enemy = game.getEnemy(index);
-	    	Node loc = enemy.getLocation();
+    	    Defender defender = game.getDefender(index);
+	    	Node loc = defender.getLocation();
 	    	int x = loc.getX();
 	    	int y = loc.getY();
 	    	
-	    	if(enemy.getEdibleTime() > 0)
+	    	if(defender.getVulnerableTime() > 0)
 	    	{
-	    		if(enemy.getEdibleTime() < _Game_.EDIBLE_ALERT && ((game.getTotalTime() % 6) / 3) ==0)
+	    		if(defender.getVulnerableTime() < _Game_.EDIBLE_ALERT && ((game.getTotalTime() % 6) / 3) ==0)
 	    			bufferGraphics.drawImage(ghostsImgs[5][0][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	            else
 	            	bufferGraphics.drawImage(ghostsImgs[4][0][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	    	}
 	    	else 
 	    	{
-	    		if(enemy.getLairTime() > 0)
+	    		if(defender.getLairTime() > 0)
 	    			bufferGraphics.drawImage(ghostsImgs[index][Game.Direction.UP][(game.getTotalTime()%6)/3],x*MAG-1+(index*5),y*MAG+3,null);
 	    		else    		
-	    			bufferGraphics.drawImage(ghostsImgs[index][enemy.getDirection()][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
+	    			bufferGraphics.drawImage(ghostsImgs[index][defender.getDirection()][(game.getTotalTime()%6)/3],x*MAG-1,y*MAG+3,null);
 	        }
     	}
     }
@@ -339,7 +339,7 @@ public final class GameView extends JComponent
 
     private static final String[] mazes={"maze-a.png","maze-b.png","maze-c.png","maze-d.png"};
     private int MAG = 2;
-    private int pacManDir = Game.INITIAL_HERO_DIR;
+    private int attackerDir = Game.INITIAL_ATTACKER_DIR;
 
     private final _Game_ game;
     private final BufferedImage[][] pacmanImgs=new BufferedImage[4][3];

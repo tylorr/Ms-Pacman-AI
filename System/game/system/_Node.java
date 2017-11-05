@@ -71,11 +71,11 @@ public class _Node implements Node
         return dir;
     }
 
-    public List<Node> getPath(Node to) { return getPath(to, true, 0); }
+    public List<Node> getPathTo(Node to) { return getPathTo(to, true, 0); }
 
     //Returns the path of adjacent nodes from one node to another, including these nodes
     //E.g., path from a to c might be [a,f,r,t,c]
-    public List<Node> getPath(Node to, boolean canReverse, int direction)
+    public List<Node> getPathTo(Node to, boolean canReverse, int direction)
     {
         if(getNumNeighbors()==0)
             return new ArrayList<Node>();
@@ -100,7 +100,14 @@ public class _Node implements Node
 
     public int getPathDistance(Node to)
     {
-        return maze.distances.get(this, to);
+        Integer result = maze.distances.get(this, to);
+        if (result == null)
+        {
+            System.out.println("Warning: distance not found in precomputed data. Returning -1.");
+            return -1;
+        }
+
+        return result;
     }
 
     //Returns the EUCLEDIAN distance between two nodes in the current maze.

@@ -6,8 +6,7 @@ import game.view.*;
 
 import game.controllers.*;
 import game.controllers.examples.*;
-
-import pakku.agent.TestAgent;
+import ufl.cs1.controllers.StudentController;
 
 /*
  * This class may be used to execute the game in timed or un-timed modes, with or without
@@ -23,42 +22,40 @@ public class Exec
 	{
 		Exec exec=new Exec();
 
-		HeroController studentPacMan = new TestAgent();
-//		HeroController examplePacMan = new pakku.agent.example();
-		EnemyController ghosts = new OriginalGhosts();
+		AttackerController attacker = new Devastator();
+		DefenderController exampleDefender = new OriginalDefenders();
+		DefenderController studentDefender = new StudentController();
 
 		if (args.length > 0)
 		{
 			if (args[0].toLowerCase().equals("-testexample"))
-//				exec.runExperiment(examplePacMan, ghosts, 100);
-				exec.runExperiment(studentPacMan, ghosts, 100);
+				exec.runExperiment(attacker, exampleDefender, 20);
 			else if (args[0].toLowerCase().equals("-teststudent"))
-				exec.runExperiment(studentPacMan, ghosts, 100);
+				exec.runExperiment(attacker, studentDefender, 20);
 			else if (args[0].toLowerCase().equals("-visualexample"))
-//				exec.runGame(examplePacMan, ghosts, true, _Game.DELAY);
-				exec.runGame(studentPacMan, ghosts, true, _Game.DELAY);
+				exec.runGame(attacker, exampleDefender, true, _Game.DELAY);
 			else
-				exec.runGame(studentPacMan, ghosts, true, _Game.DELAY);
+				exec.runGame(attacker, studentDefender, true, _Game.DELAY);
 		}
 		else
-			exec.runGame(studentPacMan, ghosts, true, _Game.DELAY);
-		
+			exec.runGame(attacker, studentDefender, true, _Game.DELAY);
+
 		//this can be used for numerical testing (non-visual, no delays)
-//		exec.runExperiment(new RandomHero(),new AttractRepelGhosts(true),100);
+//		exec.runExperiment(new RandomAttacker(),new AttractRepelGhosts(true),100);
 		
 		//run game without time limits (un-comment if required)
-//		exec.runGame(new RandomHero(),new RandomGhosts(),true,_Game.DELAY);
+//		exec.runGame(new RandomAttacker(),new RandomDefenders(),true,_Game.DELAY);
 		
 		//run game with time limits (un-comment if required)
 //		exec.runGameTimed(new Human(),new AttractRepelGhosts(true),true);
 
-		//run game with time limits. Here NearestPillHeroVS is chosen to illustrate how to use graphics for debugging/information purposes
-//		exec.runGameTimed(new NearestPillHeroVS(),new AttractRepelGhosts(false),true);
+		//run game with time limits. Here NearestPillAttackerVS is chosen to illustrate how to use graphics for debugging/information purposes
+//		exec.runGameTimed(new NearestPillAttackerVS(),new AttractRepelGhosts(false),true);
 		
 		//this allows you to record a game and replay it later. This could be very useful when
 		//running many games in non-visual mode - one can then pick out those that appear irregular
 		//and replay them in visual mode to see what is happening.
-//		exec.runGameTimedAndRecorded(new RandomHero(),new Legacy2TheReckoning(),true,"human-v-Legacy2.txt");
+//		exec.runGameTimedAndRecorded(new RandomAttacker(),new Legacy2TheReckoning(),true,"human-v-Legacy2.txt");
 //		exec.replayGame("human-v-Legacy2.txt");
 	}
 	
@@ -75,7 +72,7 @@ public class Exec
      * Running many games and looking at the average score (and standard deviation/error) helps to get a better
      * idea of how well the controller is likely to do in the competition.
      */
-    public void runExperiment(HeroController heroController, EnemyController enemyController, int trials)
+    public void runExperiment(AttackerController attackerController, DefenderController defenderController, int trials)
     {
     	double avgScore=0;
     	
@@ -84,22 +81,22 @@ public class Exec
 		for(int i=0;i<trials;i++)
 		{
 			game.newGame();
-			heroController.init();
-			enemyController.init();
+			attackerController.init();
+			defenderController.init();
 
 			while(!game.gameOver())
 			{
 				long due=System.currentTimeMillis()+ _Game.DELAY;
 				Game state = game.copy();
-				enemyController.update(state, due);
-				heroController.update(state, due);
-		        game.advanceGame(heroController.getAction(), enemyController.getActions());
+				defenderController.update(state, due);
+				attackerController.update(state, due);
+		        game.advanceGame(attackerController.getAction(), defenderController.getActions());
 			}
 			
 			avgScore+=game.getScore();
-			heroController.shutdown();
-			enemyController.shutdown();
-//			System.out.println(game.getScore());
+			attackerController.shutdown();
+			defenderController.shutdown();
+			System.out.println("Trial #" + i + " complete. Score: " + game.getScore());
 		}
 		
 		System.out.println(avgScore/trials);
@@ -111,7 +108,7 @@ public class Exec
      * is purely for visual purposes (as otherwise the game could be too fast if controllers compute quickly. 
      * For testing, this can be set to 0 for fasted game play.
      */
-	public void runGame(HeroController heroController, EnemyController enemyController, boolean visual, int delay)
+	public void runGame(AttackerController attackerController, DefenderController defenderController, boolean visual, int delay)
 	{
 //		Game.rng = new java.util.Random();
 		
@@ -123,16 +120,16 @@ public class Exec
 		if(visual)
 			gv=new GameView(game).showGame();
 
-		heroController.init();
-		enemyController.init();
+		attackerController.init();
+		defenderController.init();
 
 		while(!game.gameOver())
 		{
 			long due=System.currentTimeMillis()+ Game.DELAY;
 			Game state = game.copy();
-			enemyController.update(state, due);
-			heroController.update(state, due);
-			game.advanceGame(heroController.getAction(), enemyController.getActions());
+			defenderController.update(state, due);
+			attackerController.update(state, due);
+			game.advanceGame(attackerController.getAction(), defenderController.getActions());
 
 	        try{Thread.sleep(delay);}catch(Exception e){}
 	        
@@ -140,20 +137,20 @@ public class Exec
 	        	gv.repaint();
 		}
 
-		heroController.init();
-		enemyController.init();
+		attackerController.init();
+		defenderController.init();
 	}
 	
     /*
      * Run game with time limit. This is how it will be done in the competition. 
      * Can be played with and without visual display of game states.
      */
-	public void runGameTimed(HeroController heroController, EnemyController enemyController, boolean visual)
+	public void runGameTimed(AttackerController attackerController, DefenderController defenderController, boolean visual)
 	{
 		game=new _Game_();
 		game.newGame();
-		pacMan=new PacMan(heroController);
-		ghosts=new Ghosts(enemyController);
+		pacMan=new PacMan(attackerController);
+		ghosts=new Ghosts(defenderController);
 		
 		GameView gv=null;
 		
@@ -161,12 +158,12 @@ public class Exec
 		{
 			gv=new GameView(game).showGame();
 			
-			if(heroController instanceof Human)
-				gv.getFrame().addKeyListener((Human) heroController);
+			if(attackerController instanceof Human)
+				gv.getFrame().addKeyListener((Human) attackerController);
 		}
 
-		heroController.init();
-		enemyController.init();
+		attackerController.init();
+		defenderController.init();
 
 		while(!game.gameOver())
 		{
@@ -196,7 +193,7 @@ public class Exec
 	 * Runs a game and records all directions taken by all controllers - the data may then be used to replay any game saved using
 	 * replayGame(-).
 	 */
-	public void runGameTimedAndRecorded(HeroController heroController, EnemyController enemyController, boolean visual, String fileName)
+	public void runGameTimedAndRecorded(AttackerController attackerController, DefenderController defenderController, boolean visual, String fileName)
 	{
 		String history="";
 		int lastLevel=0;
@@ -204,8 +201,8 @@ public class Exec
 		
 		game=new _Game_();
 		game.newGame();
-		pacMan=new PacMan(heroController);
-		ghosts=new Ghosts(enemyController);
+		pacMan=new PacMan(attackerController);
+		ghosts=new Ghosts(defenderController);
 		
 		GameView gv=null;
 		
@@ -213,12 +210,12 @@ public class Exec
 		{
 			gv=new GameView(game).showGame();
 			
-			if(heroController instanceof Human)
-				gv.getFrame().addKeyListener((Human) heroController);
+			if(attackerController instanceof Human)
+				gv.getFrame().addKeyListener((Human) attackerController);
 		}
 
-		heroController.init();
-		enemyController.init();
+		attackerController.init();
+		defenderController.init();
 
 		while(!game.gameOver())
 		{
@@ -250,8 +247,8 @@ public class Exec
         	}	   
 		}
 
-		heroController.shutdown();
-		enemyController.shutdown();
+		attackerController.shutdown();
+		defenderController.shutdown();
 
 		//save the final actions
 		Replay.saveActions(history,fileName,firstWrite);
@@ -270,35 +267,35 @@ public class Exec
 		game.newGame();
 
 		Replay replay=new Replay(fileName);
-		HeroController heroController = replay.getPacMan();
-		EnemyController enemyController = replay.getGhosts();
+		AttackerController attackerController = replay.getPacMan();
+		DefenderController defenderController = replay.getGhosts();
 
-		heroController.init();
-		enemyController.init();
+		attackerController.init();
+		defenderController.init();
 
 		GameView gv=new GameView(game).showGame();
 		
 		while(!game.gameOver())
 		{
 			Game state = game.copy();
-			enemyController.update(state, 0);
-			heroController.update(state, 0);
-	        game.advanceGame(heroController.getAction(), enemyController.getActions());
+			defenderController.update(state, 0);
+			attackerController.update(state, 0);
+	        game.advanceGame(attackerController.getAction(), defenderController.getActions());
 	        
 	        gv.repaint();
 	        
 	        try{Thread.sleep(_Game.DELAY);}catch(Exception e){}
 		}
 
-		heroController.shutdown();
-		enemyController.shutdown();
+		attackerController.shutdown();
+		defenderController.shutdown();
 	}
 	
     private String addActionsToString(String history,int[] actionsTaken)
     {
     	history+=(game.getTotalTime()-1)+"\t"+actionsTaken[0]+"\t";
 
-        for (int i = 0; i< _Game.NUM_ENEMY; i++)
+        for (int i = 0; i< _Game.NUM_DEFENDER; i++)
         	history+=actionsTaken[i+1]+"\t";
 
         history+="\n";
@@ -326,10 +323,10 @@ public class Exec
 	 */
 	public class PacMan extends Thread 
 	{
-	    private HeroController pacMan;
+	    private AttackerController pacMan;
 	    private boolean alive;
 
-	    public PacMan(HeroController pacMan)
+	    public PacMan(AttackerController pacMan)
 	    {
 	        this.pacMan=pacMan;
 	        alive=true;
@@ -376,10 +373,10 @@ public class Exec
 	 */
 	public class Ghosts extends Thread 
 	{
-		private EnemyController ghosts;
+		private DefenderController ghosts;
 	    private boolean alive;
 
-	    public Ghosts(EnemyController ghosts)
+	    public Ghosts(DefenderController ghosts)
 	    {	    	
 	    	this.ghosts=ghosts;
 	        alive=true;

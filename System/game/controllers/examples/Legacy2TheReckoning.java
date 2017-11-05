@@ -1,12 +1,13 @@
 package game.controllers.examples;
 
 import java.util.List;
-import game.controllers.EnemyController;
+
+import game.controllers.DefenderController;
 import game.models.Game;
 import game.models.Node;
-import game.models.Enemy;
+import game.models.Defender;
 
-public class Legacy2TheReckoning implements EnemyController
+public class Legacy2TheReckoning implements DefenderController
 {
 	public static final int CROWDED_DISTANCE=30;
 	public static final int PACMAN_DISTANCE=10;
@@ -16,7 +17,7 @@ public class Legacy2TheReckoning implements EnemyController
     
     public Legacy2TheReckoning()
     {
-        actions =new int[Game.NUM_ENEMY];
+        actions =new int[Game.NUM_DEFENDER];
     }
 
     public int[] getActions() { return actions; }
@@ -24,30 +25,30 @@ public class Legacy2TheReckoning implements EnemyController
     public void shutdown() { }
     public void update(Game game,long timeDue)
     {
-    	Node pacmanLoc = game.getHero().getLocation();
+    	Node pacmanLoc = game.getAttacker().getLocation();
 
         for(int i = 0; i< actions.length; i++)
         {
-            Enemy enemy = game.getEnemy(i);
+            Defender defender = game.getDefender(i);
 
-        	if(enemy.requiresAction())
+        	if(defender.requiresAction())
         	{
         		//if ghosts are all in close proximity and not near Ms Pac-Man, disperse
-        		if(isCrowded(game) && !closeToMsPacMan(game,enemy.getLocation()))
+        		if(isCrowded(game) && !closeToMsPacMan(game, defender.getLocation()))
         			actions[i]=getRetreatActions(game,i);                          				//go towards the power pill locations
         		//if edible or Ms Pac-Man is close to power pill, move away from Ms Pac-Man
-        		else if(enemy.getEdibleTime() > 0 || closeToPower(game))
-        			actions[i] = game.getEnemy(i).getNextDir(pacmanLoc, false);      			//move away from ms pacman
+        		else if(defender.getVulnerableTime() > 0 || closeToPower(game))
+        			actions[i] = game.getDefender(i).getNextDir(pacmanLoc, false);      			//move away from ms pacman
         		//else go towards Ms Pac-Man
         		else
-                    actions[i] = game.getEnemy(i).getNextDir(pacmanLoc, true);      			//go towards ms pacman
+                    actions[i] = game.getDefender(i).getNextDir(pacmanLoc, true);      			//go towards ms pacman
         	}
         }
     }
 
     private boolean closeToPower(Game game)
     {
-    	Node pacmanLoc = game.getHero().getLocation();
+    	Node pacmanLoc = game.getAttacker().getLocation();
     	List<Node> powerPills = game.getCurMaze().getPowerPillNodes();
 
     	for (Node pill : powerPills)
@@ -59,7 +60,7 @@ public class Legacy2TheReckoning implements EnemyController
 
     private boolean closeToMsPacMan(Game game, Node location)
     {
-    	if(game.getHero().getLocation().getPathDistance(location) < PACMAN_DISTANCE)
+    	if(game.getAttacker().getLocation().getPathDistance(location) < PACMAN_DISTANCE)
     		return true;
 
     	return false;
@@ -69,20 +70,20 @@ public class Legacy2TheReckoning implements EnemyController
     {
         float distance=0;
 
-        for (int i = 0; i<Game.NUM_ENEMY -1; i++)
-            for(int j = i+1; j<Game.NUM_ENEMY; j++)
-                distance+=game.getEnemy(i).getLocation().getPathDistance(game.getEnemy(j).getLocation());
+        for (int i = 0; i<Game.NUM_DEFENDER -1; i++)
+            for(int j = i+1; j<Game.NUM_DEFENDER; j++)
+                distance+=game.getDefender(i).getLocation().getPathDistance(game.getDefender(j).getLocation());
         
         return (distance/6)<CROWDED_DISTANCE ? true : false;
     }
 
     private int getRetreatActions(Game game,int index)
     {
-        Enemy enemy = game.getEnemy(index);
+        Defender defender = game.getDefender(index);
 
-        if(enemy.getEdibleTime() == 0 && enemy.getLocation().getPathDistance(game.getHero().getLocation()) < PACMAN_DISTANCE)
-            return enemy.getNextDir(game.getHero().getLocation(), true);
+        if(defender.getVulnerableTime() == 0 && defender.getLocation().getPathDistance(game.getAttacker().getLocation()) < PACMAN_DISTANCE)
+            return defender.getNextDir(game.getAttacker().getLocation(), true);
         else
-            return enemy.getNextDir(game.getCurMaze().getPowerPillNodes().get(index), true);
+            return defender.getNextDir(game.getCurMaze().getPowerPillNodes().get(index), true);
     }
 }

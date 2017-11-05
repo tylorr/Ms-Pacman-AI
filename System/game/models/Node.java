@@ -3,26 +3,26 @@ import java.util.List;
 
 public interface Node
 {
-    public int getX();
-    public int getY();
+    int getX();
+    int getY();
 
-    public boolean isPill();
-    public boolean isPowerPill();
-    public boolean isJunction();
+    boolean isPill();
+    boolean isPowerPill();
+    boolean isJunction();
 
-    public int getNumNeighbors();
-    public Node getNeighbor(int inDirection);
-    public List<Node> getNeighbors();
+    int getNumNeighbors();
+    Node getNeighbor(int inDirection);
+    List<Node> getNeighbors();
 
-    public int getNextDir(Node to, boolean approach);
-    public int getNextDir(Node to, boolean approach, boolean canReverse, int direction);
+    int getNextDir(Node to, boolean approach);
+    int getNextDir(Node to, boolean approach, boolean canReverse, int direction);
 
-    public List<Node> getPath(Node to);
-    public List<Node> getPath(Node to, boolean canReverse, int direction);
+    List<Node> getPathTo(Node to);
+    List<Node> getPathTo(Node to, boolean canReverse, int direction);
 
-    public int getPathDistance(Node to);
-    public double getEuclideanDistance(Node to);
-    public int getManhattanDistance(Node to);
+    int getPathDistance(Node to);
+    double getEuclideanDistance(Node to);
+    int getManhattanDistance(Node to);
 
     static int getReverse(int direction)
     {

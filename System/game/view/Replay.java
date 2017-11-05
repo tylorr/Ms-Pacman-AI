@@ -1,7 +1,7 @@
 package game.view;
 
-import game.controllers.EnemyController;
-import game.controllers.HeroController;
+import game.controllers.AttackerController;
+import game.controllers.DefenderController;
 import game.models.Game;
 
 import java.io.BufferedReader;
@@ -22,8 +22,8 @@ import java.util.ArrayList;
 @SuppressWarnings({"rawtypes","unchecked"})
 public class Replay
 {
-    private HeroController pacMan;
-    private EnemyController ghosts;
+    private AttackerController pacMan;
+    private DefenderController ghosts;
 
     private ArrayList<Integer> pacManActions;
     private ArrayList<int[]> ghostActions;
@@ -32,7 +32,7 @@ public class Replay
     {
         loadActions(fileName);
         this.pacMan=new ReplayMsPacman();
-        this.ghosts=new ReplayEnemyTeam();
+        this.ghosts=new ReplayDefenderTeam();
     }
  
 	public void loadActions(String fileName)
@@ -61,12 +61,12 @@ public class Replay
         }
     }
     
-    public HeroController getPacMan()
+    public AttackerController getPacMan()
     {
         return pacMan;
     }
 
-    public EnemyController getGhosts()
+    public DefenderController getGhosts()
     {
         return ghosts;
     }
@@ -111,7 +111,7 @@ public class Replay
     }
         
 	//Simple controller that simply plays the next recorded action
-    class ReplayMsPacman implements HeroController
+    class ReplayMsPacman implements AttackerController
     {
         private int action;
         public int getAction() { return action; }
@@ -125,7 +125,7 @@ public class Replay
     }
 
 	//Simple controller that simply plays the next recorded action
-    class ReplayEnemyTeam implements EnemyController
+    class ReplayDefenderTeam implements DefenderController
     {
         private int[] actions;
         public int[] getActions() { return actions; }

@@ -26,7 +26,7 @@ public class _Game_ extends _Game
 		
 		curMaze=0;
 
-		enemies = new _Enemy[_Game.NUM_ENEMY];
+		defenders = new _Defender[_Game.NUM_DEFENDER];
 
 		pills = new HashSet(mazes[curMaze].getPillNodes());
 		powerPills=new HashSet(mazes[curMaze].getPowerPillNodes());

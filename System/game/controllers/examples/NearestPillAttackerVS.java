@@ -3,20 +3,20 @@ package game.controllers.examples;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import game.controllers.HeroController;
+import game.controllers.AttackerController;
+import game.models.Attacker;
 import game.models.Game;
 import game.view.GameView;
 import game.models.Node;
-import game.models.Enemy;
-import game.models.Hero;
+import game.models.Defender;
 
 /*
- * Same as NearestPillHero but does some visuals to illustrate what can be done.
+ * Same as NearestPillAttacker but does some visuals to illustrate what can be done.
  * Please note: the visuals are just to highlight different functionalities and may
  * not make sense from a controller's point of view (i.e., they might not be useful)
  * Comment/un-comment code below as desired (drawing all visuals would probably be too much).
  */
-public final class NearestPillHeroVS implements HeroController
+public final class NearestPillAttackerVS implements AttackerController
 {
 	private int action;
 	public int getAction() { return action; }
@@ -26,7 +26,7 @@ public final class NearestPillHeroVS implements HeroController
 	{
 		List<Node> pills = game.getCurMaze().getPillNodes();
 		List<Node> powerPills = game.getCurMaze().getPowerPillNodes();
-		Hero hero = game.getHero();
+		Attacker attacker = game.getAttacker();
 
 		ArrayList<Node> targets = new ArrayList<Node>();
 		
@@ -38,18 +38,18 @@ public final class NearestPillHeroVS implements HeroController
 			if(game.checkPowerPill(pill))
 				targets.add(pill);
 
-		Node nearest = hero.getTarget(targets,true);
+		Node nearest = attacker.getTarget(targets,true);
 		
 		//add the path that Ms Pac-Man is following
-//		GameView.addPoints(game,Color.GREEN,game.getPath(current,nearest));
+//		GameView.addPoints(game,Color.GREEN,game.getPathTo(current,nearest));
 		
 		//add the path from Ms Pac-Man to the first power pill
-		GameView.addPoints(game, Color.CYAN, hero.getPath(powerPills.get(0)));
+		GameView.addPoints(game, Color.CYAN, attacker.getPathTo(powerPills.get(0)));
 		
 		//add the path AND ghost path from Ghost 0 to the first power pill (to illustrate the differences)
 //		if(game.getLairTime(0)==0)
 //		{
-//			GameView.addPoints(game,Color.ORANGE,game.getPath(game.getCurEnemyLoc(0),powerPills[0]));
+//			GameView.addPoints(game,Color.ORANGE,game.getPathTo(game.getCurEnemyLoc(0),powerPills[0]));
 //			GameView.addPoints(game,Color.YELLOW,game.getEnemyPath(0,powerPills[0]));
 //		}
 		
@@ -62,17 +62,17 @@ public final class NearestPillHeroVS implements HeroController
 //			GameView.addLines(game,Color.CYAN,current,powerPills[i]);
 		
 		//add lines to the ghosts (if not in lair) - green if edible, red otherwise
-		for(int i = 0; i< Game.NUM_ENEMY; i++)
+		for(int i = 0; i< Game.NUM_DEFENDER; i++)
 		{
-			Enemy enemy = game.getEnemy(i);
-			if(enemy.getLairTime() == 0)
-				if(enemy.isEdible())
-					GameView.addLines(game, Color.GREEN, hero.getLocation(), enemy.getLocation());
+			Defender defender = game.getDefender(i);
+			if(defender.getLairTime() == 0)
+				if(defender.isVulnerable())
+					GameView.addLines(game, Color.GREEN, attacker.getLocation(), defender.getLocation());
 				else
-					GameView.addLines(game, Color.RED, hero.getLocation(), enemy.getLocation());
+					GameView.addLines(game, Color.RED, attacker.getLocation(), defender.getLocation());
 
 		}
 
-		action = game.getHero().getNextDir(nearest, true);
+		action = game.getAttacker().getNextDir(nearest, true);
 	}
 }

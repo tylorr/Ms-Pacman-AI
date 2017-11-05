@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 /*
  * Allows a human player to play the game using the arrow key of the keyboard.
  */
-public final class Human extends KeyAdapter implements HeroController
+public final class Human extends KeyAdapter implements AttackerController
 {
     private int key;
     private int action;

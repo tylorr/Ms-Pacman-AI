@@ -12,15 +12,14 @@
 package game.system;
 import game.models.*;
 
-import java.util.Random;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 
 /*
  * Simple implementation of the game. The class Game contains all code relating to the
- * game; the class GameView displays the game. Controllers must implement HeroController
- * and EnemyController respectively. The game may be executed using Exec.
+ * game; the class GameView displays the game. Controllers must implement AttackerController
+ * and DefenderController respectively. The game may be executed using Exec.
  */
 public class _Game implements Game
 {	
@@ -37,12 +36,12 @@ public class _Game implements Game
 //	protected BitSet pills,powerPills;
 
 	//level-specific
-	protected int curMaze,totLevel,levelTime,totalTime,score, enemyEatMultiplier;
+	protected int curMaze,totLevel,levelTime,totalTime,score, defenderKillMultiplier;
 	protected boolean gameOver;
 
 	// Actors
-	protected _Hero hero;
-	protected _Enemy[] enemies;
+	protected _Attacker attacker;
+	protected _Defender[] defenders;
 
 	protected int livesRemaining;
 	protected boolean extraLife;
@@ -72,16 +71,15 @@ public class _Game implements Game
 		copy.totLevel=totLevel;
 		copy.levelTime=levelTime;
 		copy.totalTime=totalTime;
-		copy.score=score;
-		copy.enemyEatMultiplier = enemyEatMultiplier;
+		copy.defenderKillMultiplier = defenderKillMultiplier;
 		copy.gameOver=gameOver;
-		copy.hero = hero.clone();
+		copy.attacker = attacker.clone();
 		copy.livesRemaining=livesRemaining;
 		copy.extraLife=extraLife;
-		copy.enemies = new _Enemy[enemies.length];
+		copy.defenders = new _Defender[defenders.length];
 
-		for (int index = 0; index < enemies.length; index++)
-			copy.enemies[index] = enemies[index].clone();
+		for (int index = 0; index < defenders.length; index++)
+			copy.defenders[index] = defenders[index].clone();
 
 		return copy;
 	}
@@ -94,18 +92,20 @@ public class _Game implements Game
 			curMaze=(curMaze+1)% _Game.NUM_MAZES;
 			totLevel++;
 			levelTime=0;
+			pills.clear();
+			powerPills.clear();
 			pills.addAll(mazes[curMaze].getPillNodes());
 			powerPills.addAll(mazes[curMaze].getPowerPillNodes());
 		}
 
-		hero = new _Hero(mazes[curMaze].getInitialHeroPosition(), _Game.INITIAL_HERO_DIR);
+		attacker = new _Attacker(mazes[curMaze].getInitialAttackerPosition(), _Game.INITIAL_ATTACKER_DIR);
 
-		for (int index = 0; index < enemies.length; index++)
+		for (int index = 0; index < defenders.length; index++)
 		{
-			enemies[index] = new _Enemy(mazes[curMaze].lairPosition, _Game.INITIAL_ENEMY_DIRS[index], (int)(_Game.LAIR_TIMES[index]*(Math.pow(LAIR_REDUCTION,totLevel))));
+			defenders[index] = new _Defender(mazes[curMaze].lairPosition, _Game.INITIAL_DEFENDER_DIRS[index], (int)(_Game.LAIR_TIMES[index]*(Math.pow(LAIR_REDUCTION,totLevel))));
 		}
 
-		enemyEatMultiplier = 1;
+		defenderKillMultiplier = 1;
 	}
 		
 	/////////////////////////////////////////////////////////////////////////////
@@ -113,27 +113,27 @@ public class _Game implements Game
 	/////////////////////////////////////////////////////////////////////////////
 			
 	//Central method that advances the game state
-	public int[] advanceGame(int heroDir, int[] enemyDirs)
+	public int[] advanceGame(int heroDir, int[] defenderDirs)
 	{			
 		updateHero(heroDir);			//move the hero
 		eatPill();							//eat a pill
 		boolean reverse=eatPowerPill();		//eat a power pill
-		updateEnemies(enemyDirs,reverse);	//move enemies
+		updateEnemies(defenderDirs,reverse);	//move defenders
 		
 		//This is primarily done for the replays as reset (as possibly called by feast()) sets the 
 		//last directions to the initial ones, not the ones taken
-		int[] actionsTakens = { hero.direction, enemies[0].direction, enemies[1].direction, enemies[2].direction, enemies[3].direction };
+		int[] actionsTakens = { attacker.direction, defenders[0].direction, defenders[1].direction, defenders[2].direction, defenders[3].direction };
 		
-		feast();							//enemies eat the hero or vice versa
+		feast();							//defenders eat the hero or vice versa
 		
-		for(int i = 0; i < enemies.length; i++)
+		for(int i = 0; i < defenders.length; i++)
 		{
-			if (enemies[i].lairTime > 0)
+			if (defenders[i].lairTime > 0)
 			{
-				enemies[i].lairTime--;
+				defenders[i].lairTime--;
 
-				if (enemies[i].lairTime == 0)
-					enemies[i].location = mazes[curMaze].initialEnemiesPosition;
+				if (defenders[i].lairTime == 0)
+					defenders[i].location = mazes[curMaze].initialEnemiesPosition;
 			}
 		}
 
@@ -150,14 +150,14 @@ public class _Game implements Game
 		return actionsTakens;
 	}
 
-	public Hero getHero() { return hero.clone(); }
-	public Enemy getEnemy(int whichEnemy) { return enemies[whichEnemy].clone(); }
+	public Attacker getAttacker() { return attacker.clone(); }
+	public Defender getDefender(int whichDefender) { return defenders[whichDefender].clone(); }
 
-	public List<Enemy> getEnemies()
+	public List<Defender> getDefenders()
 	{
-		ArrayList<Enemy> result = new ArrayList<Enemy>();
+		ArrayList<Defender> result = new ArrayList<Defender>();
 
-		for (_Enemy enemy : enemies)
+		for (_Defender enemy : defenders)
 			result.add(enemy.clone());
 
 		return result;
@@ -167,15 +167,15 @@ public class _Game implements Game
 	protected void updateHero(int direction)
 	{
 		direction = checkHeroDir(direction);
-		hero.direction = direction;
-		hero.location = hero.location.getNeighbor(direction);
+		attacker.direction = direction;
+		attacker.location = attacker.location.getNeighbor(direction);
 	}
 		
 	//Checks the direction supplied by the controller and substitutes for a legal one if necessary
 	protected int checkHeroDir(int direction)
 	{
-		List<Node> neighbors = hero.location.getNeighbors();
-		int oldDirection = hero.direction;
+		List<Node> neighbors = attacker.location.getNeighbors();
+		int oldDirection = attacker.direction;
 				
 		if((direction > 3 || direction < 0 || neighbors.get(direction) == null) && (oldDirection > 3 || oldDirection < 0 || neighbors.get(oldDirection) == null))
 			return 4;
@@ -188,31 +188,31 @@ public class _Game implements Game
 				direction = oldDirection;
 			else
 			{
-				List<Integer> options = hero.getPossibleDirs(true);
+				List<Integer> options = attacker.getPossibleDirs(true);
 				direction = options.get(Game.rng.nextInt(options.size()));
 			}
 
 		return direction;		
 	}
 	
-	//Updates the locations of the enemies
+	//Updates the locations of the defenders
 	protected void updateEnemies(int[] directions, boolean reverse)
 	{
 //		if(directions==null)
 //			directions=Arrays.copyOf(lastEnemyDirs, lastEnemyDirs.length);
 		
-		for(int i = 0; i < enemies.length; i++)
+		for(int i = 0; i < defenders.length; i++)
 		{											
-			if(reverse && enemies[i].lairTime == 0)
+			if(reverse && defenders[i].lairTime == 0)
 			{
-				enemies[i].direction = Node.getReverse(enemies[i].direction);
-				enemies[i].location = enemies[i].location.getNeighbor(enemies[i].direction);
+				defenders[i].direction = Node.getReverse(defenders[i].direction);
+				defenders[i].location = defenders[i].location.getNeighbor(defenders[i].direction);
 			}
-			else if(enemies[i].lairTime == 0 && (enemies[i].edibleTime == 0 || enemies[i].edibleTime % ENEMY_SPEED_REDUCTION !=0))
+			else if(defenders[i].lairTime == 0 && (defenders[i].vulnerableTime == 0 || defenders[i].vulnerableTime % DEFENDER_SPEED_REDUCTION !=0))
 			{
 				directions[i] = checkEnemyDir(i, directions[i]);
-				enemies[i].direction = directions[i];
-				enemies[i].location = enemies[i].location.getNeighbor(directions[i]);
+				defenders[i].direction = directions[i];
+				defenders[i].location = defenders[i].location.getNeighbor(directions[i]);
 			}
 		}		
 	}
@@ -221,17 +221,17 @@ public class _Game implements Game
 	protected int checkEnemyDir(int whichEnemy, int direction)
 	{
 		if(direction < 0 || direction > 3)
-			direction = enemies[whichEnemy].direction;
+			direction = defenders[whichEnemy].direction;
 			
-		List<Node> neighbors = enemies[whichEnemy].getPossibleLocations();
+		List<Node> neighbors = defenders[whichEnemy].getPossibleLocations();
 			
 		if(neighbors.get(direction) == null)
 		{
-			if(neighbors.get(enemies[whichEnemy].direction) != null)
-				direction = enemies[whichEnemy].direction;
+			if(neighbors.get(defenders[whichEnemy].direction) != null)
+				direction = defenders[whichEnemy].direction;
 			else
 			{
-				List<Integer> options = enemies[whichEnemy].getPossibleDirs();
+				List<Integer> options = defenders[whichEnemy].getPossibleDirs();
 				direction = options.get(Game.rng.nextInt(options.size()));
 			}
 		}
@@ -242,39 +242,39 @@ public class _Game implements Game
 	//Eats a pill
 	protected void eatPill()
 	{
-		if (pills.contains(hero.location))
+		if (pills.contains(attacker.location))
 		{
 			score += Game.PILL_SCORE;
-			pills.remove(hero.location);
+			pills.remove(attacker.location);
 		}
 	}
 	
-	//Eats a power pill - turns enemies edible (blue)
+	//Eats a power pill - turns defenders edible (blue)
 	protected boolean eatPowerPill()
 	{
 		boolean reverse = false;
 
-		if(powerPills.contains(hero.location))
+		if(powerPills.contains(attacker.location))
 		{
 			score += Game.POWER_PILL_SCORE;
-			enemyEatMultiplier =1;
-			powerPills.remove(hero.location);
+			defenderKillMultiplier =1;
+			powerPills.remove(attacker.location);
 			
-			//This ensures that only enemies outside the lair (i.e., inside the maze) turn edible
-			int newEdibleTime=(int)(Game.EDIBLE_TIME * (Math.pow(Game.EDIBLE_TIME_REDUCTION, totLevel)));
+			//This ensures that only defenders outside the lair (i.e., inside the maze) turn edible
+			int newEdibleTime=(int)(Game.VULNERABLE_TIME * (Math.pow(Game.VULNERABLE_TIME_REDUCTION, totLevel)));
 			
-			for(int i = 0; i< NUM_ENEMY; i++)
-				if(enemies[i].lairTime == 0)
-					enemies[i].edibleTime = newEdibleTime;
+			for(int i = 0; i< NUM_DEFENDER; i++)
+				if(defenders[i].lairTime == 0)
+					defenders[i].vulnerableTime = newEdibleTime;
 				else
-					enemies[i].edibleTime = 0;
+					defenders[i].vulnerableTime = 0;
 			
-			//This turns all enemies edible, independent on whether they are in the lair or not
-//			Arrays.fill(edibleTimes,(int)(_Game.EDIBLE_TIME*(Math.pow(_Game.EDIBLE_TIME_REDUCTION,totLevel))));
+			//This turns all defenders edible, independent on whether they are in the lair or not
+//			Arrays.fill(edibleTimes,(int)(_Game.VULNERABLE_TIME*(Math.pow(_Game.VULNERABLE_TIME_REDUCTION,totLevel))));
 			
 			reverse = true;
 		}
-		else if (levelTime > 1 && Game.rng.nextDouble() < Game.ENEMY_REVERSAL)	//random enemy reversal
+		else if (levelTime > 1 && Game.rng.nextDouble() < Game.DEFENDER_REVERSAL)	//random enemy reversal
 			reverse=true;
 		
 		return reverse;
@@ -283,20 +283,20 @@ public class _Game implements Game
 	//This is where the characters of the game eat one another if possible
 	protected void feast()
 	{
-		for(int i = 0; i < enemies.length; i++)
+		for(int i = 0; i < defenders.length; i++)
 		{
-			int distance=hero.location.getPathDistance(enemies[i].location);
+			int distance=attacker.location.getPathDistance(defenders[i].location);
 			
 			if(distance <= Game.EAT_DISTANCE && distance != -1)
 			{
-				if(enemies[i].edibleTime > 0)									//hero eats enemy
+				if(defenders[i].vulnerableTime > 0)									//hero eats enemy
 				{
-					score+= Game.ENEMY_EAT_SCORE * enemyEatMultiplier;
-					enemyEatMultiplier *=2;
-					enemies[i].edibleTime = 0;
-					enemies[i].lairTime = (int)(Game.COMMON_LAIR_TIME*(Math.pow(Game.LAIR_REDUCTION,totLevel)));
-					enemies[i].location = mazes[curMaze].lairPosition;
-					enemies[i].direction = Game.INITIAL_ENEMY_DIRS[i];
+					score+= Game.DEFENDER_KILL_SCORE * defenderKillMultiplier;
+					defenderKillMultiplier *=2;
+					defenders[i].vulnerableTime = 0;
+					defenders[i].lairTime = (int)(Game.COMMON_LAIR_TIME*(Math.pow(Game.LAIR_REDUCTION,totLevel)));
+					defenders[i].location = mazes[curMaze].lairPosition;
+					defenders[i].direction = Game.INITIAL_DEFENDER_DIRS[i];
 				}
 				else													//enemy eats hero
 				{
@@ -313,9 +313,9 @@ public class _Game implements Game
 			}
 		}
 		
-		for(int i = 0; i < enemies.length;i++)
-			if(enemies[i].edibleTime > 0)
-				enemies[i].edibleTime--;
+		for(int i = 0; i < defenders.length; i++)
+			if(defenders[i].vulnerableTime > 0)
+				defenders[i].vulnerableTime--;
 	}
 	
 	//Checks the state of the level/game and advances to the next level or terminates the game

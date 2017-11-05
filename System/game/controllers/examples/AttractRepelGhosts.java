@@ -1,10 +1,11 @@
 package game.controllers.examples;
 
 import java.util.List;
-import game.controllers.EnemyController;
+
+import game.controllers.DefenderController;
 import game.models.*;
 
-public final class AttractRepelGhosts implements EnemyController
+public final class AttractRepelGhosts implements DefenderController
 {	
 	private final static float CONSISTENCY=0.9f;	//move towards/away with this probability
 	private boolean attract;
@@ -20,19 +21,19 @@ public final class AttractRepelGhosts implements EnemyController
 	public void shutdown() { }
 	public void update(Game game,long timeDue)
 	{		
-		actions = new int[Game.NUM_ENEMY];
+		actions = new int[Game.NUM_DEFENDER];
 
-		Enemy[] enemies = (Enemy[]) game.getEnemies().toArray();
+		Defender[] enemies = (Defender[]) game.getDefenders().toArray();
 		for(int i=0;i<actions.length;i++)	//for each ghost
 		{
-			Enemy enemy = enemies[i];
-			if (enemy.requiresAction())        //if it requires an action
+			Defender defender = enemies[i];
+			if (defender.requiresAction())        //if it requires an action
 			{
 				if (Game.rng.nextFloat() < CONSISTENCY)    //approach/retreat from the current node that Ms Pac-Man is at
-					actions[i] = enemy.getNextDir(game.getHero().getLocation(), attract);
+					actions[i] = defender.getNextDir(game.getAttacker().getLocation(), attract);
 				else                                    //else take a random action
 				{
-					List<Integer> possibleDirs = enemy.getPossibleDirs();    //takes a random LEGAL action. Could also just return any random number
+					List<Integer> possibleDirs = defender.getPossibleDirs();    //takes a random LEGAL action. Could also just return any random number
 					actions[i] = possibleDirs.get(Game.rng.nextInt(possibleDirs.size()));
 				}
 			}

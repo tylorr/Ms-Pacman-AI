@@ -22,59 +22,59 @@ import java.util.List;
  */
 public interface Game
 {
-	public int getScore();											// Returns the score of the game
-	public int getCurLevel();										// Returns the current level
-	public int getLevelTime();										// Returns the time for which the CURRENT level has been played
-	public int getTotalTime();										// Returns the time for which the game has been played (across all levels)
-	public int getLivesRemaining();									// Returns the number of lives remaining for the hero
+	int getScore();											// Returns the score of the game
+	int getCurLevel();										// Returns the current level
+	int getLevelTime();										// Returns the time for which the CURRENT level has been played
+	int getTotalTime();										// Returns the time for which the game has been played (across all levels)
+	int getLivesRemaining();								// Returns the number of lives remaining for the hero
 
-	public List<Node> getPillList();								// Get a list of all available pills in the current level
-	public List<Node> getPowerPillList();							// Get a list of all available power pills in the current level
+	List<Node> getPillList();								// Get a list of all available pills in the current level
+	List<Node> getPowerPillList();							// Get a list of all available power pills in the current level
 
-	public boolean checkPill(Node location);						// Checks if the location specified is a pill / is still available
-	public boolean checkPowerPill(Node location);					// Checks if the location specified is a power pill / is still available
+	boolean checkPill(Node location);						// Checks if the location specified is a pill / is still available
+	boolean checkPowerPill(Node location);					// Checks if the location specified is a power pill / is still available
 
-	public Hero getHero();											// Returns a copy of the hero object
-	public Enemy getEnemy(int whichEnemy);							// Returns a copy of a specific enemy number
-	public List<Enemy> getEnemies();								// Returns a copy of the enemy array
+	Attacker getAttacker();									// Returns a copy of the attacker object
+	Defender getDefender(int whichDefender);				// Returns a copy of a specific enemy number
+	List<Defender> getDefenders();							// Returns a copy of the enemy array
 
-	public Game copy();												// Returns an exact copy of the game (forward model)
-	public Maze getCurMaze();										// Returns the current maze information
-	public static Random rng = new Random(0);					// Random number generator with fixed seed
+	Game copy();											// Returns an exact copy of the game (forward model)
+	Maze getCurMaze();										// Returns the current maze information
+	Random rng = new Random(0);						// Random number generator with fixed seed
 
-	public int[] advanceGame(int heroDir, int[] enemyDirs);			// Advances the game using the actions (directions) supplied; returns all directions played [Hero, Enemy1, Enemy2, Enemy3, Enemy4]
-	public boolean gameOver();										// Returns true if the hero has lost all her lives or if MAX_LEVELS has been reached
+	int[] advanceGame(int attackerDir, int[] defenderDirs);	// Advances the game using the actions (directions) supplied; returns all directions played [Attacker, Enemy1, Enemy2, Enemy3, Enemy4]
+	boolean gameOver();										// Returns true if the hero has lost all her lives or if MAX_LEVELS has been reached
 
 	//These constants specify the exact nature of the game
-	public class Direction { public static final int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3, EMPTY = -1; }	//directions
+	class Direction { public static final int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3, EMPTY = -1; }	//directions
 
 	// Points
-	public static final int PILL_SCORE = 10;
-	public static final int POWER_PILL_SCORE = 50;
-	public static final int ENEMY_EAT_SCORE = 200;
+	int PILL_SCORE = 10;
+	int POWER_PILL_SCORE = 50;
+	int DEFENDER_KILL_SCORE = 200;
 
 	// Timing
-	public static final int EDIBLE_TIME = 200;						//initial time an enemy is edible for (decreases as level number increases)
-	public static final float EDIBLE_TIME_REDUCTION = 0.9f;			//reduction factor by which edible time decreases as level number increases
-	public static final int[] LAIR_TIMES = {40, 60, 80, 100};		//time spend in the lair by each enemy at the start of a level
-	public static final int COMMON_LAIR_TIME = 40;					//time spend in lair after being eaten
-	public static final float LAIR_REDUCTION = 0.9f;				//reduction factor by which lair times decrease as level number increases
-	public static final int LEVEL_LIMIT = 3000;						//time limit for a level
-	public static final int DELAY = 40;								//delay (in milliseconds) between game advancements
+	int VULNERABLE_TIME = 200;						//initial time an enemy is edible for (decreases as level number increases)
+	float VULNERABLE_TIME_REDUCTION = 0.9f;			//reduction factor by which edible time decreases as level number increases
+	int[] LAIR_TIMES = { 40, 60, 80, 100 };			//time spend in the lair by each enemy at the start of a level
+	int COMMON_LAIR_TIME = 40;						//time spend in lair after being eaten
+	float LAIR_REDUCTION = 0.9f;					//reduction factor by which lair times decrease as level number increases
+	int LEVEL_LIMIT = 3000;							//time limit for a level
+	int DELAY = 40;									//delay (in milliseconds) between game advancements
 
 	// Initial Game State
-	public static final int NUM_LIVES = 3;							//total number of lives the hero has (current + NUM_LIVES-1 spares)
-	public static final int INITIAL_HERO_DIR = 3;					//initial direction taken by the hero
-	public static final int[] INITIAL_ENEMY_DIRS = {3, 1, 3, 1};	//initial directions for the enemies (after leaving the lair)
-	public static final int ENEMY_SPEED_REDUCTION = 2;				//difference in speed when enemies are edible (every ENEMY_SPEED_REDUCTION, an enemy remains stationary)
+	int NUM_LIVES = 3;								//total number of lives the hero has (current + NUM_LIVES-1 spares)
+	int INITIAL_ATTACKER_DIR = 3;					//initial direction taken by the hero
+	int[] INITIAL_DEFENDER_DIRS = { 3, 1, 3, 1 };	//initial directions for the defenders (after leaving the lair)
+	int DEFENDER_SPEED_REDUCTION = 2;					//difference in speed when defenders are edible (every DEFENDER_SPEED_REDUCTION, an enemy remains stationary)
 
 	// Misc. configurations for game
-	public static final float ENEMY_REVERSAL = 0.0015f;				//probability of a global enemy reversal event
-	public static final int EXTRA_LIFE_SCORE = 10000;				//extra life is awarded when this many points have been collected
-	public static final int EAT_DISTANCE = 2;						//distance in the connected graph considered close enough for an eating event to take place
-	public static final int NUM_ENEMY = 4;							//number of enemies in the game
-	public static final int NUM_MAZES = 4;							//number of different mazes in the game
-	public static final int MAX_LEVELS = 16;						//maximum number of levels played before the end of the game
+	float DEFENDER_REVERSAL = 0.0015f;				//probability of a global enemy reversal event
+	int EXTRA_LIFE_SCORE = 10000;					//extra life is awarded when this many points have been collected
+	int EAT_DISTANCE = 2;							//distance in the connected graph considered close enough for an eating event to take place
+	int NUM_DEFENDER = 4;							//number of defenders in the game
+	int NUM_MAZES = 4;								//number of different mazes in the game
+	int MAX_LEVELS = 16;							//maximum number of levels played before the end of the game
 
-	public enum DM{PATH,EUCLID,MANHATTEN};				 			//simple enumeration for use with the direction methods
+	enum DM { PATH, EUCLID, MANHATTAN };			//simple enumeration for use with the direction methods
 }

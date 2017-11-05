@@ -10,16 +10,16 @@ import java.util.List;
 
 public interface Maze
 {
-    public String getName();                    // Returns name of maze
+    String getName();                    // Returns name of maze
 
-    public Node getInitialHeroPosition();       // Returns the starting position of the hero
-    public Node getInitialEnemiesPosition();    // Returns the starting position of the enemies (i.e., first node AFTER leaving the lair)
+    Node getInitialAttackerPosition();   // Returns the starting position of the hero
+    Node getInitialDefendersPosition();  // Returns the starting position of the defenders (i.e., first node AFTER leaving the lair)
 
-    public int getNumberPills();                // Total number of pills in the maze
-    public int getNumberPowerPills();           // Total number of power pills in the maze
-    public int getNumberOfNodes();              // Total number of nodes in the graph (i.e., those with pills, power pills and those that are empty)
+    int getNumberPills();                // Total number of pills in the maze
+    int getNumberPowerPills();           // Total number of power pills in the maze
+    int getNumberOfNodes();              // Total number of nodes in the graph (i.e., those with pills, power pills and those that are empty)
 
-    public List<Node> getPillNodes();               // Returns the indices to all the nodes that have pills
-    public List<Node> getPowerPillNodes();          // Returns all the nodes that have power pills
-    public List<Node> getJunctionNodes();           // Returns the indices to all the nodes that are junctions
+    List<Node> getPillNodes();           // Returns the indices to all the nodes that have pills
+    List<Node> getPowerPillNodes();      // Returns all the nodes that have power pills
+    List<Node> getJunctionNodes();       // Returns the indices to all the nodes that are junctions
 }

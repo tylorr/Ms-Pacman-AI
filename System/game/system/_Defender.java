@@ -1,44 +1,44 @@
 package game.system;
 import game.models.Node;
-import game.models.Enemy;
+import game.models.Defender;
 import java.util.List;
 
-public class _Enemy extends _Actor implements Enemy
+public class _Defender extends _Actor implements Defender
 {
-    public int getEdibleTime()
+    public int getVulnerableTime()
     {
-        return edibleTime;
+        return vulnerableTime;
     }
     public int getLairTime()
     {
         return lairTime;
     }
-    public boolean isEdible()
+    public boolean isVulnerable()
     {
-        return edibleTime > 0;
+        return vulnerableTime > 0;
     }
 
     public List<Integer> getPossibleDirs() { return getPossibleDirs(false); }
     public int getNextDir(Node to, boolean approach) { return location.getNextDir(to, approach, false, direction); }
-    public List<Node> getPath(Node to) { return getPath(to, false); }
+    public List<Node> getPathTo(Node to) { return getPathTo(to, false); }
     public List<Node> getPossibleLocations() { return getPossibleLocations(false); }
     public Node getTarget(List<Node> targets, boolean nearest) { return getTarget(targets, nearest, false); }
 
     public boolean requiresAction()
     {
-        return (location.isJunction() && edibleTime == 0 || edibleTime % _Game.ENEMY_SPEED_REDUCTION != 0);
+        return (location.isJunction() && vulnerableTime == 0 || vulnerableTime % _Game.DEFENDER_SPEED_REDUCTION != 0);
     }
 
-    protected int edibleTime, lairTime;
+    protected int vulnerableTime, lairTime;
 
-    protected _Enemy(Node location, int direction, int _lairTime)
+    protected _Defender(Node location, int direction, int _lairTime)
     {
         super(location, direction);
-        edibleTime = 0;
+        vulnerableTime = 0;
         lairTime = _lairTime;
     }
-    protected _Enemy clone()
+    protected _Defender clone()
     {
-        return (_Enemy)super.clone();
+        return (_Defender)super.clone();
     }
 }
