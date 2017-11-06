@@ -23,7 +23,7 @@ import java.util.List;
 public interface Game
 {
 	int getScore();											// Returns the score of the game
-	int getCurLevel();										// Returns the current level
+	int getLevel();											// Returns the current level
 	int getLevelTime();										// Returns the time for which the CURRENT level has been played
 	int getTotalTime();										// Returns the time for which the game has been played (across all levels)
 	int getLivesRemaining();								// Returns the number of lives remaining for the hero

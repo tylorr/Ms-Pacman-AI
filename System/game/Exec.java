@@ -233,10 +233,10 @@ public class Exec
 	        history=addActionsToString(history,actionsTaken);
         	
 	        //saves actions after every level
-        	if(game.getCurLevel()!=lastLevel)
+        	if(game.getLevel()!=lastLevel)
         	{
         		Replay.saveActions(history,fileName,firstWrite);
-        		lastLevel=game.getCurLevel();
+        		lastLevel=game.getLevel();
         		firstWrite=true;
         	}	   
 		}

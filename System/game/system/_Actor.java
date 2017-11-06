@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public abstract class _Actor implements Actor
 {
-    Node location;
+    _Node location;
     int direction;
 
     public Node getLocation()
@@ -18,7 +18,25 @@ public abstract class _Actor implements Actor
         return direction;
     }
 
-    protected List<Node> getPathTo(Node to, boolean canReverse) { return location.getPathTo(to, canReverse, direction); }
+    public int getReverse()
+    {
+        switch(direction)
+        {
+            case 0: return 2;
+            case 1: return 3;
+            case 2: return 0;
+            case 3: return 1;
+        }
+        return 4;
+    }
+
+    protected List<Node> getPathTo(Node to, boolean canReverse)
+    {
+        if (canReverse)
+            return location.getPathTo(to);
+        else
+            return location.getPathTo(to, direction);
+    }
 
     protected List<Integer> getPossibleDirs(boolean canReverse)
     {
@@ -36,7 +54,7 @@ public abstract class _Actor implements Actor
             {
                 if (canReverse || (direction < 0 || direction > 3))
                     directions.add(i);
-                else if (i != Node.getReverse(direction))
+                else if (i != getReverse())
                     directions.add(i);
             }
         }
@@ -48,7 +66,7 @@ public abstract class _Actor implements Actor
     {
         List<Node> newLocations = location.getNeighbors();
         if (!canReverse)
-            newLocations.set(Node.getReverse(direction), null);
+            newLocations.set(getReverse(), null);
 
         return newLocations;
     }
@@ -82,7 +100,7 @@ public abstract class _Actor implements Actor
     }
 
 
-    protected _Actor(Node _location, int _direction)
+    protected _Actor(_Node _location, int _direction)
     {
         location = _location;
         direction = _direction;

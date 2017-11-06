@@ -19,7 +19,7 @@ public class _Defender extends _Actor implements Defender
     }
 
     public List<Integer> getPossibleDirs() { return getPossibleDirs(false); }
-    public int getNextDir(Node to, boolean approach) { return location.getNextDir(to, approach, false, direction); }
+    public int getNextDir(Node to, boolean approach) { return location.getNextDir(to, approach, direction); }
     public List<Node> getPathTo(Node to) { return getPathTo(to, false); }
     public List<Node> getPossibleLocations() { return getPossibleLocations(false); }
     public Node getTarget(List<Node> targets, boolean nearest) { return getTarget(targets, nearest, false); }
@@ -31,7 +31,7 @@ public class _Defender extends _Actor implements Defender
 
     protected int vulnerableTime, lairTime;
 
-    protected _Defender(Node location, int direction, int _lairTime)
+    protected _Defender(_Node location, int direction, int _lairTime)
     {
         super(location, direction);
         vulnerableTime = 0;

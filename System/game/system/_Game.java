@@ -98,7 +98,7 @@ public class _Game implements Game
 			powerPills.addAll(mazes[curMaze].getPowerPillNodes());
 		}
 
-		attacker = new _Attacker(mazes[curMaze].getInitialAttackerPosition(), _Game.INITIAL_ATTACKER_DIR);
+		attacker = new _Attacker(mazes[curMaze].initialHeroPosition, _Game.INITIAL_ATTACKER_DIR);
 
 		for (int index = 0; index < defenders.length; index++)
 		{
@@ -168,7 +168,7 @@ public class _Game implements Game
 	{
 		direction = checkHeroDir(direction);
 		attacker.direction = direction;
-		attacker.location = attacker.location.getNeighbor(direction);
+		attacker.location = attacker.location.neighbors[direction];
 	}
 		
 	//Checks the direction supplied by the controller and substitutes for a legal one if necessary
@@ -205,14 +205,14 @@ public class _Game implements Game
 		{											
 			if(reverse && defenders[i].lairTime == 0)
 			{
-				defenders[i].direction = Node.getReverse(defenders[i].direction);
-				defenders[i].location = defenders[i].location.getNeighbor(defenders[i].direction);
+				defenders[i].direction = defenders[i].getReverse();
+				defenders[i].location = defenders[i].location.neighbors[defenders[i].direction];
 			}
 			else if(defenders[i].lairTime == 0 && (defenders[i].vulnerableTime == 0 || defenders[i].vulnerableTime % DEFENDER_SPEED_REDUCTION !=0))
 			{
 				directions[i] = checkEnemyDir(i, directions[i]);
 				defenders[i].direction = directions[i];
-				defenders[i].location = defenders[i].location.getNeighbor(directions[i]);
+				defenders[i].location = defenders[i].location.neighbors[directions[i]];
 			}
 		}		
 	}
@@ -364,7 +364,7 @@ public class _Game implements Game
 	public List<Node> getPowerPillList() { return new ArrayList<Node>(powerPills); }
 
 	//The current level
-	public int getCurLevel()
+	public int getLevel()
 	{
 		return totLevel;
 	}

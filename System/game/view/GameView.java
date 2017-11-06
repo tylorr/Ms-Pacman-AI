@@ -300,7 +300,7 @@ public final class GameView extends JComponent
     	bufferGraphics.drawString("S: ",4,271);
     	bufferGraphics.drawString(""+game.getScore(),16,271);        
     	bufferGraphics.drawString("L: ",78,271);
-    	bufferGraphics.drawString(""+(game.getCurLevel()+1),90,271);        
+    	bufferGraphics.drawString(""+(game.getLevel()+1),90,271);
     	bufferGraphics.drawString("T: ",116,271);
     	bufferGraphics.drawString(""+game.getLevelTime(),129,271);
     }

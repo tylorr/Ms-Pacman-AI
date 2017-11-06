@@ -3,9 +3,7 @@ package game.controllers.examples;
 import java.util.List;
 
 import game.controllers.DefenderController;
-import game.models.Game;
-import game.models.Node;
-import game.models.Defender;
+import game.models.*;
 
 public class Legacy2TheReckoning implements DefenderController
 {
@@ -49,11 +47,11 @@ public class Legacy2TheReckoning implements DefenderController
 
     private boolean closeToPower(Game game)
     {
-    	Node pacmanLoc = game.getAttacker().getLocation();
+        Attacker attacker = game.getAttacker();
     	List<Node> powerPills = game.getCurMaze().getPowerPillNodes();
 
     	for (Node pill : powerPills)
-    		if(game.checkPowerPill(pill) && pill.getPathDistance(pacmanLoc) < PILL_PROXIMITY)
+    		if(game.checkPowerPill(pill) && attacker.getLocation().getPathDistance(pill) < PILL_PROXIMITY)
     			return true;
 
         return false;

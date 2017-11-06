@@ -25,11 +25,11 @@ public final class _Maze implements Maze
     public List<Node> getJunctionNodes() { return Arrays.asList(Arrays.copyOf(junctionNodes, junctionNodes.length)); }
 
     protected DuoMap<Node, Node, Integer> distances;
-    protected Node[] pillNodes, powerPillNodes, junctionNodes;
-    protected Node[] graph;
+    protected _Node[] pillNodes, powerPillNodes, junctionNodes;
+    protected _Node[] graph;
 
     //The actual maze, stored as a graph (set of nodes)
-    protected Node initialHeroPosition, lairPosition, initialEnemiesPosition;
+    protected _Node initialHeroPosition, lairPosition, initialEnemiesPosition;
     protected int width, height;	//_Maze-specific information
     protected String name;																//Name of the _Maze
 

@@ -34,8 +34,9 @@ public class _Node implements Node
     }
 
     public int getNextDir(Node to, boolean approach) { return getNextDir(to, approach, true, 0); }
+    public int getNextDir(Node to, boolean approach, int direction) { return getNextDir(to, approach, false, direction); }
 
-    public int getNextDir(Node to, boolean approach, boolean canReverse, int direction)
+    private int getNextDir(Node to, boolean approach, boolean canReverse, int direction)
     {
         _Node[] options = Arrays.copyOf(neighbors, neighbors.length);
 
@@ -72,10 +73,12 @@ public class _Node implements Node
     }
 
     public List<Node> getPathTo(Node to) { return getPathTo(to, true, 0); }
+    public List<Node> getPathTo(Node to, int direction) { return getPathTo(to, false, direction); }
 
     //Returns the path of adjacent nodes from one node to another, including these nodes
     //E.g., path from a to c might be [a,f,r,t,c]
-    public List<Node> getPathTo(Node to, boolean canReverse, int direction)
+
+    private List<Node> getPathTo(Node to, boolean canReverse, int direction)
     {
         if(getNumNeighbors()==0)
             return new ArrayList<Node>();
@@ -108,20 +111,6 @@ public class _Node implements Node
         }
 
         return result;
-    }
-
-    //Returns the EUCLEDIAN distance between two nodes in the current maze.
-    public double getEuclideanDistance(Node to)
-    {
-        int dx = x - to.getX();
-        int dy = y - to.getY();
-        return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    //Returns the MANHATTAN distance between two nodes in the current maze.
-    public int getManhattanDistance(Node to)
-    {
-        return (int)(Math.abs(x - to.getX()) + Math.abs(y - to.getY()));
     }
 
     protected _Node(int _x, int _y, int _pillIndex, int _powerPillIndex, _Maze _maze)
