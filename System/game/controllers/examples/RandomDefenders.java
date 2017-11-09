@@ -12,18 +12,18 @@ public final class RandomDefenders implements DefenderController
 	public int[] update(Game game,long timeDue)
 	{
 		int[] actions = new int[Game.NUM_DEFENDER];
-		Defender[] enemies = (Defender[]) game.getDefenders().toArray();
+		List<Defender> enemies = game.getDefenders();
 		
 		//Chooses a random LEGAL action if required. Could be much simpler by simply returning
 		//any random number of all of the ghosts
 		for(int i = 0; i < actions.length; i++)
 		{
-			Defender defender = enemies[i];
-			if(defender.requiresAction())
-			{
+			Defender defender = enemies.get(i);
+//			if(defender.requiresAction())
+//			{
 				List<Integer> possibleDirs = defender.getPossibleDirs();
 				actions[i]=possibleDirs.get(Game.rng.nextInt(possibleDirs.size()));
-			}
+//			}
 		}
 		return actions;
 	}

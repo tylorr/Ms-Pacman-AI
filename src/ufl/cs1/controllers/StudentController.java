@@ -22,11 +22,11 @@ public final class StudentController implements DefenderController
 		for(int i = 0; i < actions.length; i++)
 		{
 			Defender defender = enemies.get(i);
-			if(defender.requiresAction())
-			{
+//			if(defender.requiresAction())
+//			{
 				List<Integer> possibleDirs = defender.getPossibleDirs();
 				actions[i]=possibleDirs.get(Game.rng.nextInt(possibleDirs.size()));
-			}
+//			}
 		}
 		return actions;
 	}

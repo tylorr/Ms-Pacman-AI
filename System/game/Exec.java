@@ -23,7 +23,12 @@ public class Exec
 		Exec exec=new Exec();
 
 		AttackerController attacker = new Devastator();
-		DefenderController exampleDefender = new OriginalDefenders();
+//		AttackerController attacker = new NearestPillAttacker();
+//		AttackerController attacker = new NearestPillEscape();
+//		DefenderController exampleDefender = new Legacy2TheReckoning();
+//		DefenderController exampleDefender = new RandomDefenders();
+		DefenderController exampleDefender = new Legacy();
+//		DefenderController exampleDefender = new OriginalDefenders();
 		DefenderController studentDefender = new StudentController();
 
 		if (args.length > 0)

@@ -55,6 +55,9 @@ public class _Node implements Node
                 double dist = 0;
                 dist = options[i].getPathDistance(to);
 
+                if (dist < 0)
+                    continue;
+
                 if(approach && dist < min)
                 {
                     min = dist;
@@ -80,25 +83,21 @@ public class _Node implements Node
 
     private List<Node> getPathTo(Node to, boolean canReverse, int direction)
     {
+        List<Node> path = new ArrayList<Node>();
+
         if(getNumNeighbors()==0)
-            return new ArrayList<Node>();
+            return path;
 
-        _Node currentNode = this;
-        ArrayList<_Node> path = new ArrayList<_Node>();
-
-        while(currentNode != to)
+        for (_Node currentNode = this; currentNode != to; currentNode = currentNode.neighbors[direction])
         {
             path.add(currentNode);
-            direction = getNextDir(to, true, canReverse, direction);
-            currentNode = neighbors[direction];
+            direction = currentNode.getNextDir(to, true, canReverse, direction);
+
+            if (direction == -1)
+                break;
         }
 
-        Node[] arrayPath = new _Node[path.size()];
-
-        for(int i=0;i<arrayPath.length;i++)
-            arrayPath[i]=path.get(i);
-
-        return Arrays.asList(arrayPath);
+        return path;
     }
 
     public int getPathDistance(Node to)

@@ -1,7 +1,5 @@
 package game.controllers.examples;
 
-import java.util.ArrayList;
-
 import game.controllers.AttackerController;
 import game.models.Game;
 import game.models.Node;
@@ -14,21 +12,23 @@ public class NearestPillAttacker implements AttackerController
 	public void shutdown(Game game) { }
 	public int update(Game game,long timeDue)
 	{
-		List<Node> pills = game.getCurMaze().getPillNodes();
-		List<Node> powerPills=game.getCurMaze().getPowerPillNodes();
+		List<Node> targets = game.getPowerPillList();
+		if (targets.isEmpty())
+			targets = game.getPillList();
+
 		Attacker attacker = game.getAttacker();
 		
-		ArrayList<Node> targets=new ArrayList<Node>();
+//		ArrayList<Node> targets=new ArrayList<Node>();
 
-		for (Node pill : pills)
+/*		for (Node pill : pills)
 			if(game.checkPill(pill))
-				targets.add(pill);
+				targets.add(pill);*/
 
-		for (Node pill : powerPills)
+/*		for (Node pill : powerPills)
 			if(game.checkPowerPill(pill))
-				targets.add(pill);
+				targets.add(pill);*/
 		
 		//return the next direction once the closest target has been identified
-		return game.getAttacker().getNextDir(attacker.getTarget(targets,true), true);
+		return game.getAttacker().getNextDir(attacker.getTargetNode(targets,true), true);
 	}
 }

@@ -25,8 +25,8 @@ public final class AttractRepelGhosts implements DefenderController
 		for(int i=0;i<actions.length;i++)	//for each ghost
 		{
 			Defender defender = enemies[i];
-			if (defender.requiresAction())        //if it requires an action
-			{
+//			if (defender.requiresAction())        //if it requires an action
+//			{
 				if (Game.rng.nextFloat() < CONSISTENCY)    //approach/retreat from the current node that Ms Pac-Man is at
 					actions[i] = defender.getNextDir(game.getAttacker().getLocation(), attract);
 				else                                    //else take a random action
@@ -35,7 +35,7 @@ public final class AttractRepelGhosts implements DefenderController
 					actions[i] = possibleDirs.get(Game.rng.nextInt(possibleDirs.size()));
 				}
 			}
-		}
+//		}
 
 		return actions;
 	}

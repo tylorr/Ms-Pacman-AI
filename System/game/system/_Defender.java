@@ -1,4 +1,5 @@
 package game.system;
+import game.models.Actor;
 import game.models.Node;
 import game.models.Defender;
 import java.util.List;
@@ -22,12 +23,13 @@ public class _Defender extends _Actor implements Defender
     public int getNextDir(Node to, boolean approach) { return location.getNextDir(to, approach, direction); }
     public List<Node> getPathTo(Node to) { return getPathTo(to, false); }
     public List<Node> getPossibleLocations() { return getPossibleLocations(false); }
-    public Node getTarget(List<Node> targets, boolean nearest) { return getTarget(targets, nearest, false); }
+    public Node getTargetNode(List<Node> targets, boolean nearest) { return getTargetNode(targets, nearest, false); }
+    public Actor getTargetActor(List<? extends Actor> targets, boolean nearest) { return getTargetActor(targets, nearest, false); }
 
-    public boolean requiresAction()
+/*    public boolean requiresAction()
     {
         return (location.isJunction() && vulnerableTime == 0 || vulnerableTime % _Game.DEFENDER_SPEED_REDUCTION != 0);
-    }
+    }*/
 
     protected int vulnerableTime, lairTime;
 

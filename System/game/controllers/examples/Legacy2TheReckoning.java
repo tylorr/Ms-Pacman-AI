@@ -28,8 +28,8 @@ public class Legacy2TheReckoning implements DefenderController
         {
             Defender defender = game.getDefender(i);
 
-        	if(defender.requiresAction())
-        	{
+//        	if(defender.requiresAction())
+//        	{
         		//if ghosts are all in close proximity and not near Ms Pac-Man, disperse
         		if(isCrowded(game) && !closeToMsPacMan(game, defender.getLocation()))
         			actions[i]=getRetreatActions(game,i);                          				//go towards the power pill locations
@@ -40,7 +40,7 @@ public class Legacy2TheReckoning implements DefenderController
         		else
                     actions[i] = game.getDefender(i).getNextDir(pacmanLoc, true);      			//go towards ms pacman
         	}
-        }
+//        }
 
         return actions;
     }

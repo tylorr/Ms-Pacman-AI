@@ -7,7 +7,7 @@ public interface Defender extends Actor
     int getLairTime();
 
     boolean isVulnerable();
-    boolean requiresAction();
+//    boolean requiresAction();
 
     List<Integer> getPossibleDirs();
     List<Node> getPossibleLocations();

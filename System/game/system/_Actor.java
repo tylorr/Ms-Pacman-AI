@@ -71,8 +71,36 @@ public abstract class _Actor implements Actor
         return newLocations;
     }
 
+    protected Actor getTargetActor(List<? extends Actor> targets, boolean nearest, boolean canReverse)
+    {
+        Actor result = null;
+
+        double min=Integer.MAX_VALUE;
+        double max=-Integer.MAX_VALUE;
+
+
+        for (Actor target : targets)
+        {
+            double dist = getPathTo(target.getLocation(), canReverse).size();
+
+            if(nearest && dist<min)
+            {
+                min = dist;
+                result = target;
+            }
+
+            if(!nearest && dist > max)
+            {
+                max = dist;
+                result = target;
+            }
+        }
+
+        return result;
+    }
+
     //Returns the target closest from this actor's position
-    protected Node getTarget(List<Node> targets, boolean nearest, boolean canReverse)
+    protected Node getTargetNode(List<Node> targets, boolean nearest, boolean canReverse)
     {
         Node result = null;
 

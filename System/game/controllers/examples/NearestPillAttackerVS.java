@@ -36,7 +36,7 @@ public final class NearestPillAttackerVS implements AttackerController
 			if(game.checkPowerPill(pill))
 				targets.add(pill);
 
-		Node nearest = attacker.getTarget(targets,true);
+		Node nearest = attacker.getTargetNode(targets,true);
 		
 		//add the path that Ms Pac-Man is following
 //		GameView.addPoints(game,Color.GREEN,game.getPathTo(current,nearest));
